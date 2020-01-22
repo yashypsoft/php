@@ -1,25 +1,31 @@
-<?php
-/*
-Pattern 4
-1
-1 2
-1 2 3
-1 2 3 4
-1 2 3 4 5
-1 2 3 4 5 6
-1 2 3 4 5 6 7
-1 2 3 4 5 6 7 8
-1 2 3 4 5 6 7 8 9
+<!DOCTYPE html>
+<html lang="en">
 
-*/
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
 
-function displayPattern($line)
-{
-    for ($i = 0; $i < $line; $i++) {
-        for ($j = 0; $j <= $i; $j++) {
-            echo $j+1 . ' ';
+<body>
+    <table border="1">
+        <?php
+
+        function displayPattern($line)
+        {
+            for ($i = 0; $i < $line; $i++) {
+                echo '<tr>';
+                for ($j = 0; $j <= $i; $j++) {
+                    echo '<td>' . ($j + 1) . '</td> ';
+                }
+                echo '</tr>';
+            }
         }
-        echo '<br>';
-    }
-}
-displayPattern(9);
+        displayPattern(9);
+
+        ?>
+    </table>
+</body>
+
+</html>
