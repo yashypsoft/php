@@ -12,21 +12,22 @@
 
     <table border="1px">
         <?php
-
+        $k = 1;
         for ($i = 1; $i <= 8; $i++) {
             echo '<tr>';
-            for ($j = 1; $j <= 8; $j++) {
-                if ($j % 2) {
-                    echo "<td>1</td>";
-                } else if ($i % 2) {
-                    echo "<td>0</td>";
-                }
-                else{
-                    
-                    
-                }
+            if (($i % 2) == 0) {
+                $k = 2;
+            } else {
+                $k = 1;
             }
-
+            for ($j = 1; $j <= 8; $j++) {
+                if ($k % 2 == 0) {
+                    echo "<td style=\"background-color:black;\"></td>";
+                } else {
+                    echo "<td>&nbsp&nbsp&nbsp&nbsp</td>";
+                }
+                $k++;
+            }
             echo '</tr>';
         }
         ?>
