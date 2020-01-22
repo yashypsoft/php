@@ -1,5 +1,5 @@
 <?php
-function Sort($array)
+function sortArray($array)
 {
     for ($i = 0; $i < sizeof($array); $i++) {
         for ($j = 0; $j < sizeof($array) - $i - 1; $j++) {
@@ -15,6 +15,6 @@ function Sort($array)
 
 $array = [25, 6, 364, 1, 87, 28];
 
-$newArray = Sort($array);
+$newArray = sortArray($array);
 
 echo "Second Highest number" . $newArray[sizeof($newArray) - 2];
