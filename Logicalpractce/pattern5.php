@@ -11,4 +11,4 @@ function displayPattern($row, $col)
     }
 }
 
-displayPattern(5, 4);
+displayPattern(5, 5);
