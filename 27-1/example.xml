@@ -2,15 +2,21 @@
             <teacher>
                     <name>Yash</name>
                     <age>22</age>
+                    <lecture>
+                            <subject>Maths</subject>
+                            <Lecturetime>11AM</Lecturetime>
+                    </lecture>
+                      <lecture>
+                            <subject>Maths</subject>
+                            <Lecturetime>11AM</Lecturetime>
+                    </lecture>
             </teacher>
             <teacher>
                     <name>Ram</name>
                     <age>29</age>
-            </teacher><teacher>
-                    <name>Shaym</name>
-                    <age>23</age>
-            </teacher><teacher>
-                    <name>Raj</name>
-                    <age>21</age>
+                     <lecture>
+                            <subject>English</subject>
+                            <Lecturetime>12AM</Lecturetime>
+                    </lecture>
             </teacher>
 </teachers>
