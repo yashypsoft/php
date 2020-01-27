@@ -1,5 +1,3 @@
 <?php
-include 'count.php';
-
+include 'iphitcount.php';
 hitCounter();
-
