@@ -6,21 +6,16 @@ if (isset($_POST['submit'])) {
         $header = $_POST['name'];
         $subject  = "test mail";
 
-        if(mail($to,$subject,$body,$header)){
+        if (mail($to, $subject, $body, $header)) {
             echo "message send to $to successfully";
-        }else{
+        } else {
             echo "mail sending failed";
         }
-
-    }
-    else{
+    } else {
         echo "enter in field";
     }
 }
-
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
