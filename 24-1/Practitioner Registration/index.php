@@ -1,152 +1,3 @@
-<?php
-
-if (isset($_POST['submit'])) {
-
-    $prefix = $_POST['prefix'];
-    //validation
-
-    if (preg_match('/[a-zA-Z]{1,10}/', $_POST['firstName'])) {
-        $_SESSION['firstName'] = $_POST['firstName'];
-    } else {
-        echo "enter valid firstname <br>";
-    }
-    if (preg_match('/[a-zA-Z]{1,10}/', $_POST['lastName'])) {
-        $_SESSION['lastName'] = $_POST['lastName'];
-    } else {
-        echo "enter valid firstname <br>";
-    }
-    if (strlen(($_POST['phoneNo'])) == 10) {
-        $_SESSION['phoneNo'] = $_POST['phoneNo'];
-    } else {
-        echo "enter valid phone number <br>";
-    }
-    if (!empty($_POST['dob'])) {
-        $_SESSION['dob'] = $_POST['dob'];
-    } else {
-        echo "enter valid dob <br>";
-    }
-    if (preg_match('/^[\\w\\-]+(\\.[\\w\\-]+)*@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}$/', $_POST['email']) && isset($_POST['email'])) {
-        $_SESSION['email'] = $_POST['email'];
-    } else {
-        echo "enter valid email <br>";
-    }
-    if (!empty($_POST['password']) && ($_POST['password'] == $_POST['confirmPassword'])) {
-        $_SESSION['password'] = $_POST['password'];
-    } else {
-        echo "enter valid password  <br>";
-    }
-    if (!empty($_POST['address1']) && !empty($_POST['address2'])) {
-        $_SESSION['address1'] = $_POST['address1'];
-        $_SESSION['address2'] = $_POST['address2'];
-    } else {
-        echo "enter in address line 1 and 2 <br>";
-    }
-    if (!empty($_POST['contry'])) {
-        $_SESSION['contry'] = $_POST['contry'];
-    } else {
-        echo "enter a contry name <br>";
-    }
-    if (!empty($_POST['describeYourself'])) {
-        $_SESSION['describeYourself'] = $_POST['describeYourself'];
-    } else {
-        echo "please enter in describe field <br>";
-    }
-    $hobbies = [];
-    if (!empty($_POST['hobbies'])) {
-        $hobbies = $_POST['hobbies'];
-    } else {
-        echo "select one Hobbie please<br>";
-    }
-    if (isset($_POST['businessYear'])) {
-        $_SESSION['businessYear']=$_POST['businessYear'];
-    }else{
-        echo "select one range year please<br>";
-    }
-
-
-    if (
-        !empty($_POST['company'])
-        && !empty($_POST['city']) && !empty($_POST['state']) && !empty($_POST['numberClient']) &&  !empty($_POST['postalCode'])
-    ) {
-
-        $_SESSION['company'] = $_POST['company'];
-        $_SESSION['city'] = $_POST['city'];
-        $_SESSION['state'] = $_POST['state'];
-        $_SESSION['postalCode'] = $_POST['postalCode'];
-
-        $_SESSION['numberClient'] = $_POST['numberClient'];
-    } else {
-        echo "Enter all field <br>";
-    }
-
-
-
-
-    $getInTouch = ['post', 'emailCheckbox', 'sms', 'phone'];
-
-    foreach ($getInTouch as $item) {
-        if (isset($_POST["$item"])) {
-            $_SESSION["$item"] = $item;
-        }
-    }
-
-    //profile 
-    $profileImage = $_FILES['profileImage']['name'];
-    $extensionProfile = substr($profileImage, strpos($profileImage, '.') + 1);
-    $typeProfile = @$_FILES['profileImage']['type'];
-    $tempProfile = @$_FILES['profileImage']['tmp_name'];
-
-    if (isset($profileImage)) {
-        if (!empty($profileImage)) {
-            if ($extensionProfile == 'jpg' || $extensionProfile == "jpeg" && $typeProfile == "image/jpeg") {
-                $location = 'upload/';
-                if (move_uploaded_file($tempProfile, $location . $profileImage)) {
-                    echo "uploaded  <br>";
-                } else {
-                    echo "Error in upload <br>";
-                }
-            } else {
-                echo "please upload only  jpeg file <br>";
-            }
-        } else {
-            echo "please choose a profile <br>";
-        }
-    }
-
-
-
-    //certificate 
-    $certificate = $_FILES['certificate']['name'];
-    $extensionCertificate = substr($certificate, strpos($certificate, '.') + 1);
-    $typeCertificate = @$_FILES['certificate']['type'];
-    $tempCertificate = @$_FILES['certificate']['tmp_name'];
-
-    if (isset($certificate)) {
-        if (!empty($certificate)) {
-            if ($extensionCertificate == 'pdf' || $extensionCertificate == "pdf" && $typeCertificate == "application/pdf") {
-                $location = 'upload/';
-                if (move_uploaded_file($tempCertificate, $location . $certificate)) {
-                    echo "uploaded <br> ";
-                } else {
-                    echo "Error in upload <br>";
-                }
-            } else {
-                echo "please upload only  pdf file <br>";
-            }
-        } else {
-            echo "please choose a Document file <br>";
-        }
-    }
-} else {
-    echo "enter all field <br>";
-}
-
-
-
-
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -169,6 +20,140 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
+    <div>
+
+        <?php
+        if (isset($_POST['submit'])) {            
+            $prefix = $_POST['prefix'];
+            //validation
+            if (preg_match('/[a-zA-Z]{1,10}/', $_POST['firstName'])) {
+                $_SESSION['firstName'] = $_POST['firstName'];
+            } else {
+                echo "enter valid firstname <br>";
+            }
+            if (preg_match('/[a-zA-Z]{1,10}/', $_POST['lastName'])) {
+                $_SESSION['lastName'] = $_POST['lastName'];
+            } else {
+                echo "enter valid firstname <br>";
+            }
+            if (strlen(($_POST['phoneNo'])) == 10) {
+                $_SESSION['phoneNo'] = $_POST['phoneNo'];
+            } else {
+                echo "enter valid phone number <br>";
+            }
+            if (!empty($_POST['dob'])) {
+                $_SESSION['dob'] = $_POST['dob'];
+            } else {
+                echo "enter valid dob <br>";
+            }
+            if (preg_match('/^[\\w\\-]+(\\.[\\w\\-]+)*@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}$/', $_POST['email']) && isset($_POST['email'])) {
+                $_SESSION['email'] = $_POST['email'];
+            } else {
+                echo "enter valid email <br>";
+            }
+            if (!empty($_POST['password']) && ($_POST['password'] == $_POST['confirmPassword'])) {
+                $_SESSION['password'] = $_POST['password'];
+            } else {
+                echo "enter valid password  <br>";
+            }
+            if (!empty($_POST['address1']) && !empty($_POST['address2'])) {
+                $_SESSION['address1'] = $_POST['address1'];
+                $_SESSION['address2'] = $_POST['address2'];
+            } else {
+                echo "enter in address line 1 and 2 <br>";
+            }
+            if (!empty($_POST['contry'])) {
+                $_SESSION['contry'] = $_POST['contry'];
+            } else {
+                echo "enter a contry name <br>";
+            }
+            if (!empty($_POST['describeYourself'])) {
+                $_SESSION['describeYourself'] = $_POST['describeYourself'];
+            } else {
+                echo "please enter in describe field <br>";
+            }
+            if (isset($_POST['businessYear'])) {
+                $_SESSION['businessYear'] = $_POST['businessYear'];
+            } else {
+                echo "select one range year please<br>";
+            }
+            $hobbies = [];
+            if (!empty($_POST['hobbies'])) {
+                $hobbies = $_POST['hobbies'];
+            } else {
+                echo "select one Hobbie please<br>";
+            }
+
+            if (
+                !empty($_POST['company']) && !empty($_POST['city']) && !empty($_POST['state']) &&
+                !empty($_POST['numberClient']) &&  !empty($_POST['postalCode'])
+            ) {
+                $_SESSION['company'] = $_POST['company'];
+                $_SESSION['city'] = $_POST['city'];
+                $_SESSION['state'] = $_POST['state'];
+                $_SESSION['postalCode'] = $_POST['postalCode'];
+                $_SESSION['numberClient'] = $_POST['numberClient'];
+            } else {
+                echo "Enter all field <br>";
+            }
+
+            $getInTouch = ['post', 'emailCheckbox', 'sms', 'phone'];
+
+            foreach ($getInTouch as $item) {
+                if (isset($_POST["$item"])) {
+                    $_SESSION["$item"] = $item;
+                }
+            }
+
+            //profile 
+            $profileImage = $_FILES['profileImage']['name'];
+            $extensionProfile = substr($profileImage, strpos($profileImage, '.') + 1);
+            $typeProfile = $_FILES['profileImage']['type'];
+            $tempProfile = $_FILES['profileImage']['tmp_name'];
+
+            if (isset($profileImage)) {
+                if (!empty($profileImage)) {
+                    if ($extensionProfile == 'jpg' || $extensionProfile == "jpeg" && $typeProfile == "image/jpeg") {
+                        $location = 'upload/';
+                        if (move_uploaded_file($tempProfile, $location . $profileImage)) {
+                            echo "uploaded image successfully  <br>";
+                        } else {
+                            echo "Error in upload <br>";
+                        }
+                    } else {
+                        echo "please upload only  jpeg file <br>";
+                    }
+                } else {
+                    echo "please choose a profile <br>";
+                }
+            }
+
+            //certificate 
+            $certificate = $_FILES['certificate']['name'];
+            $extensionCertificate = substr($certificate, strpos($certificate, '.') + 1);
+            $typeCertificate = $_FILES['certificate']['type'];
+            $tempCertificate = $_FILES['certificate']['tmp_name'];
+
+            if (isset($certificate)) {
+                if (!empty($certificate)) {
+                    if ($extensionCertificate == 'pdf' || $extensionCertificate == "pdf" && $typeCertificate == "application/pdf") {
+                        $location = 'upload/';
+                        if (move_uploaded_file($tempCertificate, $location . $certificate)) {
+                            echo "uploaded pdf successfully<br> ";
+                        } else {
+                            echo "Error in upload <br>";
+                        }
+                    } else {
+                        echo "please upload only  pdf file <br>";
+                    }
+                } else {
+                    echo "please choose a Document file <br>";
+                }
+            }
+        }
+
+        ?>
+    </div>
     <div class="conatiner">
         <h2>Practitioner Registration Form</h2>
         <form action="" method="post" enctype="multipart/form-data">
@@ -259,11 +244,29 @@ if (isset($_POST['submit'])) {
                 </div>
                 <div>
                     <p>How long have you been in business?</p>
-                    <input type="radio" name="businessYear" id="businessYear" value="UNDER 1 YEAR" <?php  if($_SESSION['businessYear'] == "UNDER 1 YEAR" ){ echo "checked";} ?> >UNDER 1 YEAR<br>
-                    <input type="radio" name="businessYear" id="businessYear" value="1-2 YEARS" <?php  if($_SESSION['businessYear'] == "1-2 YEARS" ){ echo "checked";} ?> >1-2 YEARS<br>
-                    <input type="radio" name="businessYear" id="businessYear" value="2-5 YEARS"  <?php  if($_SESSION['businessYear'] == "2-5 YEARS" ){ echo "checked";} ?>>2-5 YEARS<br>
-                    <input type="radio" name="businessYear" id="businessYear" value="5-10 YEARS"  <?php  if($_SESSION['businessYear'] == "5-10 YEARS" ){ echo "checked";} ?>>5-10 YEARS<br>
-                    <input type="radio" name="businessYear" id="businessYear" value="OVER 10 YEARS" <?php  if($_SESSION['businessYear'] == "OVER 10 YEARS" ){ echo "checked";} ?>>OVER 10 YEARS<br>
+                    <input type="radio" name="businessYear" id="businessYear" value="UNDER 1 YEAR" <?php if (isset($_SESSION['businessYear'])  && $_SESSION['businessYear'] == "UNDER 1 YEAR") {
+                                                                                                        echo "checked";
+                                                                                                    } else {
+                                                                                                        "";
+                                                                                                    } ?>>UNDER 1 YEAR<br>
+                    <input type="radio" name="businessYear" id="businessYear" value="1-2 YEARS" <?php if (isset($_SESSION['businessYear'])  && $_SESSION['businessYear'] == "1-2 YEARS") {
+                                                                                                    echo "checked";
+                                                                                                } else {
+                                                                                                    "";
+                                                                                                } ?>>1-2 YEARS<br>
+                    <input type="radio" name="businessYear" id="businessYear" value="2-5 YEARS" <?php if (isset($_SESSION['businessYear']) && $_SESSION['businessYear'] == "2-5 YEARS") {
+                                                                                                    echo "checked";
+                                                                                                } else {
+                                                                                                    "";
+                                                                                                } ?>>2-5 YEARS<br>
+                    <input type="radio" name="businessYear" id="businessYear" value="5-10 YEARS" <?php if (isset($_SESSION['businessYear']) && $_SESSION['businessYear'] == "5-10 YEARS") {
+                                                                                                        echo "checked";
+                                                                                                    } else {
+                                                                                                        "";
+                                                                                                    } ?>>5-10 YEARS<br>
+                    <input type="radio" name="businessYear" id="businessYear" value="OVER 10 YEARS" <?php if (isset($_SESSION['businessYear']) && $_SESSION['businessYear'] == "OVER 10 YEARS") {
+                                                                                                        echo "checked";
+                                                                                                    }  ?>>OVER 10 YEARS<br>
                 </div>
                 <div>
                     <p>Number of unique clients you see each week?</p>
