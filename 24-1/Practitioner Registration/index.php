@@ -3,23 +3,8 @@
 if (isset($_POST['submit'])) {
 
     $prefix = $_POST['prefix'];
-
-    $getInTouch = ['post', 'emailCheckbox', 'sms', 'phone'];
-
-    foreach ($getInTouch as $item) {
-        if (isset($_POST["$item"])) {
-            $_SESSION["$item"] = $item;
-        }
-    }
-
-
-
     //validation
-    if (preg_match('/^[\\w\\-]+(\\.[\\w\\-]+)*@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}$/', $_POST['email']) && isset($_POST['email'])) {
-        $_SESSION['email'] = $_POST['email'];
-    } else {
-        echo "enter valid email <br>";
-    }
+
     if (preg_match('/[a-zA-Z]{1,10}/', $_POST['firstName'])) {
         $_SESSION['firstName'] = $_POST['firstName'];
     } else {
@@ -30,7 +15,6 @@ if (isset($_POST['submit'])) {
     } else {
         echo "enter valid firstname <br>";
     }
-
     if (strlen(($_POST['phoneNo'])) == 10) {
         $_SESSION['phoneNo'] = $_POST['phoneNo'];
     } else {
@@ -41,7 +25,12 @@ if (isset($_POST['submit'])) {
     } else {
         echo "enter valid dob <br>";
     }
-    if (!empty($_POST['password'])) {
+    if (preg_match('/^[\\w\\-]+(\\.[\\w\\-]+)*@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}$/', $_POST['email']) && isset($_POST['email'])) {
+        $_SESSION['email'] = $_POST['email'];
+    } else {
+        echo "enter valid email <br>";
+    }
+    if (!empty($_POST['password']) && ($_POST['password'] == $_POST['confirmPassword'])) {
         $_SESSION['password'] = $_POST['password'];
     } else {
         echo "enter valid password  <br>";
@@ -62,9 +51,21 @@ if (isset($_POST['submit'])) {
     } else {
         echo "please enter in describe field <br>";
     }
+    $hobbies = [];
+    if (!empty($_POST['hobbies'])) {
+        $hobbies = $_POST['hobbies'];
+    } else {
+        echo "select one Hobbie please<br>";
+    }
+    if (isset($_POST['businessYear'])) {
+        $_SESSION['businessYear']=$_POST['businessYear'];
+    }else{
+        echo "select one range year please<br>";
+    }
+
 
     if (
-        !empty($_POST['company']) && !empty($_POST['hobbies']) && !empty($_POST['businessYear'])
+        !empty($_POST['company'])
         && !empty($_POST['city']) && !empty($_POST['state']) && !empty($_POST['numberClient']) &&  !empty($_POST['postalCode'])
     ) {
 
@@ -72,11 +73,21 @@ if (isset($_POST['submit'])) {
         $_SESSION['city'] = $_POST['city'];
         $_SESSION['state'] = $_POST['state'];
         $_SESSION['postalCode'] = $_POST['postalCode'];
-        $_SESSION['businessYear'] = $_POST['businessYear'];
+
         $_SESSION['numberClient'] = $_POST['numberClient'];
-        $_SESSION['hobbies'] = $_POST['hobbies'];
     } else {
         echo "Enter all field <br>";
+    }
+
+
+
+
+    $getInTouch = ['post', 'emailCheckbox', 'sms', 'phone'];
+
+    foreach ($getInTouch as $item) {
+        if (isset($_POST["$item"])) {
+            $_SESSION["$item"] = $item;
+        }
     }
 
     //profile 
@@ -98,7 +109,7 @@ if (isset($_POST['submit'])) {
                 echo "please upload only  jpeg file <br>";
             }
         } else {
-            echo "please choose a file <br>";
+            echo "please choose a profile <br>";
         }
     }
 
@@ -123,7 +134,7 @@ if (isset($_POST['submit'])) {
                 echo "please upload only  pdf file <br>";
             }
         } else {
-            echo "please choose a file <br>";
+            echo "please choose a Document file <br>";
         }
     }
 } else {
@@ -248,11 +259,11 @@ if (isset($_POST['submit'])) {
                 </div>
                 <div>
                     <p>How long have you been in business?</p>
-                    <input type="radio" name="businessYear" id="businessYear" value="UNDER 1 YEAR">UNDER 1 YEAR<br>
-                    <input type="radio" name="businessYear" id="businessYear" value="1-2 YEARS">1-2 YEARS<br>
-                    <input type="radio" name="businessYear" id="businessYear" value="2-5 YEARS">2-5 YEARS<br>
-                    <input type="radio" name="businessYear" id="businessYear" value="5-10 YEARS">5-10 YEARS<br>
-                    <input type="radio" name="businessYear" id="businessYear" value="OVER 10 YEARS">OVER 10 YEARS<br>
+                    <input type="radio" name="businessYear" id="businessYear" value="UNDER 1 YEAR" <?php  if($_SESSION['businessYear'] == "UNDER 1 YEAR" ){ echo "checked";} ?> >UNDER 1 YEAR<br>
+                    <input type="radio" name="businessYear" id="businessYear" value="1-2 YEARS" <?php  if($_SESSION['businessYear'] == "1-2 YEARS" ){ echo "checked";} ?> >1-2 YEARS<br>
+                    <input type="radio" name="businessYear" id="businessYear" value="2-5 YEARS"  <?php  if($_SESSION['businessYear'] == "2-5 YEARS" ){ echo "checked";} ?>>2-5 YEARS<br>
+                    <input type="radio" name="businessYear" id="businessYear" value="5-10 YEARS"  <?php  if($_SESSION['businessYear'] == "5-10 YEARS" ){ echo "checked";} ?>>5-10 YEARS<br>
+                    <input type="radio" name="businessYear" id="businessYear" value="OVER 10 YEARS" <?php  if($_SESSION['businessYear'] == "OVER 10 YEARS" ){ echo "checked";} ?>>OVER 10 YEARS<br>
                 </div>
                 <div>
                     <p>Number of unique clients you see each week?</p>
@@ -265,14 +276,22 @@ if (isset($_POST['submit'])) {
                 </div>
                 <div>
                     <p>How do you like us to get in touch with you?</p>
-                    <input type="checkbox" name="post" value="Post" <?php if(isset($_SESSION['post'])) { echo 'checked';} ?>>Post<br>
-                    <input type="checkbox" name="emailCheckbox" value="Email" <?php if(isset($_SESSION['emailCheckbox'])) { echo 'checked';} ?> >Email<br>
-                    <input type="checkbox" name="sms" value="SMS" <?php if(isset($_SESSION['sms'])) { echo 'checked';} ?>>SMS<br>
-                    <input type="checkbox" name="phone" value="Phone" <?php if(isset($_SESSION['phone'])) { echo 'checked';} ?>>Phone<br>
+                    <input type="checkbox" name="post" value="Post" <?php if (isset($_SESSION['post'])) {
+                                                                        echo 'checked';
+                                                                    } ?>>Post<br>
+                    <input type="checkbox" name="emailCheckbox" value="Email" <?php if (isset($_SESSION['emailCheckbox'])) {
+                                                                                    echo 'checked';
+                                                                                } ?>>Email<br>
+                    <input type="checkbox" name="sms" value="SMS" <?php if (isset($_SESSION['sms'])) {
+                                                                        echo 'checked';
+                                                                    } ?>>SMS<br>
+                    <input type="checkbox" name="phone" value="Phone" <?php if (isset($_SESSION['phone'])) {
+                                                                            echo 'checked';
+                                                                        } ?>>Phone<br>
                 </div>
                 <div>
                     <label for="hobbies">Hobbies :</label>
-                    <select name="hobbies" multiple>
+                    <select name="hobbies[]" multiple>
                         <option value="Listening to Music">Listening to Music</option>
                         <option value="Art">Art</option>
                         <option value="Sports">Sports</option>

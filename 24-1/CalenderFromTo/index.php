@@ -31,7 +31,7 @@ function displayMonth($month, $year)
                     $k = " ";
                 }
             } else {
-                echo "<td>&nbsp</td>";
+                echo "<td></td>";
             }
         }
         $z = 0;
@@ -80,8 +80,25 @@ function displayMonth($month, $year)
             $emonth = $_SESSION['emonth'];
             $eyear = $_SESSION['eyear'];
             if (preg_match('/^[0-9]{1}[1-2]{0,1}$/', $smonth) && preg_match('/^[0-9]{4}$/', $syear)) {
-                for ($i = $smonth; $i <= $emonth; $i++) {
-                    displayMonth($i, $syear);
+                if ($syear == $eyear) {
+                    for ($i = $smonth; $i <= $emonth; $i++) {
+                        echo "<h3>$i / $syear</h3> ";
+                        displayMonth($i, $syear);
+                    }
+                } else if ($eyear > $syear) {
+
+                    for ($i = $smonth; $i <= 12; $i++) {
+                        echo "<h3>$i / $syear</h3> ";
+                        displayMonth($i, $syear);
+                    }
+                    for ($i = 1; $i <= $emonth; $i++) {
+                        echo "<h3>$i / $eyear</h3> ";
+                        displayMonth($i, $eyear);
+                    }
+
+                    $syear++;
+                } else {
+                    echo "enter valid interaval";
                 }
             } else {
                 echo "enter valid Month and year";
