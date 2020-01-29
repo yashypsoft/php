@@ -10,7 +10,10 @@
 
 <body>
     <div>
-        <?php require_once "formPost.php" ?>
+        <?php
+            require_once 'connect.php';
+            require_once "formPost.php";
+        ?>
 
     </div>
     <div class="conatiner">
