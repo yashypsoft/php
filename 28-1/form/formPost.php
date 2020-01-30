@@ -2,6 +2,7 @@
 session_start();
 require_once 'connect.php';
 $validFlag = 0;
+
 function getData($category, $fieldData, $returnType = "")
 {
     return (isset($_POST[$category][$fieldData]) ?  $_POST[$category][$fieldData]
@@ -22,12 +23,12 @@ function getSessionData($category, $fieldData, $returnType = "")
 
 function ValidateData($section, $fieldname)
 {
-    
+
     if (isset($_POST['submit'])) {
         $value = getData($section, $fieldname);
         switch ($fieldname) {
             case 'prefix':
-                return  ($value != 'Prefix') ? false : true;
+                return ($value != 'Prefix') ? false : true;
                 break;
             case 'phoneNo':
                 return (strlen($value) == 10) ? false : true;
@@ -69,10 +70,10 @@ function ValidateData($section, $fieldname)
             case 'businessYear':
                 return (isset($_POST[$section][$fieldname])) ? false : true;
                 break;
+            case 'profileImage':
+            case 'certificate':
+                return (!empty($_FILES[$section]['name'][$fieldname])) ? false : true;
+                break;
         }
     }
 }
-
-
-
-

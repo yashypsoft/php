@@ -189,11 +189,17 @@
                 </div>
                 <div>
                     <label for="profileImage">Profile Image :</label>
-                    <input type="file" name="profileImage" id="profileImage">
-                </div>
+                    <input type="file" name="other[profileImage]" id="profileImage">
+                    <?php if(ValidateData('other', 'profileImage')) :?>
+                        <span>Please select Image File<span>
+                    <?php $validFlag++; endif;  ?>
+                </div> 
                 <div>
                     <label for="certificate">Certificate Upload :</label>
-                    <input type="file" name="certificate" id="certificate">
+                    <input type="file" name="other[certificate]" id="certificate">
+                    <?php if(ValidateData('other', 'certificate')) :?>
+                        <span>Please select Certificate File<span>
+                    <?php $validFlag++; endif;  ?>
                 </div>
                 <div>
                     <p>How long have you been in business?</p>
@@ -282,6 +288,7 @@
             setSessionData('other');
             connection();
             setMysqlData(); 
+       
         }
    ?>
 

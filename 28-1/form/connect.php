@@ -34,7 +34,6 @@ function addressData($section)
     foreach ($section as $key => $value) {
         $address[$key] = $value;
     }
-
     return $address;
 }
 
@@ -58,7 +57,6 @@ function otherData($section, $field)
     }
     return $other;
 }
-
 
 
 function insertData($tableName, $ArrayData)
@@ -88,23 +86,44 @@ function setMysqlData()
     $add_id = insertData('customer_address', $address);
 
     foreach ($_POST['other'] as $key => $value) {
-        $other = otherData($_POST['other'],$key);
+        $other = otherData($_POST['other'], $key);
         $other['customer_id'] = $customer_id;
         insertData('customer_additional_info', $other);
     }
 }
 
 
-function getMysqlData($tableName, $fieldName)
+
+function fetchAll($tableName, $fieldName)
 {
     global $conn;
-    $query = "select $fieldName from $tableName ";
-    if ($query_run = mysqli_query($conn, $query)) {
-        while ($row = mysqli_fetch_assoc($query_run)) {
-            foreach ($row as $key => $value ) {
-                echo $key . $value;
+    $ArrayData = [];
+    if ($tableName == "customer_additional_info") {
+        $i = 0;
+        $query = "select value from $tableName ORDER BY customer_id LIMIT 5 ";
+        if ($query_run = mysqli_query($conn, $query)) {
+            while ($row = mysqli_fetch_assoc($query_run)) {
+                foreach ($row as $key => $value) {
+                    $ArrayData[$i] = $value;
+                    $i++;
+                }
+            }
+        }
+    } else {
+        $query = "select $fieldName from $tableName ORDER BY customer_id LIMIT 1 ";
+        if ($query_run = mysqli_query($conn, $query)) {
+            while ($row = mysqli_fetch_assoc($query_run)) {
+                foreach ($row as $key => $value) {
+                    $ArrayData[$key] = $value;
+                }
             }
         }
     }
+    return $ArrayData;
 }
+
+connection();
+
+
+
 
