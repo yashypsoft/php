@@ -13,9 +13,11 @@
         <?php
             require_once 'connect.php';
             require_once "formPost.php";
+            
         ?>
 
     </div>
+    <hr>
     <div class="conatiner">
         <h2>Practitioner Registration Form</h2>
         <form action="index.php" method="post" enctype="multipart/form-data">
@@ -37,27 +39,25 @@
                             </option>
                         <?php endforeach; ?>
                     </select>
-                    <span class="err">
-                        <?php echo (ValidateData('account', 'prefix'))
-                             ? "Enter valid prfix"
-                             : ""?>
-                    </span>
+                    <?php if(ValidateData('account', 'prefix')) :?>
+                            <span>Enter valid prfix<span>
+                    <?php  $validFlag++; endif;  ?>
                 </div>
                 <div>
                     <label for="firstName">First Name</label>
                     <input type="text" name="account[firstName]" 
                     value="<?= getData('account', 'firstName') ?>">
-                    <?php echo (ValidateData('account', 'firstName'))
-                                ? "<span>Enter valid First Name<span>"
-                                : ""?>
+                    <?php if(ValidateData('account', 'firstName')) :?>
+                            <span>Enter valid First Name<span>
+                    <?php  $validFlag++; endif;  ?>
                 </div>
                 <div>
                     <label for="lastName">Last Name</label>
                     <input type="text" name="account[lastName]" 
                     value="<?= getData('account', 'lastName') ?>">
-                    <?php echo (ValidateData('account', 'lastName'))
-                            ? "<span>Enter valid Lastname</span>"
-                            : ""?>
+                    <?php if(ValidateData('account', 'lastName')) :?>
+                            <span>Enter valid Lastname<span>
+                    <?php  $validFlag++; endif;  ?>
                 </div>
             </div>
             <br>
@@ -65,33 +65,34 @@
                 <label for="dob">Date of Birth : </label>
                 <input type="date" name="account[dob]" id="dob"
                  value="<?= getData('account', 'dob') ?>">
-                <?php echo (ValidateData('account', 'dob'))
-                        ? "<span>Enter valid Dob</span>"
-                        : ""?>
+                <?php if(ValidateData('account', 'dob')) :?>
+                            <span>Enter valid Dob<span>
+                <?php  $validFlag++; endif;  ?>
+                        
             </div>
             <div>
                 <label for="phoneNo">Phone No : </label>
                 <input type="number" name="account[phoneNo]" id="phoneNo" 
                 value="<?= getData('account', 'phoneNo') ?>">
-                <?php echo (ValidateData('account', 'phoneNo'))
-                        ? "<span>Enter Phone no<span>"
-                        : ""?>
+                <?php if(ValidateData('account', 'phoneNo')) :?>
+                            <span>Enter Phone no<span>
+                <?php  $validFlag++; endif;  ?>
             </div>
             <div>
                 <label for="email">Email Id : </label>
                 <input type="email" name="account[email]" id="email" 
                 value="<?= getData('account', 'email') ?>">
-                <?php echo (ValidateData('account', 'email'))
-                        ? "<span>Enter valid Email Id</span>"
-                        : ""?>
+                <?php if(ValidateData('account', 'email')) :?>
+                            <span>Enter valid Email Id<span>
+                <?php  $validFlag++; endif;  ?>
             </div>
             <div>
                 <label for="password"> Password : </label>
                 <input type="password" name="account[password]" id="password"
                  value="<?= getData('account', 'password') ?>">  
-                <?php echo (ValidateData('account', 'password'))
-                        ? "<span>Enter valid Password</span>"
-                        : ""?>
+                 <?php if(ValidateData('account', 'password')) :?>
+                            <span>Enter valid Password<span>
+                <?php  $validFlag++; endif;  ?>
                 
             </div>
             <div>
@@ -105,25 +106,25 @@
                 <label for="address1"> Address Line 1 : </label>
                 <textarea name="address[address1]" id="address1"
                  cols="30" rows="2"><?= getData('address', 'address1') ?></textarea>
-                <?php echo (ValidateData('address', 'address1'))
-                        ? "<span>Enter valid Address line 1</span>"
-                        : ""?>
+                <?php if(ValidateData('address', 'address1')) :?>
+                        <span>Enter valid Address line 1<span>
+                <?php  $validFlag++; endif;  ?>
             </div>
             <div>
                 <label for="address2"> Address Line 2 : </label>
                 <textarea name="address[address2]" id="address2" 
                 cols="30" rows="2"><?= getData('address', 'address2') ?></textarea>
-                <?php echo (ValidateData('address', 'address2'))
-                        ? "<span>Enter valid Address line 2</span>"
-                        : ""?>
+                <?php if(ValidateData('address', 'address2')) :?>
+                    <span>Enter valid Address line 2<span>
+                <?php  $validFlag++; endif;  ?>
             </div>
             <div>
                 <label for="company"> Company : </label>
                 <input type="text" name="address[company]" id="company"
                  value="<?= getData('address', 'company') ?>">
-                 <?php echo (ValidateData('address', 'company'))
-                        ? "<span>Enter valid Company Name</span>"
-                        : ""?>
+                <?php if(ValidateData('address', 'company')) :?>
+                    <span>Enter valid Company Name<span>
+                <?php $validFlag++; endif;  ?>
             </div>
             <div>
                 <label for="city"> City : </label>
@@ -132,14 +133,17 @@
                 <?php echo (ValidateData('address', 'city'))
                         ? "<span>Enter valid city Name</span>"
                         : ""?>
+                <?php if(ValidateData('address', 'city')) :?>
+                    <span>Enter valid city Name<span>
+                <?php $validFlag++; endif;  ?>
             </div>
             <div>
                 <label for="state"> State : </label>
                 <input type="text" name="address[state]" id="state" 
                 value="<?= getData('address', 'state') ?>">
-                <?php echo (ValidateData('address', 'state'))
-                        ? "<span>Enter valid state Name</span>"
-                        : ""?>
+                <?php if(ValidateData('address', 'state')) :?>
+                    <span>Enter valid state Name<span>
+                <?php $validFlag++; endif;  ?>
             </div>
             <div>
                 <label for="contry">Contry</label>
@@ -153,17 +157,17 @@
                         <option value="<?= $country ?>" <?= $selected ?>><?= $country ?></option>
                     <?php endforeach; ?>
                 </select>
-                <?php echo (ValidateData('address', 'contry'))
-                        ? "<span>Enter valid contry Name</span>"
-                        : ""?>
+                <?php if(ValidateData('address', 'contry')) :?>
+                    <span>Enter valid contry Name<span>
+                <?php $validFlag++; endif;  ?>
             </div>
             <div>
                 <label for="postalCode"> Postal Code : </label>
                 <input type="text" name="address[postalCode]" id="postalCode" 
                 value="<?= getData('address', 'postalCode') ?>">
-                <?php echo (ValidateData('address', 'postalCode'))
-                        ? "<span>Enter valid postalCode</span>"
-                        : ""?>
+                <?php if(ValidateData('address', 'postalCode')) :?>
+                    <span>Enter valid postalCode<span>
+                <?php echo $validFlag++; endif;  ?>
             </div>
 
             <div>
@@ -179,17 +183,17 @@
                     <label for="describeYourself">Describe Yourself</label>
                     <textarea name="other[describeYourself]" id="describeYourself" 
                     cols="30" rows="2"><?= getData('other', 'describeYourself') ?></textarea>
-                    <?php echo (ValidateData('other', 'describeYourself'))
-                        ? "<span>Enter in describe Yourself</span>"
-                        : ""?>
+                    <?php if(ValidateData('other', 'describeYourself')) :?>
+                        <span>Enter in describe Yourself<span>
+                     <?php $validFlag++; endif;  ?>
                 </div>
                 <div>
                     <label for="profileImage">Profile Image :</label>
-                    <input type="file" name="other[profileImage]" id="profileImage">
+                    <input type="file" name="profileImage" id="profileImage">
                 </div>
                 <div>
                     <label for="certificate">Certificate Upload :</label>
-                    <input type="file" name="other[certificate]" id="certificate">
+                    <input type="file" name="certificate" id="certificate">
                 </div>
                 <div>
                     <p>How long have you been in business?</p>
@@ -209,21 +213,27 @@
                         <?= $busineessYear ?>
                         <br>
                     <?php endforeach; ?>
-                    <?php echo (ValidateData('other', 'businessYear'))
-                        ? "<span>Please select bussness year</span>"
-                        : ""?>
+                    <?php if(ValidateData('other', 'businessYear')) :?>
+                        <span>Please select bussness year<span>
+                    <?php $validFlag++; endif;  ?>
                 </div>
                 <div>
                     <p>Number of unique clients you see each week?</p>
                     <select name="other[numberClient]" id="numberClient">
+                    
                         <?php $numberClients = ['Client-Week','1-5', '6-10', '11-15', '15+']; ?>
                         <?php foreach ($numberClients as $numberClient) : ?>
-                            <option value="<?= $numberClient ?>"><?= $numberClient ?></option>
+                            <?php
+                            $selected = (getData('other', 'numberClient') == $numberClient)
+                                ? "selected"
+                                : ""
+                            ?>
+                            <option value="<?= $numberClient ?>" <?=$selected?> ><?= $numberClient ?></option>
                         <?php endforeach; ?>
                     </select>
-                    <?php echo (ValidateData('other', 'numberClient'))
-                        ? "<span>Please select Client week</span>"
-                        : ""?>
+                    <?php if(ValidateData('other', 'numberClient')) :?>
+                        <span>Please select Client week<span>
+                    <?php $validFlag++; endif;  ?>
                 </div>
                 <div>
                     <p>How do you like us to get in touch with you?</p>
@@ -239,14 +249,14 @@
                         <input type="checkbox" name="other[getintouch]['<?= $getInTouch ?>']"
                          value="<?= $getInTouch ?>" <?= $checked ?>><?= $getInTouch ?><br>
                     <?php endforeach; ?>
-                    <?php echo (ValidateData('other', 'getintouch'))
-                        ? "<span>Please select one checkbox</span>"
-                        : ""?>
+                    <?php if(ValidateData('other', 'getintouch')) :?>
+                        <span>Please select one checkbox<span>
+                    <?php $validFlag++; endif;  ?>
                 </div>
                 <div>
                     <label for="hobbies">Hobbies :</label>
                     <select name="other[hobbies][]" multiple>
-                        <?php $hobbiesData = ['Listening to Music', 'Art', 'Sports', 'Blogging',                            'Travelling']; ?>
+                        <?php $hobbiesData = ['Listening to Music', 'Art', 'Sports', 'Blogging','Travelling']; ?>
                         <?php foreach ($hobbiesData as $hobbie) : ?>
                             <?php
                             $selected = (in_array($hobbie, getData('other', 'hobbies')))
@@ -256,14 +266,24 @@
                             <option value="<?= $hobbie; ?>" <?= $selected ?>><?= $hobbie; ?> </option>
                         <?php endforeach; ?>
                     </select>
-                    <?php echo (ValidateData('other', 'getintouch'))
-                        ? "<span>Please select one </span>"
-                        : ""?>
+                    <?php if(ValidateData('other', 'hobbies')) :?>
+                        <span>Please select one<span>
+                    <?php $validFlag++; endif;  ?>
                 </div>
             </div>
             <input type="submit" name="submit" value="Submit">
         </form>
     </div>
+    
+   <?php
+        if ($validFlag == 0 && isset($_POST['submit'])) {
+            setSessionData('account');
+            setSessionData('address');
+            setSessionData('other');
+            connection();
+            setMysqlData(); 
+        }
+   ?>
 
     <script src="script.js"></script>
 </body>

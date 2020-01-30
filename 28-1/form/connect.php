@@ -1,4 +1,5 @@
 <?php
+
 $conn = "";
 
 function connection()
@@ -16,35 +17,94 @@ function connection()
     }
 }
 
-function insertMysqlData($tableName, $section)
+
+
+function accountData($section)
 {
-    ($values = $_POST[$section]);
+    $account = [];
+    foreach ($section as $key => $value) {
+        $account[$key] =  $value;
+    }
+    return $account;
+}
+
+function addressData($section)
+{
+    $address = [];
+    foreach ($section as $key => $value) {
+        $address[$key] = $value;
+    }
+
+    return $address;
+}
+
+function otherData($section, $field)
+{
+    $other = [];
+    foreach ($section as $key => $value) {
+        if ($key == $field) {
+            switch (gettype($value)) {
+                case 'array':
+                    $value = implode(',', $value);
+                    $other['field_key'] = $key;
+                    $other['value'] = $value;
+                    break;
+                case 'string':
+                    $other['field_key'] = $key;
+                    $other['value'] = $value;
+                    break;
+            }
+        }
+    }
+    return $other;
+}
+
+
+
+function insertData($tableName, $ArrayData)
+{
+    global $conn;
     $valueItemArray = [];
     $ColumnNameArray = [];
-    global $conn;
-    foreach ($values as $column => $value) {
+    foreach ($ArrayData as $key => $value) {
+        array_push($ColumnNameArray, $key);
         array_push($valueItemArray, $value);
-        array_push($ColumnNameArray, $column);
     }
-  
     $columnString = implode(',', $ColumnNameArray);
     $valueString = implode("','", $valueItemArray);
-    $cid ="";
-    if($section!='account'){
-    $queryForCustomerId ='select customer_id from customers  ORDER BY customer_id DESC LIMIT 1';
-    $customer_id = mysqli_fetch_assoc(mysqli_query($conn,$queryForCustomerId))['customer_id'] ;
-    $cid = $customer_id;
-    }
-    $query = "insert into $tableName (customer_id,$columnString) VALUES ('$cid','$valueString')";
+    $query = "insert into $tableName ($columnString) VALUES ('$valueString')";
     if ($query_run = mysqli_query($conn, $query)) {
-        echo "Success";
-    } else {
-        echo mysqli_error($conn);
+        return mysqli_insert_id($conn);
     }
 }
 
-if (connection()) {
-    insertMysqlData('customers', 'account');
-    insertMysqlData('customer_address', 'address');
+function setMysqlData()
+{
 
+    $account = accountData($_POST['account']);
+    $address = accountData($_POST['address']);
+    $customer_id = insertData('customers', $account);
+    $address['customer_id'] = $customer_id;
+    $add_id = insertData('customer_address', $address);
+
+    foreach ($_POST['other'] as $key => $value) {
+        $other = otherData($_POST['other'],$key);
+        $other['customer_id'] = $customer_id;
+        insertData('customer_additional_info', $other);
+    }
 }
+
+
+function getMysqlData($tableName, $fieldName)
+{
+    global $conn;
+    $query = "select $fieldName from $tableName ";
+    if ($query_run = mysqli_query($conn, $query)) {
+        while ($row = mysqli_fetch_assoc($query_run)) {
+            foreach ($row as $key => $value ) {
+                echo $key . $value;
+            }
+        }
+    }
+}
+

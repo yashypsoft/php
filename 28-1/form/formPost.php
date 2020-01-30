@@ -1,12 +1,11 @@
 <?php
-
 session_start();
 require_once 'connect.php';
-
+$validFlag = 0;
 function getData($category, $fieldData, $returnType = "")
 {
     return (isset($_POST[$category][$fieldData]) ?  $_POST[$category][$fieldData]
-        : getSessionData($category, $fieldData, $returnType));
+        :  getSessionData($category, $fieldData, $returnType));
 }
 
 function setSessionData($category)
@@ -20,14 +19,15 @@ function getSessionData($category, $fieldData, $returnType = "")
 }
 
 
+
 function ValidateData($section, $fieldname)
 {
-    $check = '';
+    
     if (isset($_POST['submit'])) {
         $value = getData($section, $fieldname);
         switch ($fieldname) {
             case 'prefix':
-                return ($value != 'Prefix') ? false : true;
+                return  ($value != 'Prefix') ? false : true;
                 break;
             case 'phoneNo':
                 return (strlen($value) == 10) ? false : true;
@@ -40,7 +40,7 @@ function ValidateData($section, $fieldname)
                 break;
             case 'firstName':
             case 'lastName':
-                return preg_match('/^[a-zA-Z]{1,10}$/', $value)
+                return  preg_match('/^[a-zA-Z]{1,10}$/', $value)
                     ? false
                     : true;
                 break;
@@ -56,7 +56,7 @@ function ValidateData($section, $fieldname)
                 return !empty($value) ? false : true;
                 break;
             case 'contry':
-                return ($value != 'country') ? false : true;
+                return ($value != 'Contry') ? false : true;
                 break;
             case 'postalCode':
                 return (strlen($value) == 6) ? false : true;
@@ -70,14 +70,9 @@ function ValidateData($section, $fieldname)
                 return (isset($_POST[$section][$fieldname])) ? false : true;
                 break;
         }
-        
     }
-   
 }
-if (isset($_POST['account']) && isset($_POST['address']) && isset($_POST['other'])) {
-    setSessionData('account');
-    setSessionData('address');
-    setSessionData('other');
-}
+
+
 
 
