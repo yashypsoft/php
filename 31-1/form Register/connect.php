@@ -180,13 +180,13 @@ function displayData($greedData)
 {
     $table = "";
     foreach ($greedData as $i => $array) {
-        $table .= "<tr>";
+        
         foreach ($array as $key => $value) {
             $table .= "<td>$value</td>";
         }
         $table .= "<td><a href='./?id=$array[id]'>edit</a></td>";
         $table .= "<td><a href='./dataDisplay.php?id=$array[id]'>Delete</a></td>";
-        $table .= "</tr>";
+        
     }
     return $table;
 }
@@ -195,14 +195,14 @@ function displayColumn($greedData)
 {
     $table = "";
     foreach ($greedData as $i => $array) {
-        $table .= "<tr>";
+      
         if ($i ==0 ) {
             foreach ($array as $key => $value) {
                 $table .= "<th>$key</th>";
             }
             $table .= "<th colspan='2'>action</th>";
         }
-        $table .= "</tr>";
+      
     }
     return $table;
 
