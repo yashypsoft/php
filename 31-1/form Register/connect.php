@@ -121,44 +121,15 @@ function UpdateQuery($tableName, $ArrayData, $uid)
 }
 
 
-function fetchAll($tableName, $fieldName)
-{
-    global $conn;
-    $ArrayData = [];
-    if ($tableName == "customer_additional_info") {
-        $i = 0;
-        $query = "select value from $tableName ORDER BY customer_id LIMIT 5 ";
-        if ($query_run = mysqli_query($conn, $query)) {
-            while ($row = mysqli_fetch_assoc($query_run)) {
-                foreach ($row as $key => $value) {
-                    $ArrayData[$i] = $value;
-                    $i++;
-                }
-            }
-        }
-    } else {
-        $query = "select $fieldName from $tableName ORDER BY customer_id LIMIT 1 ";
-        if ($query_run = mysqli_query($conn, $query)) {
-            while ($row = mysqli_fetch_assoc($query_run)) {
-                foreach ($row as $key => $value) {
-                    $ArrayData[$key] = $value;
-                }
-            }
-        }
-    }
-    return $ArrayData;
-}
 
 
 
 function displayDatainGrid()
 {
-
-    $i = 0;
     $table = "";
     global $conn;
     $query =
-        "SELECT 
+    "SELECT 
     c.customer_id id,
     C.firstName,C.lastName,CA.city,
     Hob.value hobbies, GETIN.value getintouch 
