@@ -121,38 +121,94 @@ function UpdateQuery($tableName, $ArrayData, $uid)
 }
 
 
-
-
-
-function displayDatainGrid()
+function fetchAll($tableName, $fieldName)
 {
-    $table = "";
     global $conn;
+    $ArrayData = [];
+    if ($tableName == "customer_additional_info") {
+        $i = 0;
+        $query = "select value from $tableName ORDER BY customer_id LIMIT 5 ";
+        if ($query_run = mysqli_query($conn, $query)) {
+            while ($row = mysqli_fetch_assoc($query_run)) {
+                foreach ($row as $key => $value) {
+                    $ArrayData[$i] = $value;
+                    $i++;
+                }
+            }
+        }
+    } else {
+        $query = "select $fieldName from $tableName ORDER BY customer_id LIMIT 1 ";
+        if ($query_run = mysqli_query($conn, $query)) {
+            while ($row = mysqli_fetch_assoc($query_run)) {
+                foreach ($row as $key => $value) {
+                    $ArrayData[$key] = $value;
+                }
+            }
+        }
+    }
+    return $ArrayData;
+}
+
+function gridData()
+{
+    global $conn;
+    $ArrayData = [];
+    $i = 0;
     $query =
-    "SELECT 
-    c.customer_id id,
-    C.firstName,C.lastName,CA.city,
-    Hob.value hobbies, GETIN.value getintouch 
-    from customers C
-    LEFT JOIN customer_address CA ON c.customer_id = ca.customer_id
-    LEFT JOIN customer_additional_info Hob ON c.customer_id = hob.customer_id 
-    AND hob.field_key = 'hobbies'
-    LEFT JOIN customer_additional_info GETIN  ON c.customer_id = getin.customer_id 
-    AND getin.field_key = 'getintouch'";
+        "SELECT 
+        c.customer_id id,
+        C.firstName,C.lastName,CA.city,
+        Hob.value hobbies, GETIN.value getintouch 
+        from customers C
+        LEFT JOIN customer_address CA ON c.customer_id = ca.customer_id
+        LEFT JOIN customer_additional_info Hob ON c.customer_id = hob.customer_id 
+        AND hob.field_key = 'hobbies'
+        LEFT JOIN customer_additional_info GETIN  ON c.customer_id = getin.customer_id 
+        AND getin.field_key = 'getintouch'";
 
     if ($query_run = mysqli_query($conn, $query)) {
         while ($row = mysqli_fetch_assoc($query_run)) {
-            $table .= "<tr>";
-            foreach ($row as $key => $value) {
-                $table .= "<td>$value</td>";
-            }
-            $table .= "<td><a href='./?id=$row[id]'>edit</a></td>";
-            $table .= "<td><a href='./dataDisplay.php?id=$row[id]'>Delete</a></td>";
-            $table .= "</tr>";
+            $ArrayData[$i] = $row;
+            $i++;
         }
+    }
+    return $ArrayData;
+}
+
+
+function displayData($greedData)
+{
+    $table = "";
+    foreach ($greedData as $i => $array) {
+        $table .= "<tr>";
+        foreach ($array as $key => $value) {
+            $table .= "<td>$value</td>";
+        }
+        $table .= "<td><a href='./?id=$array[id]'>edit</a></td>";
+        $table .= "<td><a href='./dataDisplay.php?id=$array[id]'>Delete</a></td>";
+        $table .= "</tr>";
     }
     return $table;
 }
+
+function displayColumn($greedData)
+{
+    $table = "";
+    foreach ($greedData as $i => $array) {
+        $table .= "<tr>";
+        if ($i ==0 ) {
+            foreach ($array as $key => $value) {
+                $table .= "<th>$key</th>";
+            }
+            $table .= "<th colspan='2'>action</th>";
+        }
+        $table .= "</tr>";
+    }
+    return $table;
+
+}
+
+
 
 
 function deleteData($uid)

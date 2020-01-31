@@ -13,7 +13,7 @@
         <?php
         require_once 'connect.php';
         connection();
-        $dataGrid = displayDatainGrid();
+        $dataGrid = gridData();
         if (isset($_GET['id'])) {
             deleteData($_GET['id']);
         } 
@@ -24,10 +24,10 @@
 
         <table border="1px">
             <tr>
-            
+                  <?= (displayColumn($dataGrid)) ?>
             </tr>
             <tr>
-                <?= ($dataGrid) ?>
+                <?= (displayData($dataGrid)) ?>
             </tr>
         </table>
     </div>
