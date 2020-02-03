@@ -11,20 +11,12 @@
 <body>
     <?php require_once 'postData.php';
     require_once 'config.php';
-     $data = displayBlogPost(); 
-    $row = mysqli_fetch_assoc($data);
-    $table = "<tr>";
-    foreach ($row as $value) {
-        $table .= "<td>$value<td>";
-        $id = $row['id'];
-    
-   
-    }
-    $table.= "<td><a href='?addpost/id=$id'>Edit</a></td>";
-    $table.= "<td><a href='?id=$id'>delete</a></td>";
-    $table.="</tr>";
-
+    $dataGrid = listBlogPost($_SESSION['id']);
+    if (isset($_GET['id'])) {
+        deletePost($_GET['id']);
+    } 
     ?>
+    <?php isset($_SESSION['id']) ? " " : header("Location: login.php"); ?>
 
     <div class="container">
         <div class="nav">
@@ -33,14 +25,14 @@
             <a href="logout.php">Logout</a>
         </div>
         <div>
-            <a href="addcategory.php">Add Category</a>
+            <a href="addpost.php">Add Post</a>
         </div>
-        <table>
-            <?php echo $table ?>
-
-
+        <table border="1px">
+            <?= (displayColumn($dataGrid)) ?>
+            <?= (displayData($dataGrid)) ?>
         </table>
     </div>
+
 </body>
 
 </html>

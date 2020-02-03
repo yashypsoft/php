@@ -17,6 +17,8 @@
     }
     
     ?>
+    <?php isset($_SESSION['id']) ? " " : header("Location: login.php"); ?>
+
     <div>
         <form action="" method="Post">
             <div>
@@ -82,11 +84,11 @@
         print_r($_POST);
         if ($validFlag == 0 && isset($_POST['submit'])) {
             $blog = prepareData($_POST['post']);
-            $blog['image'] = $_FILES['posts']['image']; 
+            $blog['image'] = $_POST['posts']['image']; 
             $blog['created_at'] = Date("Y:m:d h:i:s");
             $blog['user_id'] = $_SESSION['id'] ;
             insertData('blog_post', $blog);
-            header("Location:blogpost.php");
+            header("Location: blogpost.php");
         }
 
         ?>

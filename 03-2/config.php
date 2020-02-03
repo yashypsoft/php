@@ -53,6 +53,7 @@ function insertData($tableName, $ArrayData)
     $conn = connection();
     $valueItemArray = [];
     $ColumnNameArray = [];
+
     foreach ($ArrayData as $key => $value) {
         array_push($ColumnNameArray, $key);
         array_push($valueItemArray, $value);
@@ -116,24 +117,106 @@ function validateEmailPass($email, $password)
     }
 }
 
-function prepareData($sectionArray){
+function prepareData($sectionArray)
+{
     $data = [];
     foreach ($sectionArray  as $key => $value) {
-        if(gettype($value)=='array'){
-            $values = implode(',',$value);
-            $data[$key]= $values;
-        }
-        else{
+        if (gettype($value) == 'array') {
+            $values = implode(',', $value);
+            $data[$key] = $values;
+        } else {
             $data[$key] = $value;
         }
     }
     return $data;
 }
 
-function displayBlogPost(){
-    $conn = connection();
-    $query = "SELECT id,category,title,published_at from blog_post";
-    $query_run = mysqli_query($conn, $query);
-    // $data = mysqli_fetch_assoc($query_run);
-    return $query_run;
+
+
+function listBlogPost($id)
+{
+    $ArrayData = [];
+    $i = 0;
+    $conn = connection();    
+    $query = "SELECT id,category,title,published_at from blog_post where user_id = $id";
+    if ($query_run = mysqli_query($conn, $query)) {
+        while ($row = mysqli_fetch_assoc($query_run)) {
+            $ArrayData[$i] = $row;
+            $i++;
+        }
+    }
+    return $ArrayData;
 }
+
+function listCategory($id){
+    $ArrayData = [];
+    $i = 0;
+    $conn = connection();    
+    $query = "SELECT id,category,title,published_at from blog_post where user_id = $id";
+    if ($query_run = mysqli_query($conn, $query)) {
+        while ($row = mysqli_fetch_assoc($query_run)) {
+            $ArrayData[$i] = $row;
+            $i++;
+        }
+    }
+    return $ArrayData;
+}
+
+function displayData($greedData)
+{
+    $table = "";
+    foreach ($greedData as $i => $array) {
+        $table .= "<tr>";
+
+        foreach ($array as $key => $value) {
+            $table .= "<td>$value</td>";
+        }
+        $self = $_SERVER['PHP_SELF'];
+        $table .= "<td><a href='./?id=$array[id]'>edit</a></td>";
+        $table .= "<td><a href='http://localhost$self?id=$array[id]'>Delete</a></td>";
+        $table .= "<tr>";
+    }
+    return $table;
+}
+
+function displayColumn($greedData)
+{
+    $table = "";
+    foreach ($greedData as $i => $array) {
+
+        if ($i == 0) {
+            foreach ($array as $key => $value) {
+                $table .= "<th>$key</th>";
+            }
+            $table .= "<th colspan='2'>action</th>";
+        }
+    }
+    return $table;
+}
+
+
+function checkEmail($email)
+{
+    $conn = connection();
+    $query = "SELECT * FROM users WHERE email = '$email'";
+    $queryRun = mysqli_query($conn, $query);
+    if ($queryRun->num_rows > 0) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function deletePost($id){
+    
+
+    $conn = connection();
+    $query = "
+    DELETE From blog_post where id= $id ";
+    if ($query_run = mysqli_query($conn, $query)) {
+        header("location: blogPost.php ");
+    }
+
+}
+
+

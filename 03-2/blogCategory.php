@@ -9,6 +9,14 @@
 </head>
 
 <body>
+    <?php require_once 'postData.php';
+    require_once 'config.php';
+    $dataGrid = listblogCategory($_SESSION['id']);
+    if (isset($_GET['id'])) {
+        deleteCategory($_GET['id']);
+    }
+    ?>
+    <?php isset($_SESSION['id']) ? " " : header("Location: login.php"); ?>
     <div class="container">
         <div class="nav">
             <a href="blogpost.php">Manage Blog Post</a>

@@ -55,7 +55,7 @@
                 <label for="email">Email</label>
                 <input type="email" name="user[email]" id="email" value="<?= getData('user', 'email') ?>">
                 <?php if (ValidateData('user', 'email')) : ?>
-                    <span>Enter valid Email or email already registered<span>
+                    <span>Enter valid Email<span>
                         <?php $validFlag++;
                     endif;  ?>
             </div>
@@ -108,12 +108,18 @@
         <?php
         print_r($_POST);
         if ($validFlag == 0 && isset($_POST['submit'])) {
-            $user = prepareData($_POST['user']);
-            $user['password'] = md5($_POST['user']['password']);
-            $user['created_at'] = Date("Y:m:d h:i:s");
-            $id = insertData('user', $user);
-            $_SESSION['id'] = $id;
-            header("Location: blogPost.php");
+            if(checkEmail($_POST['user']['email'])){
+                $user = prepareData($_POST['user']);
+                $user['password'] = md5($_POST['user']['password']);
+                $user['created_at'] = Date("Y:m:d h:i:s");
+                $id = insertData('user', $user);
+                $_SESSION['id'] = $id;
+                header("Location: blogPost.php");
+            }
+            else{
+                echo "user Already Registered";
+            }
+        
         }
 
         ?>
