@@ -1,0 +1,19 @@
+strpos
+find position of the sub string
+
+ex. 
+strpos($string, $findString,$offset)
+
+strin -> that you want to search a find string
+find -> substring you want to find 
+offset -> start searching from that position
+
+
+$string = "Welcome to cybercom creation to ";
+$find = "to";
+$pos = strpos($string,$find); 
+return postion - 9 
+
+$pos = strpos($string, $find, 10);
+return postion 30
+
