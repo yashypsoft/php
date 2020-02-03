@@ -108,12 +108,12 @@
         <?php
         print_r($_POST);
         if ($validFlag == 0 && isset($_POST['submit'])) {
-            $user = userData($_POST['user']);
+            $user = prepareData($_POST['user']);
             $user['password'] = md5($_POST['user']['password']);
             $user['created_at'] = Date("Y:m:d h:i:s");
             $id = insertData('user', $user);
             $_SESSION['id'] = $id;
-            // header("Location: blogPost.php");
+            header("Location: blogPost.php");
         }
 
         ?>

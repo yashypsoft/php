@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $validFlag = 0;
 
@@ -41,6 +42,11 @@ function ValidateData($section, $fieldname)
                 break;
             case 'password':
             case 'information':
+            case 'title':
+            case 'content':
+            case 'url':
+            case 'published_at':
+            case 'meta_title':
                 return !empty($value) ? false : true;
                 break;
             case 'tnc':
@@ -53,6 +59,9 @@ function ValidateData($section, $fieldname)
                 } else {
                     return true;
                 }
+                break;
+            case 'image':
+                return (!empty($_FILES[$section]['name'][$fieldname])) ? false : true;
                 break;
         }
     }

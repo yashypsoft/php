@@ -1,5 +1,7 @@
 <?php
 
+use function PHPSTORM_META\type;
+
 $conn = "";
 
 function connection()
@@ -35,17 +37,8 @@ function fetchAll($tableName)
     return $data;
 }
 
-function fetchRow($tableName, $whereArray = null)
-{
-    $conn = connection();
-    $where = whereCondotion($whereArray);
-    $query = "SELECT * FROM $tableName $where";
-    $query_run = mysqli_query($conn, $query);
-    $data = mysqli_fetch_assoc($query_run);
-    return $data;
-}
 
-function fetchRr($tableName, $whereArray = null)
+function fetchRow($tableName, $whereArray = null)
 {
     $conn = connection();
     $where = whereCondotion($whereArray);
@@ -67,6 +60,7 @@ function insertData($tableName, $ArrayData)
     $columnString = implode(',', $ColumnNameArray);
     $valueString = implode("','", $valueItemArray);
     $query = "insert into $tableName ($columnString) VALUES ('$valueString')";
+    echo $query;
     if ($query_run = mysqli_query($conn, $query)) {
         return mysqli_insert_id($conn);
     }
@@ -108,14 +102,6 @@ function updateData($tableName, $ArrayData, $id)
 }
 
 
-function userData($section)
-{
-    $user = [];
-    foreach ($section  as $key => $value) {
-        $user[$key] = $value;
-    }
-    return $user;
-}
 
 
 function validateEmailPass($email, $password)
@@ -128,4 +114,26 @@ function validateEmailPass($email, $password)
     } else {
         return 0;
     }
+}
+
+function prepareData($sectionArray){
+    $data = [];
+    foreach ($sectionArray  as $key => $value) {
+        if(gettype($value)=='array'){
+            $values = implode(',',$value);
+            $data[$key]= $values;
+        }
+        else{
+            $data[$key] = $value;
+        }
+    }
+    return $data;
+}
+
+function displayBlogPost(){
+    $conn = connection();
+    $query = "SELECT id,category,title,published_at from blog_post";
+    $query_run = mysqli_query($conn, $query);
+    // $data = mysqli_fetch_assoc($query_run);
+    return $query_run;
 }
