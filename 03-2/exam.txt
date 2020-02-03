@@ -1,0 +1,2 @@
+array_combine
+array combine create one array for keys and another for values
