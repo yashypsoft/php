@@ -1,7 +1,5 @@
 <?php
 
-use function PHPSTORM_META\type;
-
 $conn = "";
 
 function connection()
@@ -28,15 +26,6 @@ function load($tableName, $fieldName, $id)
     return $data[$fieldName];
 }
 
-function fetchAll($tableName)
-{
-    $conn = connection();
-    $query = "SELECT * FROM $tableName";
-    $query_run = mysqli_query($conn, $query);
-    $data = mysqli_fetch_all($query_run);
-    return $data;
-}
-
 
 function fetchRow($tableName, $whereArray = null)
 {
@@ -61,7 +50,6 @@ function insertData($tableName, $ArrayData)
     $columnString = implode(',', $ColumnNameArray);
     $valueString = implode("','", $valueItemArray);
     $query = "insert into $tableName ($columnString) VALUES ('$valueString')";
-    echo $query;
     if ($query_run = mysqli_query($conn, $query)) {
         return mysqli_insert_id($conn);
     }
@@ -87,17 +75,11 @@ function whereCondotion($whereArray)
 function updateData($tableName, $ArrayData, $id)
 {
     $conn = connection();
-    $valueItemArray = [];
-    $ColumnNameArray = [];
     foreach ($ArrayData as $key => $value) {
-        array_push($ColumnNameArray, $key);
-        array_push($valueItemArray, $value);
-    }
-    for ($cnt = 0; $cnt < sizeof($ColumnNameArray); $cnt++) {
-        $query = "UPDATE $tableName SET $ColumnNameArray[$cnt] = '$valueItemArray[$cnt]'
-         WHERE customer_id = $id ";
+        $query = "UPDATE $tableName SET $key = '$value' WHERE id = '$id' ";
+ 
         if ($query_run = mysqli_query($conn, $query)) {
-            return mysqli_insert_id($conn);
+            
         }
     }
 }
@@ -131,13 +113,11 @@ function prepareData($sectionArray)
     return $data;
 }
 
-
-
 function listBlogPost($id)
 {
     $ArrayData = [];
     $i = 0;
-    $conn = connection();    
+    $conn = connection();
     $query = "SELECT id,category,title,published_at from blog_post where user_id = $id";
     if ($query_run = mysqli_query($conn, $query)) {
         while ($row = mysqli_fetch_assoc($query_run)) {
@@ -148,11 +128,12 @@ function listBlogPost($id)
     return $ArrayData;
 }
 
-function listCategory($id){
+function listCategory()
+{
     $ArrayData = [];
     $i = 0;
-    $conn = connection();    
-    $query = "SELECT id,category,title,published_at from blog_post where user_id = $id";
+    $conn = connection();
+    $query = "SELECT id,title,created_at from category where parent_category_id	= '0'";
     if ($query_run = mysqli_query($conn, $query)) {
         while ($row = mysqli_fetch_assoc($query_run)) {
             $ArrayData[$i] = $row;
@@ -162,7 +143,28 @@ function listCategory($id){
     return $ArrayData;
 }
 
-function displayData($greedData)
+function displayPostData($greedData)
+{
+    $table = "";
+    foreach ($greedData as $i => $array) {
+        $table .= "<tr>";
+        foreach ($array as $key => $value) {
+            if($key=='id'){
+                $table .= "<td><a href='./viewblog.php/?postid=$value'>$value</a></td>";
+
+            }else{
+                $table .= "<td>$value</td>";
+            }  
+        }
+        $self = $_SERVER['PHP_SELF'];
+        $table .= "<td><a href='./addpost.php/?id=$array[id]'>edit</a></td>";
+        $table .= "<td><a href='http://localhost/$self?id=$array[id]'>Delete</a></td>";
+        $table .= "<tr>";
+    }
+    return $table;
+}
+
+function displayCategoryData($greedData)
 {
     $table = "";
     foreach ($greedData as $i => $array) {
@@ -172,8 +174,8 @@ function displayData($greedData)
             $table .= "<td>$value</td>";
         }
         $self = $_SERVER['PHP_SELF'];
-        $table .= "<td><a href='./?id=$array[id]'>edit</a></td>";
-        $table .= "<td><a href='http://localhost$self?id=$array[id]'>Delete</a></td>";
+        $table .= "<td><a href='./addCategory.php/?id=$array[id]'>edit</a></td>";
+        $table .= "<td><a href='http://localhost/$self?id=$array[id]'>Delete</a></td>";
         $table .= "<tr>";
     }
     return $table;
@@ -198,7 +200,7 @@ function displayColumn($greedData)
 function checkEmail($email)
 {
     $conn = connection();
-    $query = "SELECT * FROM users WHERE email = '$email'";
+    $query = "SELECT * FROM user WHERE email = '$email'";
     $queryRun = mysqli_query($conn, $query);
     if ($queryRun->num_rows > 0) {
         return false;
@@ -207,16 +209,46 @@ function checkEmail($email)
     }
 }
 
-function deletePost($id){
-    
-
+function deleteData($tableName,$id)
+{
     $conn = connection();
-    $query = "
-    DELETE From blog_post where id= $id ";
+    $query = "DELETE From $tableName where id= $id ";
     if ($query_run = mysqli_query($conn, $query)) {
-        header("location: blogPost.php ");
+        return 1;
     }
-
 }
 
 
+function getEditData($tableName,$id)
+{
+    $conn = connection();
+    $data = [];
+    $query = "SELECT * FROM $tableName WHERE id = $id";
+    if ($query_run = mysqli_query($conn, $query)) {
+        while ($row = mysqli_fetch_assoc($query_run)) {
+            foreach ($row as $key => $value) {
+                $data[$key] = $value;
+            }
+        }
+    }
+
+    return ($data);
+}
+
+function fetch($tableName,$whereArray=null){
+    $conn = connection();
+    $i=0;
+    $data = [];
+    $where = whereCondotion($whereArray);
+    $query = "SELECT * FROM $tableName $where";
+    if ($query_run = mysqli_query($conn, $query)) {
+        while ($row = mysqli_fetch_assoc($query_run)) {
+            foreach ($row as $key => $value) {
+                $data[$i][$key] = $value;
+            }
+            $i++;
+        }
+    }
+
+    return ($data);
+}

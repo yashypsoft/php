@@ -12,16 +12,18 @@
     <?php require_once 'postData.php';
     require_once 'config.php';
     $dataGrid = listBlogPost($_SESSION['id']);
+    $sid = $_SESSION['id'];
     if (isset($_GET['id'])) {
-        deletePost($_GET['id']);
-    } 
+        (deleteData('blog_post', $_GET['id'])) ?  header("location: blogPost.php ") : "";
+    }
+   
     ?>
     <?php isset($_SESSION['id']) ? " " : header("Location: login.php"); ?>
 
     <div class="container">
         <div class="nav">
-            <a href="blogCategory.php">Manage Blog Post</a>
-            <a href="#">My Profile</a>
+            <a href="blogCategory.php">Manage Blog Category</a>
+            <a href="register.php?id=<?= $sid ?>">My Profile</a>
             <a href="logout.php">Logout</a>
         </div>
         <div>
@@ -29,7 +31,7 @@
         </div>
         <table border="1px">
             <?= (displayColumn($dataGrid)) ?>
-            <?= (displayData($dataGrid)) ?>
+            <?= (displayPostData($dataGrid)) ?>
         </table>
     </div>
 

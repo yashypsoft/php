@@ -2,7 +2,6 @@
 session_start();
 
 $validFlag = 0;
-
 function getData($category, $fieldData, $returnType = "")
 {
     global $data;

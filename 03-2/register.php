@@ -5,12 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
     <title>Register - Blog Application</title>
 </head>
 
 <body>
     <?php require_once 'postData.php';
     require_once 'config.php';
+    if (isset($_GET['id'])) {
+        $data = getEditData('user',$_GET['id']);
+    }
     ?>
     <div>
         <form action="" method="POST">
@@ -106,20 +110,27 @@
 
     <div>
         <?php
-        print_r($_POST);
+        $uid = isset($_GET['id']) ? $_GET['id'] : "0";
         if ($validFlag == 0 && isset($_POST['submit'])) {
-            if(checkEmail($_POST['user']['email'])){
+            if ($uid) {
                 $user = prepareData($_POST['user']);
                 $user['password'] = md5($_POST['user']['password']);
-                $user['created_at'] = Date("Y:m:d h:i:s");
-                $id = insertData('user', $user);
-                $_SESSION['id'] = $id;
+                $user['updated_at'] = Date("Y:m:d h:i:s");
+                updateData('user', $user, $uid);
+                $_SESSION['id'] = $uid;
                 header("Location: blogPost.php");
+            } else {
+                if (checkEmail($_POST['user']['email'])) {
+                    $user = prepareData($_POST['user']);
+                    $user['password'] = md5($_POST['user']['password']);
+                    $user['created_at'] = Date("Y:m:d h:i:s");
+                    $id = insertData('user', $user);
+                    $_SESSION['id'] = $id;
+                    header("Location: blogPost.php");
+                } else {
+                    echo "Email Already Registered";
+                }
             }
-            else{
-                echo "user Already Registered";
-            }
-        
         }
 
         ?>

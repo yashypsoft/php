@@ -1,0 +1,10 @@
+.conatiner {
+    width: 1000px;
+    margin: auto;
+}
+
+label {
+    width: 240px;
+    display: inline-block;
+    margin-bottom: 15px;
+}
