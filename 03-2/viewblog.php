@@ -10,11 +10,12 @@
 
 <body>
     <?php
+    require_once 'postData.php';
     require_once 'config.php';
-    if (isset($_GET['postid'])) {
-        $data = getEditData('blog_post', $_GET['postid']);
-    }
+    $data = (isset($_GET['postid'])) ? getEditData('blog_post', $_GET['postid']):"" ; 
+    
     ?>
+     <?php isset($_SESSION['id']) ? " " : header("Location: login.php"); ?>
     <div>
         <h2>Title :<?= $data['title']  ?> </h2>
     </div>
