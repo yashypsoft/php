@@ -14,9 +14,9 @@
     $dataGrid = listBlogPost($_SESSION['id']);
     $sid = $_SESSION['id'];
     if (isset($_GET['id'])) {
-        (deleteData('blog_post', $_GET['id'])) ?  header("location: blogPost.php ") : "";
+        (deleteData('blog_post', $_GET['id'])) ?  
+        header("location: blogPost.php ") : "";
     }
-   
     ?>
     <?php isset($_SESSION['id']) ? " " : header("Location: login.php"); ?>
 

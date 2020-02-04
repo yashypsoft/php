@@ -12,6 +12,7 @@
 <body>
     <?php require_once 'postData.php';
     require_once 'config.php';
+    require_once 'fileUpload.php';
     $temp = fetch('category', ['parent_category_id' => '0']);
     $category = ['Parent Category'];
     for ($i = 0; $i < sizeof($temp); $i++) {
@@ -20,10 +21,11 @@
     if (isset($_GET['id'])) {
         $data = getEditData('category', $_GET['id']);
     }
+    isset($_SESSION['id']) ? " " : header("Location: login.php"); 
     ?>
-    <?php isset($_SESSION['id']) ? " " : header("Location: login.php"); ?>
+
     <div>
-        <form action="" method="Post">
+        <form action="" method="Post" enctype="multipart/form-data">
             <div>
                 <label for="title">Title</label>
                 <input type="text" name="category[title]" id="title" 
@@ -90,6 +92,7 @@
             } else {
                 $category = prepareData($_POST['category']);
                 $category['created_at'] = Date("Y:m:d h:i:s");
+                fileUpload('categorys','image','Category');
                 insertData('category', $category);
                 header("Location: blogCategory.php");
             }
