@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2020 at 02:09 PM
+-- Generation Time: Feb 04, 2020 at 03:11 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.26
 
@@ -46,8 +46,10 @@ CREATE TABLE `blog_post` (
 --
 
 INSERT INTO `blog_post` (`id`, `user_id`, `title`, `url`, `content`, `category`, `image`, `published_at`, `created_at`, `updated_at`) VALUES
-(16, 11, 'Blog Title', 'http://www.google.com', 'content', 'sports', 'attachment.jpg', '2020-02-01 11:11:00', '2020-02-04 01:16:41', '0000-00-00 00:00:00'),
-(17, 11, 'hello', 'http://www.gmail.com', 'HELLO', 'Health', '', '2014-11-11 14:02:00', '2020-02-04 01:37:03', '0000-00-00 00:00:00');
+(44, 11, 'Title', 'http://www.google.com', 'content', 'Health', '', '2014-11-11 23:11:00', '2020-02-04 02:29:37', '0000-00-00 00:00:00'),
+(45, 11, 'Title', 'http://www.google.com', 'title', 'Health', 'attachment.jpg', '2014-03-01 23:01:00', '2020-02-04 02:35:56', '0000-00-00 00:00:00'),
+(46, 11, 'sports', 'http://www.gmail.com', 'sports', 'Health', 'attachment.jpg', '2222-01-11 11:02:00', '2020-02-04 02:58:03', '0000-00-00 00:00:00'),
+(47, 11, 'Title', 'http://www.gmail.com', 'title', 'Health,Tech', 'attachment.jpg', '0001-01-01 01:01:00', '2020-02-04 02:59:35', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -59,6 +61,7 @@ CREATE TABLE `category` (
   `id` int(11) NOT NULL,
   `parent_category_id` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
+  `image` varchar(50) NOT NULL,
   `meta_title` varchar(50) NOT NULL,
   `url` varchar(50) NOT NULL,
   `content` text NOT NULL,
@@ -70,19 +73,11 @@ CREATE TABLE `category` (
 -- Dumping data for table `category`
 --
 
-INSERT INTO `category` (`id`, `parent_category_id`, `title`, `meta_title`, `url`, `content`, `created_at`, `updated_at`) VALUES
-(11, 0, 'Health', 'Health', 'http://google.com', 'Health', '2020-02-04 01:16:08', '2020-02-04 01:32:49');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `parent_category`
---
-
-CREATE TABLE `parent_category` (
-  `id` int(11) NOT NULL,
-  `parent_category` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `category` (`id`, `parent_category_id`, `title`, `image`, `meta_title`, `url`, `content`, `created_at`, `updated_at`) VALUES
+(11, 0, 'Health', 'attachment.jpg', 'Health', 'http://google.com', 'Health', '2020-02-04 01:16:08', '2020-02-04 01:32:49'),
+(13, 0, 'Tech', 'attachment.jpg', 'tech', 'http://tech2.com', 'tech', '2020-02-04 02:43:07', '0000-00-00 00:00:00'),
+(14, 0, 'sports', 'attachment.jpg', 'sports', 'http://sports.com', 'sports', '2020-02-04 02:48:00', '0000-00-00 00:00:00'),
+(15, 2, 'sports', 'attachment.jpg', 'sports', 'http://google.com', 'sports', '2020-02-04 03:00:09', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -140,12 +135,6 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `parent_category`
---
-ALTER TABLE `parent_category`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `post_category`
 --
 ALTER TABLE `post_category`
@@ -166,19 +155,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `blog_post`
 --
 ALTER TABLE `blog_post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT for table `parent_category`
---
-ALTER TABLE `parent_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `user`

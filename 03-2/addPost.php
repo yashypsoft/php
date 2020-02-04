@@ -89,7 +89,7 @@
     if ($validFlag == 0 && isset($_POST['submit'])) {
         if (($id)) {
             $blog = prepareData($_POST['post']);
-            $blog['image'] = $_POST['posts']['image'];
+            $blog['image'] = $_FILES['posts']['name']['image'];
             $blog['updated_at'] = Date("Y:m:d h:i:s");
             $blog['user_id'] = $_SESSION['id'];
             updateData('blog_post', $blog, $id);

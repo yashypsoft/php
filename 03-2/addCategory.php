@@ -87,11 +87,13 @@
             if (($id)) {
                 $category = prepareData($_POST['category']);
                 $category['updated_at'] = Date("Y:m:d h:i:s");
+                $category['image'] = $_FILES['categorys']['name']['image'];
                 updateData('category', $category, $id);
                 header("Location: ../blogCategory.php");
             } else {
                 $category = prepareData($_POST['category']);
                 $category['created_at'] = Date("Y:m:d h:i:s");
+                $category['image'] = $_FILES['categorys']['name']['image'];
                 fileUpload('categorys','image','Category');
                 insertData('category', $category);
                 header("Location: blogCategory.php");

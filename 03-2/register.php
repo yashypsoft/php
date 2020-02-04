@@ -12,7 +12,7 @@
 <body>
     <?php require_once 'postData.php';
     require_once 'config.php';
-    if (isset($_GET['id'])) {
+    if (isset($_GET['id']) && $_SESSION['id']) {
         $data = getEditData('user',$_GET['id']);
     }
     ?>

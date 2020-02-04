@@ -133,7 +133,7 @@ function listCategory()
     $ArrayData = [];
     $i = 0;
     $conn = connection();
-    $query = "SELECT id,title,created_at from category where parent_category_id	= '0'";
+    $query = "SELECT id,title,image,created_at from category where parent_category_id	= '0'";
     if ($query_run = mysqli_query($conn, $query)) {
         while ($row = mysqli_fetch_assoc($query_run)) {
             $ArrayData[$i] = $row;
@@ -171,7 +171,12 @@ function displayCategoryData($greedData)
         $table .= "<tr>";
 
         foreach ($array as $key => $value) {
-            $table .= "<td>$value</td>";
+            if($key=='image'){
+                $table .= "<td><img src='./Category/$value' alt='$value' width='120px'></td>";
+
+            }else{
+                $table .= "<td>$value</td>";
+            }  
         }
         $self = $_SERVER['PHP_SELF'];
         $table .= "<td><a href='./addCategory.php/?id=$array[id]'>edit</a></td>";
