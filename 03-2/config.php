@@ -159,7 +159,7 @@ function displayPostData($greedData)
         $self = $_SERVER['PHP_SELF'];
         $table .= "<td><a href='./addpost.php/?id=$array[id]'>edit</a></td>";
         $table .= "<td><a href='http://localhost/$self?id=$array[id]'>Delete</a></td>";
-        $table .= "<tr>";
+        $table .= "</tr>";
     }
     return $table;
 }
@@ -181,7 +181,7 @@ function displayCategoryData($greedData)
         $self = $_SERVER['PHP_SELF'];
         $table .= "<td><a href='./addCategory.php/?id=$array[id]'>edit</a></td>";
         $table .= "<td><a href='http://localhost/$self?id=$array[id]'>Delete</a></td>";
-        $table .= "<tr>";
+        $table .= "</tr>";
     }
     return $table;
 }
@@ -190,13 +190,16 @@ function displayColumn($greedData)
 {
     $table = "";
     foreach ($greedData as $i => $array) {
-
+       
         if ($i == 0) {
+            $table .= "<tr>";
             foreach ($array as $key => $value) {
                 $table .= "<th>$key</th>";
             }
             $table .= "<th colspan='2'>action</th>";
+            $table .= "</tr>";
         }
+        
     }
     return $table;
 }
