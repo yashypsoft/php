@@ -20,6 +20,8 @@
         array_push($category, $temp[$i]['title']);
     }
     isset($_SESSION['id']) ? " " : header("Location: login.php");
+    $data = isset($_GET['id']) ? getEditData('blog_post', $_GET['id']) : "";
+
     ?>
 
     <div>
@@ -84,7 +86,6 @@
     </div>
 
     <?php
-    $data = isset($_GET['id']) ? getEditData('blog_post', $_GET['id']) : "";
     $id = isset($_GET['id']) ? $_GET['id'] : "0";
     if ($validFlag == 0 && isset($_POST['submit'])) {
         if (($id)) {
