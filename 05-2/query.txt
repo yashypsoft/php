@@ -1,0 +1,9 @@
+for display parent category and child category
+SELECT
+    c.title parentCategory,
+    GROUP_CONCAT(d.title) childCategory
+FROM
+    category c
+INNER JOIN category d ON
+    c.id = d.parent_category_id
+GROUP BY c.title
