@@ -111,8 +111,7 @@
 
     <div>
         <?php
-      
-
+        regOperation($validFlag);
         ?>
     </div>
 </body>

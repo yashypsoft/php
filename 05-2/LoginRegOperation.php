@@ -20,16 +20,21 @@ function LoginOp($validFlag)
 }
 
 
-function regOperation($validFlag){
+function regOperation($validFlag)
+{
     $uid = isset($_GET['id']) ? $_GET['id'] : "0";
     if ($validFlag == 0 && isset($_POST['submit'])) {
         if ($uid) {
             $user = prepareData($_POST['user']);
             $user['password'] = md5($_POST['user']['password']);
             $user['updated_at'] = Date("Y-m-d h:i:s");
-            updateData('user', $user, $uid);
-            $_SESSION['id'] = $uid;
-            header("Location: blogPost.php");
+            if (checkEmail($_POST['user']['email'])) {
+                echo "Email can't change";
+            } else {
+                updateData('user', $user, $uid);
+                $_SESSION['id'] = $uid;
+                header("Location: blogPost.php");
+            }
         } else {
             if (checkEmail($_POST['user']['email'])) {
                 $user = prepareData($_POST['user']);

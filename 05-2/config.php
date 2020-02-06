@@ -118,16 +118,18 @@ function listBlogPost($id)
     $i = 0;
     $conn = connection();
     $query =
-    "SELECT
+        "SELECT
         b.id,
         GROUP_CONCAT(c.title) category,
+        b.title,
         b.published_at
     FROM
         blog_post b
-    LEFT JOIN post_category p ON
-        b.id = p.post_id AND b.user_id = $id
+    LEFT JOIN post_category p
+    ON
+        b.id = p.post_id 
     LEFT JOIN category c ON
-        p.category_id = c.id
+        p.category_id = c.id where b.user_id = $id
     GROUP BY
         p.post_id";
     if ($query_run = mysqli_query($conn, $query)) {
@@ -144,8 +146,8 @@ function listCategory()
     $ArrayData = [];
     $i = 0;
     $conn = connection();
-    $query = 
-    "SELECT
+    $query =
+        "SELECT
     Parent.id,
     Parent.title AS 'Parent Category',
     GROUP_CONCAT(Child.title) AS 'Child Category',
