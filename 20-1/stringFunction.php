@@ -8,7 +8,7 @@ $wordCount2 = str_word_count($string,1);
 $wordCount3 = str_word_count($string,2);
 $wordCount4 = str_word_count($string,1,'.');
 
-echo $wordCount1.'<br>';
+echo $wordCount1 .'<br>';
 print_r ($wordCount4) ;
 
 //suffle string
@@ -70,6 +70,3 @@ echo $repeatString.'<br>';
 
 //compare string
 echo strcmp("HELLO","HELLO");
-
-
-?>

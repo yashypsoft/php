@@ -11,7 +11,7 @@
 <body>
     <div>
         <?php
-            require_once 'connect.php'; 
+            require_once 'connect.php';
             require_once "formPost.php";
             
         ?>
@@ -19,9 +19,8 @@
     </div>
     <hr>
     <div class="conatiner">
-        <a href="dataDisplay.php">Stored Data</a>
         <h2>Practitioner Registration Form</h2>
-        <form action="" method="post" enctype="multipart/form-data">
+        <form action="index.php" method="post" enctype="multipart/form-data">
             <div>
                 <p>YOUR ACCOUNT DETAILS</p>
 
@@ -266,7 +265,7 @@
                         <?php $hobbiesData = ['Listening to Music', 'Art', 'Sports', 'Blogging','Travelling']; ?>
                         <?php foreach ($hobbiesData as $hobbie) : ?>
                             <?php
-                            $selected = (in_array($hobbie, getData('other', 'hobbies',[])))
+                            $selected = (in_array($hobbie, getData('other', 'hobbies')))
                                 ? "selected='selected'"
                                 : ""
                             ?>
@@ -283,15 +282,11 @@
     </div>
     
    <?php
-        $id = isset($_GET['id']) ? $_GET['id'] : "0";
         if ($validFlag == 0 && isset($_POST['submit'])) {
+            
             connection();
-            if($id){
-                updatesetData($id);
-            }
-            else{
-                setMysqlData();
-            }
+            setMysqlData(); 
+       
         }
    ?>
 

@@ -92,7 +92,8 @@ function display($month, $year, $name)
 
         <?php
         session_start();
-        if (((isset($_SESSION["month"]) && isset($_SESSION['year']) && isset($_SESSION['fname'])) || (isset($_POST['month']) && isset($_FILES['file']['name']) && isset($_POST['year'])))) {
+        if (((isset($_SESSION["month"]) && isset($_SESSION['year']) && isset($_SESSION['fname'])) ||        (isset($_POST['month']) && isset($_FILES['file']['name']) && isset($_POST['year']))))
+         {
             $_SESSION['month'] = isset($_POST['month']) ? $_POST['month'] : $_SESSION['month'];
             $_SESSION['year'] = isset($_POST['year']) ? $_POST['year'] : $_SESSION['year'];
             $_SESSION['fname'] = isset($_FILES['file']['name']) ? $_FILES['file']['name'] : $_SESSION['fname'];
@@ -106,8 +107,6 @@ function display($month, $year, $name)
                 echo "enter valid Month and year";
             }
         }
-
-
 
         ?>
 

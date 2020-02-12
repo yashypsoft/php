@@ -1,23 +1,24 @@
 <?php
+session_start();
 require_once 'connect.php';
 $validFlag = 0;
-connection();
-$data =  (isset($_GET['id'])) ? getSQLArray($_GET['id']) : [];
 
 function getData($category, $fieldData, $returnType = "")
 {
-    global $data;
-    if (isset($_POST[$category][$fieldData])) {
-        return $_POST[$category][$fieldData];
-    } 
-    else if ($returnType == []) {
-        $arrayData = isset($data[$fieldData])? explode(',', $data[$fieldData]):"";
-        return (!empty($data)) ?  $arrayData : $returnType;
-    } else {
-        $value = isset($data[$fieldData]) ? $data[$fieldData] : ""; 
-        return (!empty($data)) ?  $value : $returnType;
-    }
+    return (isset($_POST[$category][$fieldData]) ?  $_POST[$category][$fieldData]
+        :  getSessionData($category, $fieldData, $returnType));
 }
+
+function setSessionData($category)
+{
+    $_SESSION[$category] = (isset($_POST[$category]) ? $_POST[$category]  : []);
+}
+
+function getSessionData($category, $fieldData, $returnType = "")
+{
+    return isset($_SESSION[$category][$fieldData]) ? ($_SESSION[$category][$fieldData]) : $returnType;
+}
+
 
 
 function ValidateData($section, $fieldname)

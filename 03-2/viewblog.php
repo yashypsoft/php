@@ -12,7 +12,16 @@
     <?php
     require_once 'postData.php';
     require_once 'config.php';
-    $data = (isset($_GET['postid'])) ? getEditData('blog_post', $_GET['postid']):"" ; 
+    $c = "";
+    $data = (isset($_GET['postid'])) ? getEditData('blog_post', $_GET['postid']):"" ;
+    $tempCategory =fetch('post_category',['post_id' => $data['id'] ]);
+    for($i=0;$i<sizeof($tempCategory);$i++){
+        $id = $tempCategory[$i]['category_id'];
+        $category = (isset($data['id'])) ? getEditData('category', $id):"" ;
+        $c .= $category['title'] . ','  ;
+    }
+    $c = rtrim($c,',');
+    
     
     ?>
      <?php isset($_SESSION['id']) ? " " : header("Location: login.php"); ?>
@@ -31,7 +40,7 @@
         </p>
     </div>
     <div>
-        <p>Category : <?= $data['category'] ?></p>
+        <p>Category : <?= $c ?></p>
     </div>
 </body>
 

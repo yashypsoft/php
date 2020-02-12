@@ -1,0 +1,10 @@
+SELECT
+    Parent.title AS 'Parent Category',
+    GROUP_CONCAT(Child.title) AS 'Child Category'
+FROM
+    `category` Parent
+LEFT JOIN category Child ON
+    Parent.id = Child.parent_category_id
+    WHERE Parent.parent_category_id = 0
+GROUP BY
+    Parent.id

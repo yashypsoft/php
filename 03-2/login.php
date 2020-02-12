@@ -10,14 +10,10 @@
 </head>
 
 <body>
-    <?php require_once 'postData.php';
-    require_once 'config.php';
-    ?>
+    <?php require_once 'LoginRegOperation.php'; ?>
     <div>
         <form action="" method="POST">
             <h2>Login</h2>
-
-
             <div>
                 <label for="email">Email</label>
                 <input type="email" name="user[email]" id="email">
@@ -43,18 +39,7 @@
     </div>
 
     <div>
-        <?php
-
-        if ($validFlag == 0 && isset($_POST['submit'])) {
-            $id =   validateEmailPass($_POST['user']['email'], md5($_POST['user']['password']));
-            if (isset($id)) {
-                $_SESSION['id'] = $id;
-                header("Location: blogPost.php");
-            } else {
-                echo "Enter valid email and password";
-            }
-        }
-        ?>
+        <?php LoginOp($validFlag) ?>
     </div>
 </body>
 

@@ -14,20 +14,16 @@
         require_once 'connect.php';
         connection();
         $dataGrid = displayDatainGrid();
-        if (isset($_GET['id'])) {
-            deleteData($_GET['id']);
-        } 
+        
         ?>
     </div>
     <div>
-        <a href="index.php">Register Data</a>
-
         <table border="1px">
             <tr>
-            
+
             </tr>
             <tr>
-                <?= ($dataGrid) ?>
+                <?= $dataGrid ?>
             </tr>
         </table>
     </div>

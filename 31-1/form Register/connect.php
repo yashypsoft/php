@@ -68,7 +68,7 @@ function insertData($tableName, $ArrayData)
     }
     $columnString = implode(',', $ColumnNameArray);
     $valueString = implode("','", $valueItemArray);
-    $query = "insert into $tableName ($columnString) VALUES ('$valueString')";
+    echo $query = "insert into $tableName ($columnString) VALUES ('$valueString')";
     if ($query_run = mysqli_query($conn, $query)) {
         return mysqli_insert_id($conn);
     }
@@ -261,3 +261,5 @@ function getSQLArray($uid)
 
     return ($data);
 }
+
+

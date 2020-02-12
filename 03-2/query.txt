@@ -7,15 +7,3 @@ FROM
 INNER JOIN category d ON
     c.id = d.parent_category_id
 GROUP BY c.title
-
-DELIMITER
-    $$
-CREATE PROCEDURE showCategory()
-BEGIN
-    SELECT
-        *
-    FROM
-        category ;
-END $$
-DELIMITER
-    ;

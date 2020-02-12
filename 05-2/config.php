@@ -129,7 +129,7 @@ function listBlogPost($id)
     ON
         b.id = p.post_id 
     LEFT JOIN category c ON
-        p.category_id = c.id where b.user_id = $id
+        p.category_id = c.id WHERE b.user_id = $id
     GROUP BY
         p.post_id";
     if ($query_run = mysqli_query($conn, $query)) {

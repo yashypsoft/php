@@ -1,6 +1,5 @@
 <?php
 
-
 $directory = 'files';
 if ($handler = opendir($directory . '/')) {
     echo "you are in to <strong>$directory </strong> <br>";

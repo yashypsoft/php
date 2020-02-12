@@ -77,9 +77,8 @@ function updateData($tableName, $ArrayData, $id)
     $conn = connection();
     foreach ($ArrayData as $key => $value) {
         $query = "UPDATE $tableName SET $key = '$value' WHERE id = '$id' ";
- 
+
         if ($query_run = mysqli_query($conn, $query)) {
-            
         }
     }
 }
@@ -118,7 +117,19 @@ function listBlogPost($id)
     $ArrayData = [];
     $i = 0;
     $conn = connection();
-    $query = "SELECT id,category,title,published_at from blog_post where user_id = $id";
+    $query =
+    "SELECT
+        b.id,
+        GROUP_CONCAT(c.title) category,
+        b.published_at
+    FROM
+        blog_post b
+    LEFT JOIN post_category p ON
+        b.id = p.post_id AND b.user_id = $id
+    LEFT JOIN category c ON
+        p.category_id = c.id
+    GROUP BY
+        p.post_id";
     if ($query_run = mysqli_query($conn, $query)) {
         while ($row = mysqli_fetch_assoc($query_run)) {
             $ArrayData[$i] = $row;
@@ -133,7 +144,20 @@ function listCategory()
     $ArrayData = [];
     $i = 0;
     $conn = connection();
-    $query = "SELECT id,title,image,created_at from category where parent_category_id	= '0'";
+    $query = 
+    "SELECT
+    c.id,
+    c.title AS 'Parent Category',
+    GROUP_CONCAT(d.title) AS 'Child Category',
+    c.image,
+    c.created_at
+    FROM
+        category c
+    LEFT JOIN category d ON
+        c.id = d.parent_category_id
+    GROUP BY
+        c.title 
+    OR d.parent_category_id = 0 ORDER BY c.id";
     if ($query_run = mysqli_query($conn, $query)) {
         while ($row = mysqli_fetch_assoc($query_run)) {
             $ArrayData[$i] = $row;
@@ -149,12 +173,11 @@ function displayPostData($greedData)
     foreach ($greedData as $i => $array) {
         $table .= "<tr>";
         foreach ($array as $key => $value) {
-            if($key=='id'){
+            if ($key == 'id') {
                 $table .= "<td><a href='./viewblog.php/?postid=$value'>$value</a></td>";
-
-            }else{
+            } else {
                 $table .= "<td>$value</td>";
-            }  
+            }
         }
         $self = $_SERVER['PHP_SELF'];
         $table .= "<td><a href='./addpost.php/?id=$array[id]'>edit</a></td>";
@@ -171,12 +194,11 @@ function displayCategoryData($greedData)
         $table .= "<tr>";
 
         foreach ($array as $key => $value) {
-            if($key=='image'){
+            if ($key == 'image') {
                 $table .= "<td><img src='./Category/$value' alt='$value' width='120px'></td>";
-
-            }else{
+            } else {
                 $table .= "<td>$value</td>";
-            }  
+            }
         }
         $self = $_SERVER['PHP_SELF'];
         $table .= "<td><a href='./addCategory.php/?id=$array[id]'>edit</a></td>";
@@ -190,7 +212,7 @@ function displayColumn($greedData)
 {
     $table = "";
     foreach ($greedData as $i => $array) {
-       
+
         if ($i == 0) {
             $table .= "<tr>";
             foreach ($array as $key => $value) {
@@ -199,7 +221,6 @@ function displayColumn($greedData)
             $table .= "<th colspan='2'>action</th>";
             $table .= "</tr>";
         }
-        
     }
     return $table;
 }
@@ -217,7 +238,7 @@ function checkEmail($email)
     }
 }
 
-function deleteData($tableName,$id)
+function deleteData($tableName, $id)
 {
     $conn = connection();
     $query = "DELETE From $tableName where id= $id ";
@@ -227,7 +248,7 @@ function deleteData($tableName,$id)
 }
 
 
-function getEditData($tableName,$id)
+function getEditData($tableName, $id)
 {
     $conn = connection();
     $data = [];
@@ -239,13 +260,13 @@ function getEditData($tableName,$id)
             }
         }
     }
-
     return ($data);
 }
 
-function fetch($tableName,$whereArray=null){
+function fetch($tableName, $whereArray = null)
+{
     $conn = connection();
-    $i=0;
+    $i = 0;
     $data = [];
     $where = whereCondotion($whereArray);
     $query = "SELECT * FROM $tableName $where";
@@ -257,6 +278,5 @@ function fetch($tableName,$whereArray=null){
             $i++;
         }
     }
-
     return ($data);
 }

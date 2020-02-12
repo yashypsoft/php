@@ -6,23 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
-    <title>ADD New Category</title>
+    <title>ADD New blogpost</title>
 </head>
 
 <body>
-    <?php require_once 'postData.php';
-    require_once 'config.php';
-    require_once 'fileUpload.php';
-    $temp = fetch('category', ['parent_category_id' => '0']);
-    $category = [];
-    for ($i = 0; $i < sizeof($temp); $i++) {
-        array_push($category, $temp[$i]['title']);
-    }
-    isset($_SESSION['id']) ? " " : header("Location: login.php");
-    $data = isset($_GET['id']) ? getEditData('blog_post', $_GET['id']) : "";
-
-    ?>
-
+    <?php require_once 'addpost_Operation.php' ?>
     <div>
         <form action="" method="Post" enctype="multipart/form-data">
             <div>
@@ -63,18 +51,18 @@
             </div>
             <div>
                 <label for="categoty">Category :</label>
-                <select name="post[category][]" multiple id="categoty"> 
+                <select name="post_cat[category][]" multiple id="categoty"> 
 
-                    <?php foreach ($category as $item) : ?>
+                    <?php foreach ($category as $key => $item) : ?>
                         <?php
-                        $selected = (in_array($item, getData('post', 'category', [])))
+                        $selected = (in_array($key, getData('post_cat', 'category', [])))
                             ? "selected='selected'"
                             : ""
                         ?>
-                        <option value="<?= $item; ?>" <?= $selected ?>><?= $item; ?> </option>
+                        <option value="<?= $key; ?>" <?= $selected ?>><?= $item; ?> </option>
                     <?php endforeach; ?>
                 </select>
-                <?php if (ValidateData('post', 'category')) : ?>
+                <?php if (ValidateData('post_cat', 'category')) : ?>
                     <span>Please select one<span>
                         <?php $validFlag++;
                     endif;  ?>
@@ -87,29 +75,7 @@
             <input type="submit" value="Submit" name="submit">
         </form>
     </div>
-
-    <?php
-    $id = isset($_GET['id']) ? $_GET['id'] : "0";
-    if ($validFlag == 0 && isset($_POST['submit'])) {
-        if (($id)) {
-            $blog = prepareData($_POST['post']);
-            $blog['image'] = $_FILES['posts']['name']['image'];
-            $blog['updated_at'] = Date("Y:m:d h:i:s");
-            $blog['user_id'] = $_SESSION['id'];
-            updateData('blog_post', $blog, $id);
-            header("Location: ../blogpost.php");
-        } else {
-            $blog = prepareData($_POST['post']);
-            $blog['image'] = $_FILES['posts']['name']['image'];
-            $blog['created_at'] = Date("Y:m:d h:i:s");
-            $blog['user_id'] = $_SESSION['id'];
-            fileUpload('posts','image','blog');
-            insertData('blog_post', $blog);
-            header("Location: blogpost.php");
-        }
-    }
-
-    ?>
+    <?php addupdatePost($validFlag) ?>
 </body>
 
 </html>

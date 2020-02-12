@@ -1,8 +1,9 @@
 <?php
+
 // require '../App/Controllers/Posts.php';
 // require '../Core/Router.php';
 
-//twig autoload
+//autoload
 require_once  '../vendor/autoload.php';
 
 // //auto load function
