@@ -40,14 +40,13 @@ class Posts extends \Core\Controller
     }
 
     public function editAction()
-    {
-        
+    { 
         $postObj = new Post();
         
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = $_POST['post'];
             if ($postObj->validate($data)) {    
-                $postObj->UpdateQuery('posts', $data,['id'=>$data['id']]);
+                $postObj->updateQuery('posts', $data,['id'=>$data['id']]);
                 header("Location:../Posts/index");
             } else {
                 $error = $postObj->getErrors();
@@ -59,8 +58,14 @@ class Posts extends \Core\Controller
         } else {      
             $id = $this->route_params['id'];
             $editData = $postObj->fetchRow('posts', ['id' => $id]);
-            View::renderTemplate('Posts/add.html', ['editData' => $editData]);
+            if($editData==[]){
+                header("Location:../index");
+            }else{
+                View::renderTemplate('Posts/add.html', ['editData' => $editData]);
+            }
+            
         }
+
     }
 
     public function deleteAction()

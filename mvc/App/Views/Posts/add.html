@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
 
-{% block title %}add Posts {% endblock %}
+{% if editData.title != "" %}
+    {% set action = url ~"/posts/edit" %}
+    {% set button = "Update" %}
+    {% set title = "Edit Posts" %}
+    {% else %}
+    {% set action = url ~"/posts/add" %}
+    {% set button = "Add" %}
+    {% set title = "Add Posts" %}
+{% endif %}
+
+{% block title %}{{title}}{% endblock %}
 
 {% block body %}
 
-{% if editData.title != "" %}
-    {% set action = url ~"/posts/edit" %}
-    {% else %}
-    {% set action = url ~"/posts/add" %}
-{% endif %}
+
 
 <form action="{{action}}" method="post">
 
@@ -30,7 +36,8 @@
         <input type="hidden" name="post[id]" value="{{editData.id}}">
     </div>
 
-    <input type="submit" name="submit" class="uk-button uk-button-primary uk-margin-small-top" value="submit">
+    <input type="submit" name="submit" class="uk-button uk-button-primary uk-margin-small-top"
+     value="{{button}}">
 </form>
 
 {% endblock %}

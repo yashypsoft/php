@@ -69,7 +69,7 @@ class Post extends \Core\Model
         }
     }
 
-    function UpdateQuery($tableName, $ArrayData, $whereArray = [])
+    function updateQuery($tableName, $ArrayData, $whereArray = [])
     {
         $where = $this->whereCondotion($whereArray);
         foreach ($ArrayData as $key => $value) {
