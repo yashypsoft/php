@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}add Posts {% endblock %}
+
+{% block body %}
+
+{% if editData.title != "" %}
+    {% set action = url ~"/posts/edit" %}
+    {% else %}
+    {% set action = url ~"/posts/add" %}
+{% endif %}
+
+<form action="{{action}}" method="post">
+
+    <div>
+        <label for="title">Title</label>
+        <input type="text" name="post[title]" id="title" class="uk-input"
+         value="{{editData.title}}">
+        <span>{{errData.title}}</span>
+    </div>
+
+    <div>
+        <label for="content">Content</label>
+        <textarea name="post[content]" id="content" cols="30" class="uk-textarea"
+        rows="10">{{editData.content}}</textarea>
+        <span>{{errData.content}}</span>
+    </div>
+
+    <div>
+        <input type="hidden" name="post[id]" value="{{editData.id}}">
+    </div>
+
+    <input type="submit" name="submit" class="uk-button uk-button-primary uk-margin-small-top" value="submit">
+</form>
+
+{% endblock %}

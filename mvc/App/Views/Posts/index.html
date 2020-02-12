@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %} Posts {% endblock %}
+
+{% block body %}
+
+<h1>Posts</h1>
+<table class="uk-table uk-table-striped">
+    <tr>
+        <th>Posts</th>
+        <th>Content</th>
+        <th>Action</th>
+    </tr> 
+        {% for post in posts %}
+        <tr>
+            <td>{{post.title}}</td>
+            <td>{{post.content}}</td>
+            <td>
+                <a href="{{url}}/posts/{{post.id}}/edit">Edit</a>
+                <a href="{{url}}/posts/{{post.id}}/delete">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}  
+</table>
+
+
+{% endblock %}

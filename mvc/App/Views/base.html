@@ -1,0 +1,30 @@
+{% set url = 'http://localhost/FRAMEWORK/public' %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- UIkit CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/css/uikit.min.css"
+    />
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit-icons.min.js"></script>
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <div class="uk-container uk-margin-small-top">
+      <nav>
+        <a href="{{url}}" class="uk-button uk-button-primary">Home</a>
+        <a href="{{url}}/posts/index" class="uk-button uk-button-default">Posts</a>
+        <a href="{{url}}/posts/add" class="uk-button uk-button-secondary">Add</a>
+      </nav>
+      {% block body %} {% endblock %}
+    </div>
+  </body>
+</html>
