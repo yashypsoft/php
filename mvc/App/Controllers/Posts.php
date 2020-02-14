@@ -4,17 +4,23 @@ namespace App\Controllers;
 
 use App\Models\Post;
 use \Core\View;
+session_start();
 
 class Posts extends \Core\Controller
 {
 
     public function indexAction()
     {
-        $postObj = new Post();
-        $posts = $postObj->getAll('posts');
-        View::renderTemplate('Posts/index.html', [
-            "posts" => $posts
+        if(isset($_SESSION['id'])){
+            $postObj = new Post();
+            $posts = $postObj->getAll('posts');
+            View::renderTemplate('Posts/index.html', [
+                "posts" => $posts
         ]);
+        }
+        else{
+            header("Location:../users/register");
+        }
     }
 
     public function addAction()

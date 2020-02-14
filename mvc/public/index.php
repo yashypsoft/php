@@ -6,16 +6,11 @@
 //autoload
 require_once  '../vendor/autoload.php';
 
-// //auto load function
-// spl_autoload_register(
-//     function ($class) {
-//         $root = dirname(__DIR__);
-//         $file = $root . '/' . str_replace('//', '/', $class) . '.php';
-//         if (is_readable($file)) {
-//             require $file;
-//         }
-//     }
-// );
+// error and error handling
+error_reporting(E_ALL);
+set_error_handler('\Core\Error::errorHandler');
+set_exception_handler('Core\Error::exceptionHandler');
+
 
 $router = new Core\Router();
 

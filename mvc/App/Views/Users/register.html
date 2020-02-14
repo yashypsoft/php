@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Register
+{% endblock title %}
+
+{% block body %}
+    <div class="uk-container uk-container-small">
+        <div class="uk-margin-medium-top">
+            <h1>Register</h1>
+            <form action="{{url}}/Users/Register" method="post">
+                <div>
+                    <label for="prefix">Prefix</label>
+                    <select name="" id="" class='uk-select'>
+                        <option value="">Mr</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="name">Name</label>
+                    <input type="text" name="users[name]" id="name" class="uk-input">
+                    {{ errData.name }}
+                </div>
+                <div>
+                    <label for="mobile">Mobile No.</label>
+                    <input type="number" name="users[mobile]" id="mobile" class="uk-input">
+                    {{ errData.mobile }}
+
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" name="users[email]" id="email" class="uk-input">
+                    {{ errData.email }}
+                    {{ checkEmail }}
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input type="password" name="users[password]" id="password" class="uk-input">
+                    {{ errData.password }}
+                </div>
+                <div>
+                    <label for="cnfmpassword">Confirm Password</label>
+                    <input type="password" name="temp[cnfmpassword]" id="cnfmpassword" class="uk-input">
+                </div>
+                <input type="submit" value="Register" class="uk-button uk-margin-small-top 
+                    uk-button-primary">
+            </form>
+        </div>
+    </div>
+
+{% endblock body %}

@@ -9,16 +9,17 @@
     <tr>
         <th>Posts</th>
         <th>Content</th>
-        <th>Action</th>
+        <th >Action</th>
     </tr> 
     {% for post in posts %}
     <tr>
         <td>{{post.title}}</td>
         <td>{{post.content}}</td>
-        <td>
-            <a href="{{url}}/posts/{{post.id}}/edit">Edit</a>
-            <a href="{{url}}/posts/{{post.id}}/delete">Delete</a>
+        <td >
+            <a href="{{url}}/posts/{{post.id}}/edit" uk-icon="icon:  file-edit; ratio: 1"></a>
+            <a href="{{url}}/posts/{{post.id}}/delete" uk-icon="icon:  trash; ratio: 1" ></a>
         </td>
+        
     </tr>
     {% endfor %}  
 </table>
