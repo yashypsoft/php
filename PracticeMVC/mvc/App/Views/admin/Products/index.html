@@ -1,0 +1,43 @@
+{% extends "baseadmin.html" %}
+
+{% block title %}
+    Show Products
+{% endblock title %}
+
+
+{% block body %}
+<h1>Products</h1>
+<div style="float: right;">
+    <a href="{{url}}/admin/products/add"  class="uk-button uk-button-default">Add Products</a>
+</div>
+<table class="uk-table uk-table-striped">
+    <tr>
+        <th>Product Name</th>
+        <th>SKU</th>
+        <th>URL KEY</th>
+        <th>Image</th>
+        <th>Status</th>
+        <th>Description</th>
+        <th>Short Description</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th colspan="2">Action</th>
+    </tr> 
+    {% for product in productData %}
+    <tr>
+        <td>{{product.product_name}}</td>
+        <td>{{product.sku}}</td>
+        <td><a href="{{url}}/{{product.url_key}}">{{product.url_key}}</a></td>
+        <td><img src="{{url}}/image/Products/{{product.image}}" width="100px"></td>
+        <td>{{product.status}}</td>
+        <td>{{product.description}}</td>
+        <td>{{product.short_description}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.stock}}</td>
+        <td><a href="{{url}}/admin/products/{{product.id}}/edit">Edit</a></td>
+        <td><a href="{{url}}/admin/products/{{product.id}}/delete">Delete</a></td>      
+    </tr>
+    {% endfor %}  
+</table>
+
+{% endblock %}

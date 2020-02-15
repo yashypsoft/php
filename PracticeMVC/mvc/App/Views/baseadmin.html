@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- UIkit CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/css/uikit.min.css"
+    />
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit-icons.min.js"></script>
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  
+  <body>
+    <div class="uk-container uk-margin-small-top">
+      <nav>
+        {% set url = constant("App\\Config::URL")  %}
+        <a href="{{url}}" class="uk-button uk-button-primary">Home</a>
+        <a href="{{url}}/admin/products/index" class="uk-button uk-button-default">Manage Products</a>
+        <a href="{{url}}/admin/categories/index" class="uk-button uk-button-default">Manage Categories</a>
+        <a href="{{url}}" class="uk-button uk-button-default">Manage CMS Pages</a>
+
+     
+        <div style="float: right;">
+          {% if user.id != "" %}
+          <span>Welcome <b>{{user.name}}!</b> </span>
+          <a href="{{url}}/admin/users/logout" class="uk-button uk-button-default">Logout</a>
+          {% else %}
+            <a href="{{url}}/admin/users/login" class="uk-button uk-button-secondary">Login</a>
+        
+          {% endif %}
+        </div>
+          
+      </nav>
+
+      {% block body %} {% endblock %}
+    </div>
+  </body>
+</html>

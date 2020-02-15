@@ -1,0 +1,35 @@
+{% extends "baseadmin.html" %}
+
+{% block title %}
+    Show Categories
+{% endblock title %}
+
+{% block body %}
+
+<h1>Categories</h1>
+<div style="float: right;">
+    <a href="{{url}}/admin/categories/add"  class="uk-button uk-button-default">Add Categories</a>
+</div>
+<table class="uk-table uk-table-striped">
+    <tr>
+        <th>Category Name</th>
+        <th>Url Key</th>
+        <th>Image</th>
+        <th>Status</th>
+        <th>Description</th>
+        <th colspan="2">Action</th>
+    </tr> 
+    {% for category in categoryData %}
+    <tr>
+        <td>{{category.category_name}}</td>
+        <td><a href="{{url}}/{{category.url_key}}">{{category.url_key}}</a></td>
+        <td><img src="{{url}}/image/categories/{{category.image}}" width="100px"></td>
+        <td>{{category.status}}</td>
+        <td>{{category.description}}</td>
+        <td><a href="{{url}}/admin/categories/{{category.id}}/edit">Edit</a></td>
+        <td><a href="{{url}}/admin/categories/{{category.id}}/delete">Delete</a></td>      
+    </tr>
+    {% endfor %}  
+</table>
+
+{% endblock %}

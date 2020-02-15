@@ -1,0 +1,107 @@
+{% extends "baseadmin.html" %}
+
+{% if editData.id != "" %}
+        {% set title = "Edit Products" %}
+        {% set button = "Update Products" %}
+
+    {% else %}
+        {% set  title = "Add Products" %}
+        {% set button = "Add Products" %}
+
+    {% endif %}
+
+{% block title %}
+    {{title}}
+{% endblock title %}
+
+
+{% block body %}   
+    {% if editData.id != "" %}
+        {% set action = url ~ "/admin/products/" ~ editData.id ~"/edit" %}
+    {% else %}
+        {% set action = url ~ "/admin/products/add" %}
+    {% endif %}
+    <h1>Add  Products</h1>
+    <div class="uk-container uk-container-small uk-margin-medium-top" >
+        <form action="{{action}}" method="post" enctype="multipart/form-data">
+            <div>
+                <label for="productName">Name</label>
+                <input type="text" name="products[name]" id="productName"
+                 value="{{editData.product_name}}" class="uk-input">
+                 {{errData.name}}
+            </div>
+            <div>
+                <label for="sku">SKU</label>
+                <input type="text" name="products[sku]" id="sku"
+                 value="{{editData.sku}}" class="uk-input">
+                 {{errData.sku}}
+            </div>
+            <div>
+                <label for="urlKey">Url Key</label>
+                <input type="text" name="products[urlKey]" id="urlKey" 
+                 value="{{editData.url_key}}" class="uk-input">
+                 {{errData.urlKey}}
+            </div>
+            <div uk-form-custom class="uk-margin-small-top ">
+                <input type="file" name="products[image]" id="image">{{editData.image}}
+                <button class="uk-button uk-button-default" type="button"  
+                tabindex="-1">Select image</button>
+                {{errData.image}}
+            </div>
+            <div>
+                <label for="status">Status</label>
+                {% if editData.status == 'on' %}
+                    {% set OnChecked =  "checked" %}
+                {% elseif editData.status == 'off'%}
+                    {% set offChecked =  "checked" %}
+                {% endif %}
+                <input type="radio" class="uk-radio" name="products[status]" 
+                id="status" {{OnChecked}}>ON
+                <input type="radio" class="uk-radio" name="products[status]"
+                 id="status" {{offChecked}}>OFF
+                {{errData.status}}
+            </div>
+            <div>
+                <label for="description">Description</label>
+                <textarea name="products[description]" id="description" 
+                cols="30" rows="10" class="uk-textarea">{{editData.description}}</textarea>
+                {{errData.description}}
+
+            </div>
+            <div>
+                <label for="shortDescription">Short Description</label>
+                <textarea name="products[shortDescription]" id="shortDescription" 
+                cols="30" rows="10" class="uk-textarea">{{editData.short_description}}</textarea>
+                {{errData.shortDescription}}
+            </div>
+            <div>
+                <label for="price">Price</label>
+                <input type="number" name="products[price]" id="price" 
+                 value="{{editData.price}}" class="uk-input">
+                 {{errData.price}}
+            </div>
+            <div>
+                <label for="stock">Stock</label>
+                <input type="number" name="products[stock]" id="stock" 
+                 value="{{editData.stock}}" class="uk-input">
+                 {{errData.stock}}
+            </div>
+            <div>
+                <label for="category">Select Category</label>
+                <select name="productsCategories[categoryId]" id="category" class="uk-select">        
+                    {% for category in categories %}
+                        {% if editData.parent_category == category.id %}
+                            {% set selected = "selected" %}
+                        {% endif %}
+                    <option value="{{category.id}}" {{selected}}>{{category.category_name}}</option>
+                    {% endfor %}
+                </select>
+                
+            </div>
+            <input type="hidden" name="products[id]" value="{{editData.id}}">
+            <input type="submit" value="{{button}}" class="uk-button uk-margin-small-top 
+            uk-button-primary">   
+        </form>
+    </div>
+    
+{% endblock body %}

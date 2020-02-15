@@ -1,0 +1,81 @@
+{% extends "baseadmin.html" %}
+
+{% if editData.id != "" %}
+        {% set title = "Edit Categories" %}
+        {% set button = "Update Categories" %}
+
+    {% else %}
+        {% set  title = "Add Categories" %}
+        {% set button = "Add Categories" %}
+
+    {% endif %}
+
+{% block title %}
+    {{title}}
+{% endblock title %}
+
+
+{% block body %}   
+    {% if editData.id != "" %}
+        {% set action = url ~ "/admin/categories/" ~ editData.id ~"/edit" %}
+    {% else %}
+        {% set action = url ~ "/admin/categories/add" %}
+    {% endif %}
+    <div class="uk-container uk-container-small uk-margin-medium-top" >
+        <form action="{{action}}" method="post" enctype="multipart/form-data">
+            <div>
+                <label for="categoryName">Name</label>
+                <input type="text" name="categories[name]" id="categoryName"
+                 value="{{editData.category_name}}" class="uk-input">
+                 {{errData.name}}
+            </div>
+            <div>
+                <label for="urlKey">Url Key</label>
+                <input type="text" name="categories[urlKey]" id="urlKey" 
+                 value="{{editData.url_key}}" class="uk-input">
+                 {{errData.urlKey}}
+
+            </div>
+            <div uk-form-custom class="uk-margin-small-top ">
+                <input type="file" name="categories[image]" id="image">{{editData.image}}
+                <button class="uk-button uk-button-default" type="button"  
+                tabindex="-1">Select image</button>
+                {{errData.image}}
+            </div>
+            <div>
+                <label for="status">Status</label>
+                {% if editData.status == 'on' %}
+                    {% set OnChecked =  "checked" %}
+                {% elseif editData.status == 'off'%}
+                    {% set offChecked =  "checked" %}
+                {% endif %}
+                <input type="radio" name="categories[status]" id="status" {{OnChecked}}>ON
+                <input type="radio" name="categories[status]" id="status" {{offChecked}}>OFF
+                {{errData.status}}
+            </div>
+            <div>
+                <label for="description">Description</label>
+                <textarea name="categories[description]" id="description" 
+                cols="30" rows="10" class="uk-textarea">{{editData.description}}</textarea>
+                {{errData.description}}
+
+            </div>
+            <div>
+                <label for="parentCategory">Parent Category</label>
+                <select name="categories[parentCategory]" id="parentCategory" class="uk-select">
+                    <option value="">Parent Category</option>
+                    {% for parent in parentCategory %}
+                        {% if editData.parent_category == parent.id %}
+                            {% set selected = "selected" %}
+                        {% endif %}
+                    <option value="{{parent.id}}" {{selected}}>{{parent.category_name}}</option>
+                    {% endfor %}
+                </select>  
+            </div>
+            <input type="hidden" name="categories[id]" value="{{editData.id}}">
+            <input type="submit" value="{{button}}" class="uk-button uk-margin-small-top 
+            uk-button-primary">   
+        </form>
+    </div>
+    
+{% endblock body %}
