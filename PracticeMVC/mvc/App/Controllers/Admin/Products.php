@@ -19,7 +19,7 @@ class Products extends  \Core\Controller
     function addAction(){
         $productObj = new Product();
         $categories = 
-        $productObj -> getFieldData('categories','category_name,id');
+        $productObj -> getFieldData('categories','category_name,id',['parent_category !'=>'0']);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = $_POST['products'];
              $checkFileValidation  =
@@ -55,7 +55,8 @@ class Products extends  \Core\Controller
     function editAction()
     {
         $productObj = new Product();
-
+        $categories = 
+        $productObj -> getFieldData('categories','category_name,id',['parent_category !'=>'0']);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = $_POST['products'];
             $checkFileValidation  =
@@ -75,22 +76,20 @@ class Products extends  \Core\Controller
                 $error = $productObj->getErrors();
                 View::renderTemplate(
                     'admin/products/add.html',
-                    ['errData' => $error]
+                    ['errData' => $error ,'categories'=>$categories]
                 );
             }
         } else {
             $id = $this->route_params['id'];
             $editData = $productObj->getEditProductData($id);
-           
+
             if ($editData == []) {
                 header("Location:../index");
             } else {
-                $categories = 
-                $productObj -> getFieldData('categories','category_name,id');
                 View::renderTemplate('admin/products/add.html',
                      ['editData' => $editData,'categories'=>$categories]);
-            }
-        }
+            }     
+        }    
     }
 
     function deleteAction(){
@@ -98,5 +97,12 @@ class Products extends  \Core\Controller
         $id = ($this->route_params['id']);
         $productObj->deleteData('products', ['id' => $id ]);
         header("Location: ../index");
+    }
+
+    function showAction(){
+        $routeKey = $this->route_params['urlkey'];
+        $productObj = new Product();
+        $displayData = $productObj->getFieldData('products','*',['url_key'=>$routeKey,'status'=>'ON']);
+        view::renderTemplate('admin/products/show.html',['displayData'=>$displayData[0]]);
     }
 }

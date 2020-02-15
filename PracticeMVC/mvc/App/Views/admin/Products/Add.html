@@ -55,9 +55,9 @@
                 {% elseif editData.status == 'off'%}
                     {% set offChecked =  "checked" %}
                 {% endif %}
-                <input type="radio" class="uk-radio" name="products[status]" 
+                <input type="radio" class="uk-radio" value="ON" name="products[status]" 
                 id="status" {{OnChecked}}>ON
-                <input type="radio" class="uk-radio" name="products[status]"
+                <input type="radio" class="uk-radio" value="OFF" name="products[status]"
                  id="status" {{offChecked}}>OFF
                 {{errData.status}}
             </div>
@@ -90,9 +90,7 @@
                 <label for="category">Select Category</label>
                 <select name="productsCategories[categoryId]" id="category" class="uk-select">        
                     {% for category in categories %}
-                        {% if editData.parent_category == category.id %}
-                            {% set selected = "selected" %}
-                        {% endif %}
+                    {% set selected = (editData.category_id == category.id) ? "selected" : "" %}
                     <option value="{{category.id}}" {{selected}}>{{category.category_name}}</option>
                     {% endfor %}
                 </select>

@@ -1,0 +1,35 @@
+{% extends "baseadmin.html" %}
+
+{% block title %}
+    Show Categories
+{% endblock title %}
+
+{% block body %}
+
+<h1>CMS</h1>
+<div style="float: right;">
+    <a href="{{url}}/admin/CMS/add"  class="uk-button uk-button-default">Add CMS</a>
+</div>
+<table class="uk-table uk-table-striped">
+    <tr>
+        <th>Page Title</th>
+        <th>Url Key</th>
+        <th>Status</th>
+        <th>Content</th>
+        <th colspan="2">Action</th>
+    </tr> 
+    {% for cms in cmsData %}
+    <tr>
+        <td>{{cms.page_title}}</td>
+        <td><a href="{{url}}/admin/cms/show/{{cms.url_key}}">{{cms.url_key}}</a></td>
+        <td>{{cms.status}}</td>
+        <td>{{cms.content}}</td>
+        <td><a href="{{url}}/admin/cms/{{cms.id}}/edit">Edit</a></td>
+        <td><a href="{{url}}/admin/cms/{{cms.id}}/delete">Delete</a></td>      
+    </tr>
+    {% endfor %}  
+</table>
+ 
+
+    
+{% endblock body %}

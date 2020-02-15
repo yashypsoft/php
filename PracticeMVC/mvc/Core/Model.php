@@ -110,7 +110,7 @@ abstract class Model
             $key = array_keys($whereArray);
             $value = array_values($whereArray);
 
-            $where = "WHERE $key[0] = '$value[0]'";
+            $where = "WHERE $key[0]= '$value[0]'";
             if (sizeof($whereArray) > 1) {
                 for ($cnt = 1; $cnt < sizeof($whereArray); $cnt++) {
                     $where .= "AND $key[$cnt] = '$value[$cnt]'";

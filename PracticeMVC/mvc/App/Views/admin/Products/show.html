@@ -1,0 +1,25 @@
+{% extends "baseadmin.html" %}
+
+{% block title %}
+    {{displayData.category_name}}
+{% endblock title %}    
+
+{% block body %}
+
+{% if displayData != "" %}
+    <h1>{{displayData.product_name}}</h1>
+    <div><p>{{displayData.created_at}}</p></div>
+    <div>
+        <img src="{{url}}/image/categories/{{displayData.image}}" width="400px">
+    </div>
+    <div>{{displayData.price}}</div>
+    <div>{{displayData.stock}}</div>
+    <div>{{displayData.short_description}}</div>
+    <div>
+        <p>{{displayData.description}}</p>
+    </div>
+    <div>{{displayData.sku}}</div>
+{% endif %}
+    
+    
+{% endblock body %}

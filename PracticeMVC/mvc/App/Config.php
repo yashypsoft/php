@@ -19,6 +19,6 @@ class Config{
     //categories image path
     const CATEGORIESPATH = "C:\\xampp\htdocs\mvc\public\image\categories";
 
-    //
+    //product image path
     const PRODUCTPATH ="C:\\xampp\htdocs\mvc\public\image\products";
 }

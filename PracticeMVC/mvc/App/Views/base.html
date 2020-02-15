@@ -18,10 +18,37 @@
   
   <body>
     <div class="uk-container uk-margin-small-top">
+      {% set url = constant("App\\Config::URL")  %}
+      <nav class="uk-navbar-container" uk-navbar>
+        <div class="uk-navbar-left">
     
-          
+            <ul class="uk-navbar-nav">
+                <li>
+                    {% for category in categories %}
+                      <a href="#">
+                        <div>
+                            <div class="uk-navbar-subtitle">{{category.category_name}}</div>
+                        </div>
+                      </a>
+                    {% endfor %}
+                    <div class="uk-navbar-dropdown">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li class="uk-active"><a href="#">Active</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a href="{{url}}">Home</a></li>
+                <li><a href="{{url}}/home/show/contactus">Contact Us</a></li>
+                <li><a href="{{url}}/home/show/aboutus">About Us</a></li>
+                <li><a href="{{url}}/admin/users/login">Admin Login</a></li>  
+            </ul>
     
-
+        </div>
+    </nav>
+    
+     
       {% block body %} {% endblock %}
     </div>
   </body>

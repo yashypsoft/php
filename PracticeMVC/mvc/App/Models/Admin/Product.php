@@ -121,7 +121,7 @@ class Product extends \Core\Model{
         "SELECT
             p.id,p.product_name,p.sku,p.url_key,p.image,p.status,p.description,p.price,p.stock,
             p.short_description,
-            c.category_name,c.parent_category
+            c.category_name,c.parent_category,c.id 'category_id'
         FROM
             products P
         INNER JOIN products_categories PC ON

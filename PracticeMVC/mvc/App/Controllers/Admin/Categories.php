@@ -89,4 +89,12 @@ class Categories extends \Core\Controller
         header("Location: ../index");
     }
 
+    function showAction(){
+        $routeKey = $this->route_params['urlkey'];
+       
+        $categoryObj = new Category();
+        $displayData = $categoryObj->getFieldData('categories','*',['url_key'=>$routeKey,'status'=>'ON']);
+      
+        view::renderTemplate('admin/categories/show.html',['displayData'=>$displayData[0]]);
+    }
 }

@@ -1,0 +1,63 @@
+{% extends "baseadmin.html" %}
+
+{% if editData.id != "" %}
+        {% set title = "Edit CMS" %}
+        {% set button = "Update CMS" %}
+
+    {% else %}
+        {% set  title = "Add CMS" %}
+        {% set button = "Add CMS" %}
+
+    {% endif %}
+
+{% block title %}
+    {{title}}
+{% endblock title %}
+
+
+{% block body %}   
+    <h1>{{title}}</h1>
+    {% if editData.id != "" %}
+        {% set action = url ~ "/admin/cms/" ~ editData.id ~"/edit" %}
+    {% else %}
+        {% set action = url ~ "/admin/cms/add" %}
+    {% endif %}
+    <div class="uk-container uk-container-small uk-margin-medium-top" >
+        <form action="{{action}}" method="post" enctype="multipart/form-data">
+            <div>
+                <label for="pageTitle">Page Title</label>
+                <input type="text" name="cms[pageTitle]" id="pageTitle"
+                 value="{{editData.page_title}}" class="uk-input">
+                 {{errData.pageTitle}}
+            </div>
+            <div>
+                <label for="urlKey">Url Key</label>
+                <input type="text" name="cms[urlKey]" id="urlKey" 
+                 value="{{editData.url_key}}" class="uk-input">
+                 {{errData.urlKey}}
+            </div>
+            <div>
+                <label for="status">Status</label>
+                {% if editData.status == 'on' %}
+                    {% set OnChecked =  "checked" %}
+                {% elseif editData.status == 'off'%}
+                    {% set offChecked =  "checked" %}
+                {% endif %}
+                <input type="radio" class="uk-radio" name="cms[status]" value="ON" {{OnChecked}}>ON
+                <input type="radio" class="uk-radio" name="cms[status]" value="OFF" {{offChecked}}>OFF
+                {{errData.status}}
+            </div>
+            <div>
+                <label for="content">Content</label>
+                <textarea name="cms[content]" id="description" 
+                cols="30" rows="10" class="uk-textarea">{{editData.content}}</textarea>
+                {{errData.content}}
+            </div>
+
+            <input type="hidden" name="cms[id]" value="{{editData.id}}">
+            <input type="submit" value="{{button}}" class="uk-button uk-margin-small-top 
+            uk-button-primary">   
+        </form>
+    </div>
+    
+{% endblock body %}

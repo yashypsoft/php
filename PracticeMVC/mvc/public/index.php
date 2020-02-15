@@ -15,13 +15,16 @@ set_exception_handler('Core\Error::exceptionHandler');
 
 $router = new Core\Router();
 
-$router->add('', ['controller' => 'Home', 'action' => 'index']);
+$router->add('', ['controller' => 'Home', 'action' => 'show' ,'urlkey'=>'home']);
 $router->add('posts', ['controller' => 'Posts', 'action' => 'index']);
 $router->add('posts/&id=2', ['controller' => 'Posts', 'action' => '&id=2']);
 $router->add('{controller}/{action}');
 $router->add('{controller}/{id:\d+}/{action}');
 $router->add('admin/{controller}/{action}', ['namespace' => 'admin']);
 $router->add('admin/{controller}/{id:\d+}/{action}', ['namespace' => 'admin']);
+$router->add('admin/{controller}/{action}/{urlkey}', ['namespace' => 'admin']);
+$router->add('{controller}/{action}/{urlkey}');
+
 
 
 // echo '<pre>';

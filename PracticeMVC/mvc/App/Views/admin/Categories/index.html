@@ -22,7 +22,7 @@
     {% for category in categoryData %}
     <tr>
         <td>{{category.category_name}}</td>
-        <td><a href="{{url}}/{{category.url_key}}">{{category.url_key}}</a></td>
+        <td><a href="{{url}}/admin/categories/show/{{category.url_key}}">{{category.url_key}}</a></td>
         <td><img src="{{url}}/image/categories/{{category.image}}" width="100px"></td>
         <td>{{category.status}}</td>
         <td>{{category.description}}</td>
