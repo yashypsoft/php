@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2020 at 06:19 PM
+-- Generation Time: Feb 17, 2020 at 06:26 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.26
 
@@ -69,9 +69,12 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `category_name`, `url_key`, `image`, `status`, `description`, `parent_category`, `created_at`, `updated_at`) VALUES
-(26, 'Electronics', 'electronics', 'attachment.jpg', 'ON', 'description', 0, '2020-02-15 12:03:07', '0000-00-00 00:00:00'),
-(27, 'Home', 'home', 'attachment.jpg', 'ON', 'description', 26, '2020-02-15 13:16:59', '0000-00-00 00:00:00'),
-(28, 'Powerbank', 'powerbank', 'attachment.jpg', 'ON', 'desc', 26, '2020-02-15 15:09:42', '0000-00-00 00:00:00');
+(26, 'Electronics', 'electronics', 'attachment.jpg', 'ON', 'descriptionaaaaaaa', 0, '2020-02-15 12:03:07', '0000-00-00 00:00:00'),
+(30, 'Men', 'men', 'attachment.jpg', 'ON', 'asd', 0, '2020-02-17 10:07:24', '0000-00-00 00:00:00'),
+(33, 'Mobiles', 'mobiles', 'mobile.jpg', 'ON', 'mobile description', 26, '2020-02-17 14:41:34', '0000-00-00 00:00:00'),
+(34, 'Mobile assesories', 'mobileassesories', 'mobile.jpg', 'ON', 'cs', 26, '2020-02-17 14:42:37', '0000-00-00 00:00:00'),
+(35, 'Footwear', 'footwear', 'footwear.jpg', 'ON', 'footwear description', 30, '2020-02-17 14:45:02', '0000-00-00 00:00:00'),
+(36, 'T-Shirt', 'tshirt', 'tshirt.jpg', 'ON', 'description of tshirt', 30, '2020-02-17 14:46:17', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -94,7 +97,7 @@ CREATE TABLE `cms_pages` (
 --
 
 INSERT INTO `cms_pages` (`id`, `page_title`, `url_key`, `status`, `content`, `created_at`, `updated_at`) VALUES
-(4, 'aboutus', 'aboutus', 'ON', 'About us  COntent', '2020-02-15 17:00:00', '0000-00-00 00:00:00'),
+(4, 'aboutus', 'aboutus', 'ON', 'About us  Content', '2020-02-15 17:00:00', '2020-02-17 17:45:47'),
 (5, 'Home', 'home', 'ON', 'content of about us', '2020-02-15 17:33:39', '2020-02-15 18:12:32'),
 (6, 'contactus', 'contactus', 'ON', 'content of about us\r\n', '2020-02-15 18:13:04', '0000-00-00 00:00:00');
 
@@ -124,8 +127,11 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `product_name`, `sku`, `url_key`, `image`, `status`, `description`, `short_description`, `price`, `stock`, `created_at`, `updated_at`) VALUES
-(7, 'POCO ', '50', 'poco', 'attachment.jpg', 'OFF', 'des', 'des', 500, 500, '2020-02-15 14:22:51', '2020-02-15 16:18:00'),
-(8, 'POCO  x211', '12345', 'poco', 'attachment.jpg', 'ON', 'description', 'ss', 500, 44, '2020-02-15 15:10:41', '2020-02-15 16:18:08');
+(11, 'Redmi Note 8 Pro', '2551', 'redminoteeightpro', 'mobile.jpg', 'ON', 'description', 'short desc', 8000, 50, '2020-02-17 14:53:38', '0000-00-00 00:00:00'),
+(12, 'Samsung A70s', '2555855', 'samsungaseventys', 'mobile.jpg', 'ON', 'bgfreddc', 'fecs', 24000, 80, '2020-02-17 14:54:26', '0000-00-00 00:00:00'),
+(13, 'POCO  x2', '1236126', 'pocoxtwo', '960x0.jpg', 'ON', 'rgbnbfgdw', 'refggd', 17000, 80, '2020-02-17 14:55:18', '0000-00-00 00:00:00'),
+(14, 'Powerbank', '16516', 'powerbank', 'powerbank.jpg', 'ON', 'edfgbbg', 'sfvfcb', 800, 98, '2020-02-17 14:57:23', '0000-00-00 00:00:00'),
+(15, 'Earphone', '87541', 'earphone', 'earphone.jpg', 'ON', 'earphone', 'earphone', 700, 80, '2020-02-17 14:58:28', '2020-02-17 15:43:53');
 
 -- --------------------------------------------------------
 
@@ -144,8 +150,11 @@ CREATE TABLE `products_categories` (
 --
 
 INSERT INTO `products_categories` (`id`, `product_id`, `category_id`) VALUES
-(2, 7, 28),
-(6, 8, 27);
+(9, 11, 33),
+(10, 12, 33),
+(11, 13, 33),
+(12, 14, 34),
+(13, 15, 34);
 
 --
 -- Indexes for dumped tables
@@ -198,7 +207,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `cms_pages`
@@ -210,13 +219,13 @@ ALTER TABLE `cms_pages`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `products_categories`
 --
 ALTER TABLE `products_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
