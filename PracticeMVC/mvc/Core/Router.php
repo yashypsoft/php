@@ -31,15 +31,6 @@ class Router
 
     public function match($url)
     {
-        // foreach ($this->routes as $route => $params) {
-        //     if ($url == $route) {
-        //         $this->params = $params;
-        //         return true;
-        //     }
-        // }
-        // return false;
-        // $reg_ex = '/^(?P<controller>[a-z-]+)\/(?P<action>[a-z]+)$/';
-
         foreach ($this->routes as $route => $params) {
             if (preg_match($route, $url, $matches)) {
                 foreach ($matches as $key => $match) {
@@ -65,7 +56,7 @@ class Router
         if ($this->match($url)) {
             $controller = $this->params['controller'];
             $controller = $this->convertToStudyCaps($controller);
-            // $controller = "App\Controllers\\$controller";
+     
             $controller = $this->getNamespace() . $controller;
             if (class_exists($controller)) {
                 $controllerObj = new  $controller($this->params);
@@ -74,16 +65,16 @@ class Router
                 if (is_callable([$controllerObj, $action])) {
                     $controllerObj->$action();
                 } else {
-                    // echo "mehod $action not found";
+                  
                     throw new \Exception("Method $action  in controller $controller");
                 }
             } else {
-                // echo "controller $controller not found";
+              
                 throw new \Exception("controller class $controller not found");
 
             }
         } else {
-            // echo "No Route Matched";
+  
             throw new \Exception("No Route Matched",404);
         }
     }

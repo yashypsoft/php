@@ -12,7 +12,7 @@ class Product extends \Core\Controller{
 
     function viewAction(){
 
-        //for navbbar catgories
+        //for navbar catgories data display 
         $categoryObj = new UserCategory();
         $categoryData = $categoryObj -> getFieldData('categories','*');  
 

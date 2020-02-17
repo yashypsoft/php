@@ -33,7 +33,8 @@ class Categories extends \Core\Controller
                 
                 $error = $categoryObj->getErrors();
                 $parentCategory = 
-                $categoryObj -> getFieldData('categories','category_name,id',['parent_category'=>'0']);
+                $categoryObj -> getFieldData('categories','category_name,id',
+                            ['parent_category'=>'0']);
                 View::renderTemplate(
                     'admin/categories/add.html',
                     ['errData' => $error,'parentCategory'=>$parentCategory]
@@ -44,7 +45,8 @@ class Categories extends \Core\Controller
         else{
            
             $parentCategory = 
-                 $categoryObj -> getFieldData('categories','category_name,id',['parent_category'=>'0']);
+                 $categoryObj -> getFieldData('categories','category_name,id',
+                            ['parent_category'=>'0']);
             View::renderTemplate('admin/categories/add.html',['parentCategory'=>$parentCategory]);
         } 
     }   
@@ -77,7 +79,8 @@ class Categories extends \Core\Controller
                 header("Location:../index");
             } else {
                 $parentCategory = 
-                $categoryObj -> getFieldData('categories','category_name,id',['parent_category'=>'0']);
+                $categoryObj -> getFieldData('categories','category_name,id',
+                            ['parent_category'=>'0']);
                 View::renderTemplate('admin/categories/add.html',
                      ['editData' => $editData,'parentCategory'=>$parentCategory]);
             }
@@ -96,7 +99,8 @@ class Categories extends \Core\Controller
         $routeKey = $this->route_params['urlkey'];
        
         $categoryObj = new Category();
-        $displayData = $categoryObj->getFieldData('categories','*',['url_key'=>$routeKey,'status'=>'ON']);
+        $displayData = $categoryObj->getFieldData('categories','*',
+                    ['url_key'=>$routeKey,'status'=>'ON']);
       
         view::renderTemplate('admin/categories/show.html',['displayData'=>$displayData[0]]);
     }

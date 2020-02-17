@@ -12,14 +12,6 @@ abstract class Model
     {
         static $conn = null;
         if ($conn === null) {    
-            
-            // $conn = mysqli_connect(Config::DB_HOST, Config::DB_USER,
-            //     Config::DB_PASSWORD , Config::DB_NAME);
-            // if ($conn) {
-            //     return $conn;
-            // } else {
-            //     die("connection failed" . mysqli_connect_error());
-            // }
 
             try{
                 $conn = new PDO("mysql:host=".Config::DB_HOST.";dbname=".Config::DB_NAME,
@@ -39,9 +31,7 @@ abstract class Model
     {
         $conn = self::getDB();
         $query = "select * from $tableName";
-        // if ($query_run = mysqli_query($conn, $query)) {
-        //     return $query_run;
-        // }
+       
         $stmt = $conn->query($query);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC); 
         return $result;
@@ -51,9 +41,7 @@ abstract class Model
         $conn = self::getDB();
         $where = $this->whereCondotion($whereArray);
         $query = "select $fieldName from $tableName $where";
-        // if ($query_run = mysqli_query($conn, $query)) {
-        //     return $query_run;
-        // }
+        
         $stmt = $conn->query($query);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC); 
         return $result;
@@ -75,10 +63,6 @@ abstract class Model
         $valueString = implode("','", $valueItemArray);
 
         $query = "insert into $tableName ($columnString) VALUES ('$valueString')";
-
-        // if ($query_run = mysqli_query($conn, $query)) {
-        //     return mysqli_insert_id($conn);
-        // }
    
         $stmt = $conn->exec($query);      
         $id = $conn->lastInsertId();
@@ -93,10 +77,6 @@ abstract class Model
         $where = $this->whereCondotion($whereArray);
 
         $query = "SELECT * FROM $tableName $where";
-
-        // $query_run = mysqli_query($conn, $query);
-        // $data = mysqli_fetch_assoc($query_run);
-        // return $data;
 
         $stmt = $conn->query($query);
         $result = $stmt->fetch(); 
@@ -130,8 +110,6 @@ abstract class Model
         $where = $this->whereCondotion($whereArray);
         foreach ($ArrayData as $key => $value) {
             $query = "UPDATE $tableName SET $key = '$value' $where";
-            // if ($query_run = mysqli_query($conn, $query)) {
-            // }
             $stmt = $conn->exec($query);
         }
     }
@@ -142,8 +120,7 @@ abstract class Model
 
         $where = $this->whereCondotion($whereArray);
         $query = "DELETE FROM $tableName $where";
-        // if ($query_run = mysqli_query($conn, $query)) {
-        // }
+   
         $stmt = $conn->exec($query);
         return $stmt;
     }

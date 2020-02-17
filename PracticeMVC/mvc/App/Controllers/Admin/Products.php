@@ -13,23 +13,27 @@ class Products extends  \Core\Controller
         $productObj = new Product();
         $productData = $productObj -> getAll('products');    
 
-        view::renderTemplate('admin/products/index.html',['productData'=>$productData]);
+        view::renderTemplate('admin/products/index.html',
+                ['productData'=>$productData]);
     }
     
     function addAction(){
         $productObj = new Product();
         $categories = 
-        $productObj -> getFieldData('categories','category_name,id',['parent_category !'=>'0']);
+        $productObj -> getFieldData('categories','category_name,id',
+                ['parent_category !'=>'0']);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = $_POST['products'];
              $checkFileValidation  =
             $productObj->fileUpload('products','image',Config::PRODUCTPATH);
-            if ($productObj->validate($data) && $checkFileValidation && $productObj->checkUrl() ) {
+            if ($productObj->validate($data) && $checkFileValidation 
+                && $productObj->checkUrl() )
+            {
         
                 $productId = 
                 $productObj->insertData('products',$productObj->prepareProductData($data));
 
-                //create data for product ctaegories table
+                //create data for product categories table
                 $productCateData = ['product_id'=>$productId,
                     'category_id'=>$_POST['productsCategories']['categoryId']];
 
@@ -69,7 +73,8 @@ class Products extends  \Core\Controller
                 $productCateData = ['product_id'=> $data['id'],
                  'category_id'=>$_POST['productsCategories']['categoryId']];
 
-                $productObj->updateQuery('products_categories',$productCateData,['product_id'=>$data['id']]);
+                $productObj->updateQuery('products_categories',$productCateData,
+                    ['product_id'=>$data['id']]);
 
                 header("Location:../index");
             } else {
@@ -102,7 +107,8 @@ class Products extends  \Core\Controller
     function showAction(){
         $routeKey = $this->route_params['urlkey'];
         $productObj = new Product();
-        $displayData = $productObj->getFieldData('products','*',['url_key'=>$routeKey,'status'=>'ON']);
+        $displayData = $productObj->getFieldData('products','*',
+                    ['url_key'=>$routeKey,'status'=>'ON']);
         view::renderTemplate('admin/products/show.html',['displayData'=>$displayData[0]]);
     }
 
