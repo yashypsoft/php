@@ -31,16 +31,19 @@
                  {{errData.pageTitle}}
             </div>
             <div>
+                {% if editData.url_key != "" %}
+                    {% set disabled = "disabled" %}
+                {% endif %}
                 <label for="urlKey">Url Key</label>
                 <input type="text" name="cms[urlKey]" id="urlKey" 
-                 value="{{editData.url_key}}" class="uk-input">
+                 value="{{editData.url_key}}" class="uk-input" {{disabled}}>
                  {{errData.urlKey}}
             </div>
             <div>
                 <label for="status">Status</label>
-                {% if editData.status == 'on' %}
+                {% if editData.status == 'ON' %}
                     {% set OnChecked =  "checked" %}
-                {% elseif editData.status == 'off'%}
+                {% elseif editData.status == 'OFF'%}
                     {% set offChecked =  "checked" %}
                 {% endif %}
                 <input type="radio" class="uk-radio" name="cms[status]" value="ON" {{OnChecked}}>ON

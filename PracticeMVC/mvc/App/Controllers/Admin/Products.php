@@ -24,7 +24,7 @@ class Products extends  \Core\Controller
             $data = $_POST['products'];
              $checkFileValidation  =
             $productObj->fileUpload('products','image',Config::PRODUCTPATH);
-            if ($productObj->validate($data) && $checkFileValidation ) {
+            if ($productObj->validate($data) && $checkFileValidation && $productObj->checkUrl() ) {
         
                 $productId = 
                 $productObj->insertData('products',$productObj->prepareProductData($data));
@@ -105,4 +105,15 @@ class Products extends  \Core\Controller
         $displayData = $productObj->getFieldData('products','*',['url_key'=>$routeKey,'status'=>'ON']);
         view::renderTemplate('admin/products/show.html',['displayData'=>$displayData[0]]);
     }
+
+    function before()
+    {
+        if(isset($_SESSION['user'])){
+            return true;
+        }
+        else{
+            header("Location:../users/login");
+        }
+    }
+    
 }

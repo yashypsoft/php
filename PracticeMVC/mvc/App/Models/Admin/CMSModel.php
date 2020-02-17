@@ -53,9 +53,7 @@ class Cmsmodel extends \Core\Model{
             }
         }
 
-        // if(($this->checkData('cms_pages','url_key',$fieldData['urlKey']))){
-        //     $this->errArray['urlKey'] = 'URLKey is must be different';
-        // }
+       
 
         if ($this->errArray == []) {
             return true;
@@ -64,6 +62,18 @@ class Cmsmodel extends \Core\Model{
         }
 
        
+    }
+
+    function checkUrl(){
+        if(($this->checkData('cms_pages','url_key',$_POST['cms']['urlKey']))){
+            $this->errArray['urlKey'] = 'URLKey is must be different';
+        }   
+
+        if ($this->errArray == []) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function getErrors()

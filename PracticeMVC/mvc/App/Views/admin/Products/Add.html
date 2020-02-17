@@ -37,9 +37,12 @@
                  {{errData.sku}}
             </div>
             <div>
+                {% if editData.url_key != "" %}
+                    {% set disabled = "disabled" %}
+                {% endif %}
                 <label for="urlKey">Url Key</label>
                 <input type="text" name="products[urlKey]" id="urlKey" 
-                 value="{{editData.url_key}}" class="uk-input">
+                 value="{{editData.url_key}}" class="uk-input" {{disabled}}>
                  {{errData.urlKey}}
             </div>
             <div uk-form-custom class="uk-margin-small-top ">
@@ -50,9 +53,9 @@
             </div>
             <div>
                 <label for="status">Status</label>
-                {% if editData.status == 'on' %}
+                {% if editData.status == 'ON' %}
                     {% set OnChecked =  "checked" %}
-                {% elseif editData.status == 'off'%}
+                {% elseif editData.status == 'OFF'%}
                     {% set offChecked =  "checked" %}
                 {% endif %}
                 <input type="radio" class="uk-radio" value="ON" name="products[status]" 

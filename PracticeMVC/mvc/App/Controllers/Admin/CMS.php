@@ -20,8 +20,8 @@ class Cms extends \Core\Controller
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = $_POST['cms'];
-            if ($cmsObj->validate($data) ) {
-        
+
+            if ($cmsObj->validate($data) && $cmsObj->checkUrl()) {
                 $cmsObj->insertData('cms_pages',$cmsObj->prepareCmsData($data));
                 header("Location:../cms/index"); 
             } else {
@@ -81,5 +81,15 @@ class Cms extends \Core\Controller
         $cmsObj = new Cmsmodel();
         $displayData = $cmsObj->getFieldData('cms_pages','*',['url_key'=>$routeKey,'status'=>'ON']);
         view::renderTemplate('admin/cms/show.html',['displayData'=>$displayData[0]]);
+    }
+
+    function before()
+    {
+        if(isset($_SESSION['user'])){
+            return true;
+        }
+        else{
+            header("Location:../users/login");
+        }
     }
 }

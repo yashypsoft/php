@@ -60,9 +60,6 @@ class Category extends \Core\Model{
             }
         }
 
-        if(($this->checkData('categories','url_key',$fieldData['urlKey']))){
-            $this->errArray['urlKey'] = 'URLKey is must be different';
-        }
 
         if ($this->errArray == []) {
             return true;
@@ -71,6 +68,18 @@ class Category extends \Core\Model{
         }
 
        
+    }
+
+    function checkUrl(){
+        if(($this->checkData('categories','url_key',$_POST['categories']['urlKey']))){
+            $this->errArray['urlKey'] = 'URLKey is must be different';
+        }
+
+        if ($this->errArray == []) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function fileUpload($section,$field,$location)

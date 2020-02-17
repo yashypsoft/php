@@ -11,4 +11,14 @@ class Dashboard extends \Core\Controller {
         View::renderTemplate('admin/dashboard/index.html');
 
     }
+    
+    function before()
+    {
+        if(isset($_SESSION['user'])){
+            return true;
+        }
+        else{
+            header("Location:../users/login");
+        }
+    }
 }

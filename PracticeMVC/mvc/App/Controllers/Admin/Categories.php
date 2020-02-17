@@ -23,7 +23,9 @@ class Categories extends \Core\Controller
             $data = $_POST['categories'];
              $checkFileValidation  =
             $categoryObj->fileUpload('categories','image',Config::CATEGORIESPATH);
-            if ($categoryObj->validate($data) && $checkFileValidation ) {
+            if ($categoryObj->validate($data) && $checkFileValidation 
+                && $categoryObj->checkUrl() )
+            {
         
                 $categoryObj->insertData('categories',$categoryObj->prepareCategoryData($data));
                 header("Location:../categories/index"); 
@@ -52,14 +54,14 @@ class Categories extends \Core\Controller
         $categoryObj = new Category();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
             $data = $_POST['categories'];
             $checkFileValidation  =
-            $categoryObj->fileUpload('categories','image',Config::CATEGORIESPATH);
+            $categoryObj->fileUpload('categories','image',Config::CATEGORIESPATH);  
             if ($categoryObj->validate($data) && $checkFileValidation) {
                 $categoryObj->updateQuery('categories',
                      $categoryObj->prepareCategoryData($data), ['id' => $data['id']]);
-          
-                header("Location:../admin/categories/index");
+                header("Location:../index");
             } else {
                 $error = $categoryObj->getErrors();
                 View::renderTemplate(
@@ -67,6 +69,7 @@ class Categories extends \Core\Controller
                     ['errData' => $error]
                 );
             }
+
         } else {
             $id = $this->route_params['id'];
             $editData = $categoryObj->fetchRow('categories', ['id' => $id]);
@@ -97,4 +100,15 @@ class Categories extends \Core\Controller
       
         view::renderTemplate('admin/categories/show.html',['displayData'=>$displayData[0]]);
     }
+
+    function before()
+    {
+        if(isset($_SESSION['user'])){
+            return true;
+        }
+        else{
+            header("Location:../users/login");
+        }
+    }
+
 }
