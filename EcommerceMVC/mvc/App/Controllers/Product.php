@@ -12,10 +12,10 @@ class Product extends \Core\Controller{
 
     function viewAction(){
 
-        //for navbar catgories data display 
+        //for navbbar catgories
         $categoryObj = new UserCategory();
         $categoryData = $categoryObj -> getFieldData('categories','*');  
-
+     
 
         $routeKey = $this->route_params['urlkey'];
 
@@ -24,5 +24,7 @@ class Product extends \Core\Controller{
 
         view::renderTemplate('user/product/view.html',['productData'=>$productData[0],'categories' => $categoryData]);
     }
+
+    
 
 }

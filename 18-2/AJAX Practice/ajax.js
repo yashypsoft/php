@@ -19,7 +19,7 @@ function buttonClickHandle(){
 
 
     xhr.onreadystatechange = function(){
-        console.log("Ready state is ", xhr.readyState)
+        console.log("Ready state is ", xhr.readyState);
     }
     
     //what to do when response is ready
@@ -52,7 +52,9 @@ function popHandler(){
     //what to do when response is ready
     xhr.onload = function(){
         if (this.status === 200) {
+
             object = JSON.parse(this.responseText);
+            
             let list = document.getElementById('list');
             console.log(object[1]['title']);
 

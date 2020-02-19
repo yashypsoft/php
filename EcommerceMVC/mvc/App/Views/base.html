@@ -13,6 +13,8 @@
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit-icons.min.js"></script>
+    <!-- Jquery  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>{% block title %}{% endblock %}</title>
   </head>
   
@@ -45,11 +47,33 @@
                 <li><a href="{{url}}/home/show/contactus">Contact Us</a></li>
                 <li><a href="{{url}}/home/show/aboutus">About Us</a></li>
                 <li><a href="{{url}}/admin/users/login">Admin Login</a></li>  
+              
+
+                <!-- This is an anchor toggling the modal -->
+                <li><a href="#modal-example" onclick="displayCartDetails()" uk-toggle>Cart </a></li>
+
+                <!-- This is the modal -->
+                <div id="modal-example" uk-modal>
+                    <div class="uk-modal-dialog uk-modal-body">
+                        <h2 class="uk-modal-title">Shopping Cart</h2>
+                            <div class="shoppingcart">
+                            </div>
+                        <p class="uk-text-right">
+                            <a href="" class="uk-button uk-button-primary">Checkout</a>
+                            <a href="" class="uk-button uk-button-default">Clear</a>
+                        </p>
+                    </div>
+                </div>
             </ul>
+
         </div>
     </nav>
+    
      
       {% block body %} {% endblock %}
+ 
     </div>
+
+    <script src="{{url}}/javaScript/cart.js"></script>
   </body>
 </html>

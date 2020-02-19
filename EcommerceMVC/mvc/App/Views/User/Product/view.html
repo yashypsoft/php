@@ -15,7 +15,7 @@
 
        <div>
         <p><b>{{productData.product_name}}</b></p>
-        <p><b>Rs.</b>{{productData.price}}</p>
+        <p><b>₹ </b>{{productData.price}}</p>
 
         {% if productData.status == "OFF" %}
             <p>OUT OF STOCK</p>
@@ -25,14 +25,24 @@
 
         <p><b> Short Description.</b> {{productData.short_description}}</p>
         <p><b>Description : </b>{{productData.description}}</p>
-  
-        <a href="" class="uk-button uk-button-default">Add To Cart</a>
-        <a href="" class="uk-button uk-button-primary">Buy Now</a>
 
+        <div >
+            <button class="uk-button uk-button-default uk-button-small"
+                 onclick="decrementQuantity()" >-</button>
+            <span class="cartQuantity" max="{{productData.stock}}" >1</span>
+            <button class="uk-button uk-button-default uk-button-small"
+                 onclick="incrementQuantity()">+</button>
+        </div>
+    
+        <button class="uk-button uk-button-default" id="addtocart" 
+                onclick='addToCart({{productData.id}})'>
+            Add To Cart</button>
+        <button class="uk-button uk-button-primary" id="buynow" >Buy Now</button>
+        <input type="hidden" id="productId" value="{{productData.id}}">
        </div>   
-        
     </div>
 
 </div>
     
+
 {% endblock body %} 

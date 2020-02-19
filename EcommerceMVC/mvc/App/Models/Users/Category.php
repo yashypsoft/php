@@ -23,6 +23,7 @@ class Category extends \Core\Model{
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC); 
        
         return $result;
+        
     }
 
 }

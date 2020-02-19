@@ -79,8 +79,7 @@ class Cms extends \Core\Controller
     function showAction(){
         $routeKey = $this->route_params['urlkey'];
         $cmsObj = new Cmsmodel();
-        $displayData = $cmsObj->getFieldData('cms_pages','*',
-                    ['url_key'=>$routeKey,'status'=>'ON']);
+        $displayData = $cmsObj->getFieldData('cms_pages','*',['url_key'=>$routeKey,'status'=>'ON']);
         view::renderTemplate('admin/cms/show.html',['displayData'=>$displayData[0]]);
     }
 
