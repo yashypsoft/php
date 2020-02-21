@@ -8,10 +8,12 @@
 
 <h1>CMS</h1>
 <div style="float: right;">
+    <button onclick="multiplCmsDelete()" class="uk-button uk-button-default">Delete</button>
     <a href="{{url}}/admin/CMS/add"  class="uk-button uk-button-default">Add CMS</a>
 </div>
 <table class="uk-table uk-table-striped">
     <tr>
+        <th></th>
         <th>Page Title</th>
         <th>Url Key</th>
         <th>Status</th>
@@ -20,6 +22,8 @@
     </tr> 
     {% for cms in cmsData %}
     <tr>
+        <td><input type="checkbox" value="{{cms.id}}" name="cmsCheck" 
+            class="uk-checkbox"></td>
         <td>{{cms.page_title}}</td>
         <td><a href="{{url}}/admin/cms/show/{{cms.url_key}}">{{cms.url_key}}</a></td>
         <td>{{cms.status}}</td>

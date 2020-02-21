@@ -10,20 +10,35 @@ use \Core\View;
 
 class Product extends \Core\Controller{
 
+    //view single product
     function viewAction(){
-
-        //for navbbar catgories
-        $categoryObj = new UserCategory();
-        $categoryData = $categoryObj -> getFieldData('categories','*');  
-     
 
         $routeKey = $this->route_params['urlkey'];
 
         $userProductObj = new UserProduct();
         $productData = $userProductObj->getFieldData('products','*',['url_key'=>$routeKey]);
 
-        view::renderTemplate('user/product/view.html',['productData'=>$productData[0],'categories' => $categoryData]);
+        view::renderTemplate('user/product/view.html',['productData'=>$productData[0]]);
     }
+
+
+    //search product 
+    public function searchAction()
+    {
+        $productName =  $this->route_params['urlkey'];
+
+        $productName = str_replace('-'," ",$productName);
+
+        $userProductObj = new UserProduct();
+        $productData = $userProductObj->searchProduct($productName);
+    
+ 
+        View::renderTemplate('user/category/view.html',
+        ['productData' => $productData]);
+
+
+    }
+    
 
     
 

@@ -10,28 +10,22 @@ class Category extends \Core\Controller{
 
  
     public function indexAction()
-    {
-        
-        View::renderTemplate('User/index.html',[
-          'categories' => $this->categoryData
-        ]);
-    }
-
-
-    function viewAction(){
-
+    {      
       //for navbbar catgories
       $categoryObj = new UserCategory();
       $categoryData = $categoryObj -> getFieldData('categories','*');  
+        
+      echo json_encode($categoryData);
+    }
 
+    function viewAction(){
       
       $routeKey = $this->route_params['urlkey'];
       $userCategoryObj = new UserCategory();
       $productData =$userCategoryObj->getCategoryProduct($routeKey);
 
-      View::renderTemplate('user/category/view.html',[
-          'productData' => $productData,'categories' => $categoryData
-        ]);
+      View::renderTemplate('user/category/view.html',
+                ['productData' => $productData]);
 
     }
 

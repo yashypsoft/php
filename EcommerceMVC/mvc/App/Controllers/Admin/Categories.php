@@ -8,46 +8,47 @@ use Core\View;
 
 class Categories extends \Core\Controller
 {
-    function indexAction(){
+    function indexAction()
+    {
 
         $categoryObj = new Category();
-        $categoryData = $categoryObj -> getAll('categories');    
+        $categoryData = $categoryObj->getAll('categories');
 
-        view::renderTemplate('admin/Categories/index.html',['categoryData'=>$categoryData]);
+        view::renderTemplate('admin/Categories/index.html', ['categoryData' => $categoryData]);
     }
 
-    function addAction(){
+    function addAction()
+    {
         $categoryObj = new Category();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = $_POST['categories'];
-             $checkFileValidation  =
-            $categoryObj->fileUpload('categories','image',Config::CATEGORIESPATH);
-            if ($categoryObj->validate($data) && $checkFileValidation 
-                && $categoryObj->checkUrl() )
-            {
-        
-                $categoryObj->insertData('categories',$categoryObj->prepareCategoryData($data));
-                header("Location:../categories/index"); 
+            $checkFileValidation  =
+                $categoryObj->fileUpload('categories', 'image', Config::CATEGORIESPATH);
+            if (
+                $categoryObj->validate($data) && $checkFileValidation
+                && $categoryObj->checkUrl()
+            ) {
+
+                $categoryObj->insertData('categories', $categoryObj->prepareCategoryData($data));
+                header("Location:../categories/index");
             } else {
-                
+
                 $error = $categoryObj->getErrors();
-                $parentCategory = 
-                $categoryObj -> getFieldData('categories','category_name,id',['parent_category'=>'0']);
+                $parentCategory =
+                    $categoryObj->getFieldData('categories', 'category_name,id', ['parent_category' => '0']);
                 View::renderTemplate(
                     'admin/categories/add.html',
-                    ['errData' => $error,'parentCategory'=>$parentCategory]
+                    ['errData' => $error, 'parentCategory' => $parentCategory]
                 );
             }
-            
+        } else {
+
+            $parentCategory =
+                $categoryObj->getFieldData('categories', 'category_name,id', ['parent_category' => '0']);
+            View::renderTemplate('admin/categories/add.html', ['parentCategory' => $parentCategory]);
         }
-        else{
-           
-            $parentCategory = 
-                 $categoryObj -> getFieldData('categories','category_name,id',['parent_category'=>'0']);
-            View::renderTemplate('admin/categories/add.html',['parentCategory'=>$parentCategory]);
-        } 
-    }   
+    }
 
     function editAction()
     {
@@ -57,10 +58,13 @@ class Categories extends \Core\Controller
 
             $data = $_POST['categories'];
             $checkFileValidation  =
-            $categoryObj->fileUpload('categories','image',Config::CATEGORIESPATH);  
+                $categoryObj->fileUpload('categories', 'image', Config::CATEGORIESPATH);
             if ($categoryObj->validate($data) && $checkFileValidation) {
-                $categoryObj->updateQuery('categories',
-                     $categoryObj->prepareCategoryData($data), ['id' => $data['id']]);
+                $categoryObj->updateQuery(
+                    'categories',
+                    $categoryObj->prepareCategoryData($data),
+                    ['id' => $data['id']]
+                );
                 header("Location:../index");
             } else {
                 $error = $categoryObj->getErrors();
@@ -69,46 +73,59 @@ class Categories extends \Core\Controller
                     ['errData' => $error]
                 );
             }
-
         } else {
             $id = $this->route_params['id'];
             $editData = $categoryObj->fetchRow('categories', ['id' => $id]);
             if ($editData == []) {
                 header("Location:../index");
             } else {
-                $parentCategory = 
-                $categoryObj -> getFieldData('categories','category_name,id',['parent_category'=>'0']);
-                View::renderTemplate('admin/categories/add.html',
-                     ['editData' => $editData,'parentCategory'=>$parentCategory]);
+                $parentCategory =
+                    $categoryObj->getFieldData('categories', 'category_name,id', ['parent_category' => '0']);
+                View::renderTemplate(
+                    'admin/categories/add.html',
+                    ['editData' => $editData, 'parentCategory' => $parentCategory]
+                );
             }
         }
     }
 
-    function deleteAction(){
+    function deleteAction()
+    {
         $categoryObj = new Category();
         $id = ($this->route_params['id']);
-        $categoryObj->deleteData('categories', ['id' => $id ]);
-        $categoryObj->deleteData('categories', ['parent_category'=>$id]);
+        $categoryObj->deleteData('categories', ['id' => $id]);
+        $categoryObj->deleteData('categories', ['parent_category' => $id]);
         header("Location: ../index");
     }
 
-    function showAction(){
-        $routeKey = $this->route_params['urlkey'];
-       
+    function multipleDeleteAction()
+    {
         $categoryObj = new Category();
-        $displayData = $categoryObj->getFieldData('categories','*',['url_key'=>$routeKey,'status'=>'ON']);
-      
-        view::renderTemplate('admin/categories/show.html',['displayData'=>$displayData[0]]);
+        if ($_POST['deleteId'] != '') {
+            print_r($deleteItemArray = explode(',',$_POST['deleteId']));
+            foreach($deleteItemArray as $key => $value){
+                $categoryObj->deleteData('categories', ['id' => $value]);
+                $categoryObj->deleteData('categories', ['parent_category' => $value]);             
+            }
+        }
+    }
+
+    function showAction()
+    {
+        $routeKey = $this->route_params['urlkey'];
+
+        $categoryObj = new Category();
+        $displayData = $categoryObj->getFieldData('categories', '*', ['url_key' => $routeKey, 'status' => 'ON']);
+
+        view::renderTemplate('admin/categories/show.html', ['displayData' => $displayData[0]]);
     }
 
     function before()
     {
-        if(isset($_SESSION['user'])){
+        if (isset($_SESSION['user'])) {
             return true;
-        }
-        else{
+        } else {
             header("Location:../users/login");
         }
     }
-
 }

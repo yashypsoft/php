@@ -4,14 +4,15 @@
     Show Products
 {% endblock title %}
 
-
 {% block body %}
 <h1>Products</h1>
 <div style="float: right;">
-    <a href="{{url}}/admin/products/add"  class="uk-button uk-button-default">Add Products</a>
+    <button onclick="multiplProductDelete()" class="uk-button uk-button-default">Delete</button>
+    <a href="{{url}}/admin/products/add"  class="uk-button uk-button-default">Add Products</a>   
 </div>
 <table class="uk-table uk-table-striped">
     <tr>
+        <th></th>
         <th>Product Name</th>
         <th>SKU</th>
         <th>URL KEY</th>
@@ -25,6 +26,8 @@
     </tr> 
     {% for product in productData %}
     <tr>
+        <td><input type="checkbox" value="{{product.id}}" name="productCheck" 
+        class="uk-checkbox"></td>
         <td>{{product.product_name}}</td>
         <td>{{product.sku}}</td>
         <td><a href="{{url}}/admin/products/show/{{product.url_key}}">{{product.url_key}}</a></td>

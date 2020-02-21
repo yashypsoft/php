@@ -33,6 +33,7 @@ function displayCartDetails() {
                     <th>Action</th>
                     </tr> `;
       for (const key in carddetails) {
+        
         const element = carddetails[key];
         table += `<tr>`;
         for (const key in element) {
@@ -73,7 +74,7 @@ function incrementQuantity() {
 }
 
 function decrementQuantity() {
-  if (quantity > 0) {
+  if (quantity > 1) {
     quantity = quantity - 1;
     $(".cartQuantity").html(quantity);
   }

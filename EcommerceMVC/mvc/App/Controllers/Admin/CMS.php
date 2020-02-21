@@ -76,6 +76,17 @@ class Cms extends \Core\Controller
         header("Location: ../index");
     }
 
+    function multipleDeleteAction()
+    {
+        $cmsObj = new Cmsmodel();
+        if ($_POST['deleteId'] != '') {
+            print_r($deleteItemArray = explode(',',$_POST['deleteId']));
+            foreach($deleteItemArray as $key => $value){
+                $cmsObj->deleteData('cms_pages', ['id' => $value]);  
+            }
+        }
+    }
+
     function showAction(){
         $routeKey = $this->route_params['urlkey'];
         $cmsObj = new Cmsmodel();

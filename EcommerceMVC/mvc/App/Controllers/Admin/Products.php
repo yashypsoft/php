@@ -56,7 +56,8 @@ class Products extends  \Core\Controller
     {
         $productObj = new Product();
         $categories = 
-        $productObj -> getFieldData('categories','category_name,id',['parent_category !'=>'0']);
+        $productObj -> getFieldData('categories','category_name,id',
+                ['parent_category !'=>'0']);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = $_POST['products'];
             $checkFileValidation  =
@@ -69,7 +70,8 @@ class Products extends  \Core\Controller
                 $productCateData = ['product_id'=> $data['id'],
                  'category_id'=>$_POST['productsCategories']['categoryId']];
 
-                $productObj->updateQuery('products_categories',$productCateData,['product_id'=>$data['id']]);
+                $productObj->updateQuery('products_categories',$productCateData,
+                        ['product_id'=>$data['id']]);
 
                 header("Location:../index");
             } else {
@@ -99,10 +101,23 @@ class Products extends  \Core\Controller
         header("Location: ../index");
     }
 
+    
+    function multipleDeleteAction()
+    {
+        $productObj = new Product();
+        if ($_POST['deleteId'] != '') {
+            print_r($deleteItemArray = explode(',',$_POST['deleteId']));
+            foreach($deleteItemArray as $key => $value){
+                $productObj->deleteData('products', ['id' => $value ]);    
+            }
+        }
+    }
+
     function showAction(){
         $routeKey = $this->route_params['urlkey'];
         $productObj = new Product();
-        $displayData = $productObj->getFieldData('products','*',['url_key'=>$routeKey,'status'=>'ON']);
+        $displayData = $productObj->getFieldData('products','*',
+                ['url_key'=>$routeKey,'status'=>'ON']);
         view::renderTemplate('admin/products/show.html',['displayData'=>$displayData[0]]);
     }
 

@@ -6,10 +6,9 @@ use App\Models\Users\Product as UserProduct;
 
 class AddToCart extends \Core\Controller
 {
-
     function indexAction()
     {
-
+        
         $productId = $_POST['productId'];
         $quantity = $_POST['quantity'];
 
@@ -59,4 +58,6 @@ class AddToCart extends \Core\Controller
             }
         }
     }
+
+
 }

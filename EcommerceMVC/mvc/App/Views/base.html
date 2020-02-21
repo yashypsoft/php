@@ -15,65 +15,59 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit-icons.min.js"></script>
     <!-- Jquery  -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
     <title>{% block title %}{% endblock %}</title>
   </head>
-  
+
   <body>
     <div class="uk-container uk-margin-small-top ">
-      {% set url = constant("App\\Config::URL")  %}
+      {% set url = constant("App\\Config::URL") %}
       <nav class="uk-navbar-container" uk-navbar>
         <div class="uk-navbar-left">
-            <ul class="uk-navbar-nav">
-                <li><a href="{{url}}">Home</a></li> 
-                {% for category in categories %}
-                    {% if category.parent_category == 0 %}
-                      <li>
-                        <a>{{category.category_name}}</a>
-                        <div class="uk-navbar-dropdown">
-                            <ul class="uk-nav uk-navbar-dropdown-nav">
-                              {% for subcategory in categories %}
-                                {% if subcategory.parent_category == category.id %}
-                                  <li>
-                                    <a href="{{url}}/category/view/{{subcategory.url_key}}">
-                                    {{subcategory.category_name}}</a>
-                                  </li>
-                                {% endif %}
-                              {% endfor %}
-                            </ul>
-                        </div>
-                    </li>
-                    {% endif %}
-                {% endfor %}
-                <li><a href="{{url}}/home/show/contactus">Contact Us</a></li>
-                <li><a href="{{url}}/home/show/aboutus">About Us</a></li>
-                <li><a href="{{url}}/admin/users/login">Admin Login</a></li>  
-              
+          <ul class="uk-navbar-nav">
+            <li><a href="{{url}}">Home</a></li>
+            <li class="category" style="display: inline-flex;"></li>
+            <li><a href="{{url}}/home/show/contactus">Contact Us</a></li>
+            <li><a href="{{url}}/home/show/aboutus">About Us</a></li>
+            <li><a href="{{url}}/admin/users/login">Admin Login</a></li>
 
-                <!-- This is an anchor toggling the modal -->
-                <li><a href="#modal-example" onclick="displayCartDetails()" uk-toggle>Cart </a></li>
+            <!-- This is an anchor toggling the modal -->
+            <li>
+              <a href="#modal-example" onclick="displayCartDetails()" uk-toggle
+                >Cart
+              </a>
+            </li>
+           
 
-                <!-- This is the modal -->
-                <div id="modal-example" uk-modal>
-                    <div class="uk-modal-dialog uk-modal-body">
-                        <h2 class="uk-modal-title">Shopping Cart</h2>
-                            <div class="shoppingcart">
-                            </div>
-                        <p class="uk-text-right">
-                            <a href="" class="uk-button uk-button-primary">Checkout</a>
-                            <a href="" class="uk-button uk-button-default">Clear</a>
-                        </p>
-                    </div>
-                </div>
-            </ul>
 
+
+            <!-- This is the modal -->
+            <div id="modal-example" uk-modal>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Shopping Cart</h2>
+                <div class="shoppingcart"></div>
+                <p class="uk-text-right">
+                  <a href="" class="uk-button uk-button-primary">Checkout</a>
+                  <a href="" class="uk-button uk-button-default">Clear</a>
+                </p>
+              </div>
+            </div>
+          </ul>
         </div>
-    </nav>
-    
-     
-      {% block body %} {% endblock %}
- 
-    </div>
+        <div class="uk-navbar-right">
+          <div class="uk-margin">
+            <div class="uk-search uk-search-default" >
+                <input type="text" class="uk-search-input" id="searchItem" placeholder="Search...">
+                <button onclick="searchProduct()" class="uk-search-icon-flip" uk-search-icon></button>
+              </div>
+          </div>
+        </div>
+      </nav>
 
+      {% block body %} {% endblock %}
+    </div>
+    <script src="{{url}}/javaScript/searchProduct.js"></script>
+    <script src="{{url}}/javaScript/NavbarCategory.js"></script>
     <script src="{{url}}/javaScript/cart.js"></script>
   </body>
 </html>
