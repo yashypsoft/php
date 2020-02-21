@@ -1,0 +1,43 @@
+{% extends 'baseadmin.html' %}
+
+{% block title %}Services{% endblock %}
+
+{% block body %} 
+
+
+
+    <h1>Service Register</h1>
+   
+    <table class="uk-table uk-table-striped">
+        <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Vehicle Number</th>
+            <th>Licence Number</th>
+            <th>Date</th>
+            <th>Time slot</th>
+            <th>Vehicle Issue</th>
+            <th>Service Center</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr> 
+        {% for service in displayData %}
+        <tr>
+            <!-- <td><input type="checkbox" value="{{cms.id}}" name="cmsCheck" 
+                class="uk-checkbox"></td> -->
+            <th></th>
+            <td>{{service.title}}</td>
+            <td>{{service.vehicle_number}}</td>
+            <td>{{service.licence_number}}</td>
+            <td>{{service.date}}</td>
+            <td>{{service.time_slot}}</td>
+            <td>{{service.vehicle_issue}}</td>
+            <td>{{service.service_center}}</td>
+            <td>{{service.status}}</td>
+            <td> <a href="{{url}}/admin/dashboard/{{service.service_id}}/edit">Edit</a>
+            <a href="{{url}}/admin/dashboard/{{service.service_id}}/delete">Delete</a>  </td>
+        </tr>
+        {% endfor %}  
+    </table>
+
+{% endblock %}

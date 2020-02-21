@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}ADD Services{% endblock %}
+{% if editData.service_id != "" %}
+    {% set button ="Update service" %}
+{% else %}
+    {% set button ="add service" %}
+{% endif %}
+{% block body %} 
+
+{% if editData.service_id != "" %}
+    {% set action = url ~ "/admin/dashboard/" ~ editData.service_id ~"/edit" %}
+{% else %}
+    {% set action = url ~ "/services/add" %}
+{% endif %}
+
+
+<div class="uk-container uk-container-small">
+    <div class="uk-margin-medium-top">      
+        <h1>Add Service Register</h1>
+        {{timeslot}}
+        <form action="{{action}}" method="post">
+            <div>
+                <label for="title">Title</label>
+                <input type="text" name="service[title]" id="firstName" 
+                 class="uk-input" value='{{editData.title}}'>
+                {{errData.title}}
+            </div>
+            <div>
+                <label for="vehicleNumber">Vehicle Number</label>
+                <input type="text" name="service[vehicleNumber]" id="vehicleNumber"
+                 class="uk-input"  value='{{editData.vehicle_number}}'>
+                {{errData.vehicleNumber}}
+            </div>
+            <div>
+                <label for="licenceNumber">Licence Number</label>
+                <input type="text" name="service[licenceNumber]" id="licenceNumber"
+                 class="uk-input" value="{{editData.licence_number}}">
+                {{errData.licenceNumber}}
+            </div>
+            <div>
+                <label for="date" >Date</label>
+                <input type="date" name="service[date]" id="date"  
+                class="uk-input" value="{{editData.date}}">
+                {{errData.date}}
+            </div> 
+            <div>
+                <label for="timeSlot">Time Slot</label>
+                <select name="service[timeSlot]" id="timeSlot" class="uk-select">
+                {% set timeSlots = ['9-10', '10-11','11-12','12-1','1-2','2-3','3-4','4-5','5-6']%}
+                    {% for timeslot in timeSlots %}
+                        <option value="{{timeslot}}"  {% if timeslot == editData.time_slot %} selected {% endif %}   >{{timeslot}}</option>
+                    {% endfor %}
+                </select>
+                {{errData.timeSlot}}
+            </div>
+            <div>
+                <label for="vehilceIssue">Vehicle Issue</label>
+                <textarea name="service[vehilceIssue]" id="vehilceIssue" cols="30" rows="10"
+                 class="uk-textarea">{{editData.vehicle_issue}} </textarea>
+                {{errData.vehilceIssue}}
+            </div>
+            <div>
+                <label for="serviceCenter">Service Center</label>
+                <select name="service[serviceCenter]" id="serviceCenter" class="uk-select">
+                {% set serviceCenter = ['1', '2','3','4','5','6','7']%}
+                {% for center in serviceCenter %}
+                    {% if center == editData.service_center %}{% endif %}
+                    <option value="{{center}}"  {% if center == editData.service_center %} selected {% endif %}  >{{center}}</option>
+                {% endfor %}
+                </select>
+                {{errData.serviceCenter}}
+            </div>  
+            <input type="hidden" name="service[userId]" value="{{user.user_id}}">
+            <input type="submit" value="{{button}}" id="submit" class="uk-button uk-margin-small-top 
+                uk-button-primary">    
+        </form>   
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}
+    Register
+{% endblock title %}
+
+{% block body %}
+
+    <div class="uk-container uk-container-small">
+        <div class="uk-margin-medium-top">
+          
+            <h1>Register</h1>
+            {{checkEmail}}
+            <form action="{{url}}/users/register" method="post">
+                <div>
+                    <label for="firstName">First Name</label>
+                    <input type="text" name="users[firstName]" id="firstName" class="uk-input">
+                    {{errData.firstName}}
+                </div>
+                <div>
+                    <label for="lastName">Last Name</label>
+                    <input type="text" name="users[lastName]" id="lastName" class="uk-input">
+                    {{errData.lastName}}
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" name="users[email]" id="email" class="uk-input">
+                    {{errData.email}}
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input type="password" name="users[password]" id="password" class="uk-input">
+                    {{errData.password}}
+                    {{loginErr}}
+                </div> 
+                <div>
+                    <label for="phoneNo">Phone Number</label>
+                    <input type="number" name="users[phoneNo]" id="phoneNo" class="uk-input">
+                    {{errData.phoneNo}}
+                </div>
+                <div>
+                    <label for="street">Street</label>
+                    <input type="text" name="usersAddress[street]" id="street" class="uk-input">
+                    {{errData.street}}
+                </div>
+                <div>
+                    <label for="city">City</label>
+                    <input type="text" name="usersAddress[city]" id="city" class="uk-input">
+                    {{errData.city}}
+                </div>
+                <div>
+                    <label for="state">State</label>
+                    <input type="text" name="usersAddress[state]" id="state" class="uk-input">
+                    {{errData.state}}
+                </div>
+                <div>
+                    <label for="zipcode">Zip Code</label>
+                    <input type="number" name="usersAddress[zipcode]" id="zipcode" class="uk-input">
+                    {{errData.zipcode}}
+                </div>
+                <div>
+                    <label for="country">Country</label>
+                    <input type="text" name="usersAddress[country]" id="country" class="uk-input">
+                    {{errData.country}}
+                </div>
+                
+                
+
+                <input type="submit" value="Register" id="submit" class="uk-button uk-margin-small-top 
+                    uk-button-primary">    
+            </form>
+            
+        </div>
+        <div>Already Registered ?
+        <a href="{{url}}/users/register" class="uk-button uk-margin-small-top 
+             uk-button-default">Login</a></div>
+    </div>
+    
+{% endblock body %}

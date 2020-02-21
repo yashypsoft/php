@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- UIkit CSS -->
+    <link
+      rel="stylesheet"  
+      href="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/css/uikit.min.css"
+    />
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit-icons.min.js"></script>
+    <!-- Jquery  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+
+  <body>
+    <div class="uk-container uk-margin-small-top ">
+      {% set url = constant("App\\Config::URL") %}
+      <nav class="uk-navbar-container" uk-navbar>
+        <div class="uk-navbar-left">
+          <ul class="uk-navbar-nav">
+            <li><a href="{{url}}/services/index">Home</a></li>
+            <li><a href="{{url}}/admin/dashboard/index">Admin</a></li>
+
+            <li class="category" style="display: inline-flex;"></li>
+            
+              
+          </ul>
+        </div>
+        <div class="uk-navbar-right">
+          <ul class="uk-navbar-nav">
+            {% if user.user_id != "" %}
+              <li> Welcome {{user.first_name}} ! </li>
+              <li><a href="{{url}}/users/logout">Logout</a></li> 
+            {% else %}
+              <li><a href="{{url}}/users/login">Login</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+        
+
+      {% block body %} {% endblock %}
+    </div>
+    <script src="{{url}}/javaScript/searchProduct.js"></script>
+    <script src="{{url}}/javaScript/NavbarCategory.js"></script>
+    <script src="{{url}}/javaScript/cart.js"></script>
+  </body>
+</html>
