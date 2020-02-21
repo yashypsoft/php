@@ -6,7 +6,6 @@ use PDO;
 
 class Service extends \Core\Model
 {
-
     public $errArray = [];
 
     public function prepareServiceData($postData)
@@ -82,9 +81,7 @@ class Service extends \Core\Model
         } else {
             return false;
         }
-    }
-
-    
+    }  
 
     function checkTimeSlot($timeslot,$date){
         $conn = static::getDB();
@@ -95,8 +92,6 @@ class Service extends \Core\Model
         $result = $stmt->fetch(); 
         return $result;
     }
-
-
 
     function getErrors()
     {

@@ -24,10 +24,10 @@ class Services extends  \Core\Controller{
                 $checkTimeSlot = $serviceObj->
                     checkTimeSlot($serviceData['timeSlot'],$serviceData['date']);
 
-                if($checkTimeSlot['COUNT(time_slot)']>3){
+                if($checkTimeSlot['COUNT(time_slot)']>2){
                     View::renderTemplate(
                         'user/services/add.html',
-                        ['timeslot' => 'TimeSlot  3 per day already assigned']
+                        ['timeslot' => 'TimeSlot  3 per date already assigned']
                     );
                 }else{
                     $id = $serviceObj->insertData('service_registrations',

@@ -109,8 +109,5 @@ class User extends \Core\Model
     function getErrors()
     {
         return $this->errArray;
-    }
-
-
-    
+    }   
 }

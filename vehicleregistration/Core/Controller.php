@@ -4,7 +4,7 @@ namespace Core;
 
 abstract class Controller
 {
-    //parameter from matched route
+  
     protected $route_params = [];
 
     public function __construct($route_params)
