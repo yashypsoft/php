@@ -4,9 +4,10 @@
 
 {% block body %} 
 
-
-
     <h1>Service Register</h1>
+
+    <button id="ApproveAll" class="uk-button uk-button-default"
+         onclick="multipleApprove()">Approve</button>
    
     <table class="uk-table uk-table-striped">
         <tr>
@@ -20,12 +21,12 @@
             <th>Service Center</th>
             <th>Status</th>
             <th>Action</th>
+            <th>Approve \<br> Pending</th>
         </tr> 
         {% for service in displayData %}
         <tr>
-            <!-- <td><input type="checkbox" value="{{cms.id}}" name="cmsCheck" 
-                class="uk-checkbox"></td> -->
-            <th></th>
+            <th><input type="checkbox" class="uk-checkbox" name="approveCheck"
+                value="{{service.service_id}}"></th>
             <td>{{service.title}}</td>
             <td>{{service.vehicle_number}}</td>
             <td>{{service.licence_number}}</td>
@@ -35,7 +36,16 @@
             <td>{{service.service_center}}</td>
             <td>{{service.status}}</td>
             <td> <a href="{{url}}/admin/dashboard/{{service.service_id}}/edit">Edit</a>
-            <a href="{{url}}/admin/dashboard/{{service.service_id}}/delete">Delete</a>  </td>
+            <a href="{{url}}/admin/dashboard/{{service.service_id}}/delete">Delete</a></td>
+            <td>
+                {% if service.status == "Pending" %}
+                    <a href="{{url}}/admin/dashboard/{{service.service_id}}/updateStatus"
+                    uk-icon="icon: check"></a>
+                    {% else %}
+                    <a href="{{url}}/admin/dashboard/{{service.service_id}}/updateStatus"
+                    uk-icon="icon: close"> </a>
+                {% endif %}      
+            </td>
         </tr>
         {% endfor %}  
     </table>

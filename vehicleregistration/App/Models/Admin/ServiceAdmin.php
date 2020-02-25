@@ -87,6 +87,30 @@ class ServiceAdmin extends \Core\Model
         return $result;
     }
 
+
+    function updateStatus($id){
+        $conn = static::getDB();
+        $status = $this->getStatus($id);
+
+        print_r($status);
+        if($status == "Pending"){
+            $status = "Approved";
+        }else{
+            $status = "Pending";
+        }
+        $query = "UPDATE service_registrations SET status = '$status' WHERE service_id = $id";
+        $stmt = $conn->exec($query); 
+    }
+
+
+    function getStatus($id){
+        $conn = static::getDB();
+        $query = "SELECT status FROM service_registrations WHERE service_id =$id";
+        $stmt = $conn->query($query);
+        $result = $stmt->fetchColumn(); 
+        return $result;
+    }
+
     
     function getErrors()
     {

@@ -49,7 +49,9 @@
                 <select name="service[timeSlot]" id="timeSlot" class="uk-select">
                 {% set timeSlots = ['9-10', '10-11','11-12','12-1','1-2','2-3','3-4','4-5','5-6']%}
                     {% for timeslot in timeSlots %}
-                        <option value="{{timeslot}}"  {% if timeslot == editData.time_slot %} selected {% endif %}   >{{timeslot}}</option>
+                        <option value="{{timeslot}}"
+                        {% if timeslot == editData.time_slot %} selected {% endif %}>
+                        {{timeslot}}</option>
                     {% endfor %}
                 </select>
                 {{errData.timeSlot}}
@@ -78,5 +80,14 @@
     </div>
 </div>
 
+
+<script>
+    var dateInput = document.getElementById('date');
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = (today.getMonth()+1).toString().padStart(2,'0');
+    var date =  (today.getDate()+1).toString().padStart(2,'0');
+    dateInput.setAttribute('min',year+'-'+month+'-'+date);
+</script>
 
 {% endblock %}

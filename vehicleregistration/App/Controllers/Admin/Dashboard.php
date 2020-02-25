@@ -62,4 +62,29 @@ class Dashboard extends \Core\Controller
         $serviceObj->deleteData('service_registrations', ['service_id' => $id]);
         header("Location: ../index");
     }
+
+    public function updateStatusAction()
+    {
+        $id = ($this->route_params['id']);
+        $serviceObj = new ServiceAdmin();
+        
+        $serviceObj->updateStatus($id);
+
+        header("Location: ../index");
+    }
+
+
+    public function multipleApproveAction(){
+        
+        $serviceObj = new ServiceAdmin();
+        if ($_POST['service_id'] != '') {
+            print_r($ItemArray = explode(',',$_POST['service_id']));
+            foreach($ItemArray as $key => $value){
+                $serviceObj->updateQuery('service_registrations',["status"=>"Approved"],
+                        ['service_id' => $value]);  
+            }
+        }
+    }
+
+
 }
