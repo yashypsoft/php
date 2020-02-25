@@ -7,7 +7,7 @@ class Adapter
         'host' => 'localhost',
         'username' => 'root',
         'password' => '',
-        'dbname' => 'testDB'
+        'dbname' => 'ecommerce'
     ];
     protected $conn;
     protected $query;
@@ -132,18 +132,6 @@ class Adapter
     {
         $this->setQuery($query);
         $result = $this->query($this->getQuery());
-        // $keyArray = [];
-        // $valueArray = [];
-        // foreach ($result->fetch_all() as $key => $array) {
-        //     foreach ($array as $key => $value) {
-        //         if ($key == 0) {
-        //             $keyArray[] = $value;
-        //         } else if ($key == 1) {
-        //             $valueArray[] = $value;
-        //         }
-        //     }
-        // }
-        // return array_combine($keyArray, $valueArray);
 
         $resultArray = [];
         if ($result->num_rows == 0) {
