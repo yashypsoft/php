@@ -10,11 +10,14 @@ class Adapter
         'dbname' => 'testDB'
     ];
     protected $conn;
+    protected $query;
 
     public function setConfig($config)
     {
-        $this->config = array_merge($this->config, $config);
-        return $this;
+        if (is_array($config)) {
+            $this->config = array_merge($this->config, $config);
+            return $this;
+        }
     }
 
     public function getConfig()
@@ -36,6 +39,7 @@ class Adapter
     public function setQuery($query)
     {
         $this->query = $query;
+        return $this;
     }
 
     public function getQuery()
@@ -52,15 +56,15 @@ class Adapter
             $config['password'],
             $config['dbname']
         );
-        return $this->setConnect($this->conn);
+        $this->setConnect($this->conn);
     }
 
     public function isConnect()
     {
-        if (!$this->connect()) {
+        if (!$this->getConnect()) {
             return false;
         }
-        return false;
+        return true;
     }
 
     public function query($query)
@@ -128,18 +132,27 @@ class Adapter
     {
         $this->setQuery($query);
         $result = $this->query($this->getQuery());
-        $keyArray = [];
-        $valueArray = [];
-        foreach ($result->fetch_all() as $key => $array) {
-            foreach ($array as $key => $value) {
-                if ($key == 0) {
-                    $keyArray[] = $value;
-                } else if ($key == 1) {
-                    $valueArray[] = $value;
-                }
-            }
+        // $keyArray = [];
+        // $valueArray = [];
+        // foreach ($result->fetch_all() as $key => $array) {
+        //     foreach ($array as $key => $value) {
+        //         if ($key == 0) {
+        //             $keyArray[] = $value;
+        //         } else if ($key == 1) {
+        //             $valueArray[] = $value;
+        //         }
+        //     }
+        // }
+        // return array_combine($keyArray, $valueArray);
+
+        $resultArray = [];
+        if ($result->num_rows == 0) {
+            return null;
         }
-        return array_combine($keyArray, $valueArray);
+        while ($temp = $result->fetch_row()) {
+            $resultArray[$temp[0]] = $temp[1];
+        }
+        return $resultArray;
     }
 }
 
