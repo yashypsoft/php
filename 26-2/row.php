@@ -1,17 +1,17 @@
 <?php
 
-require_once 'Adapter.php';
+require_once "Adapter.php";
 
 class Row
 {
 
     protected $tableName = NULL;
     protected $primaryKey = NULL;
-    protected $rowChanged = NULL;
+    protected $rowsChanged = NULL;
     protected $data = [];
     protected $adapter = NULL;
 
-    function __construct()
+    public function __construct()
     {
         $this->setAdapter();
     }
@@ -38,56 +38,50 @@ class Row
         return $this->primaryKey;
     }
 
-    public function setRowChanged($rowChanged)
+    public function setRowsChanged($rowsChanged)
     {
-        $this->rowChanged = $rowChanged;
+        $this->rowsChanged = $rowsChanged;
         return $this;
     }
 
-    public function getRowChanged()
+    public function getRowsChanged()
     {
-        return $this->rowChanged;
-    }
-
-    function __set($key, $value)
-    {
-        $this->setData([$key => $value]);
-        return $this;
-    }
-
-    function __get($key)
-    {
-        if ($this->getData($key)) {
-            return $this->getData($key);
-        }
-        return null;
+        return $this->rowsChanged;
     }
 
     public function setData($data)
-
     {
         if (!is_array($data)) {
-            throw new Exception("Data Must Be Array");
+            throw new Exception("Data must be array");
         }
         $this->data = array_merge($this->data, $data);
-        // $this->data = $data;
-        $this->setRowChanged(true);
+        $this->setRowsChanged(true);
         return $this;
     }
 
-    public function getData($key = null)
+    public function getData($key = NULL)
     {
-        if ($key != "") {
-            return isset($this->data[$key]) ? $this->data[$key] : NULL;
+        if ($key == NULL) {
+            return $this->data;
         }
-        return $this->data;
+        return isset($this->data[$key]) ? $this->data[$key] : NULL;
     }
 
-    public function unsetData($key = null)
+    public function __set($key, $value)
     {
-        if ($key == null) {
+        return $this->setData([$key => $value]);
+    }
+
+    public function __get($key)
+    {
+        return $this->getData($key);
+    }
+
+    public function unsetData($key = NULL)
+    {
+        if ($key == NULL) {
             $this->data = [];
-            $this->setRowChanged(false);
+            $this->setRowsChanged(false);
             return true;
         }
         unset($this->data[$key]);
@@ -111,16 +105,22 @@ class Row
 
     public function insert()
     {
-        if (!$this->getRowChanged()) {
+        if (!$this->getRowsChanged()) {
             return null;
         }
-
         $this->unsetData($this->getPrimaryKey());
 
+
         $column = implode("`,`", array_keys($this->getData()));
-        $value = implode("','", array_values($this->getData()));
-        $query = "INSERT INTO `" . $this->getTableName() . "` 
-                (`$column`) VALUES ('$value') ";
+        $value = implode("','", array_map(
+            function ($colValue) {
+                $this->getAdapter()->connect();
+                return $this->getAdapter()->getConnect()->real_escape_string($colValue);
+            },
+            array_values($this->getData())
+        ));
+
+        $query = "INSERT INTO `{$this->getTableName()}` (`{$column}`) VALUES ('{$value}') ";
 
         if ($id = $this->getAdapter()->insert($query)) {
             $this->load($id);
@@ -129,24 +129,35 @@ class Row
         return null;
     }
 
+    public function load($id)
+    {
+        $id = (int) $id;
+        $query = "SELECT * 
+        FROM `{$this->getTableName()}` 
+        WHERE `{$this->getPrimaryKey()}` = '$id'";
+        $this->fetchRow($query);
+    }
+
     public function update()
     {
-        if (!$this->getRowChanged()) {
+        if (!$this->getRowsChanged()) {
             return false;
         }
-
-        $id = $this->getData($this->getPrimaryKey());
+        $id = (int) $this->getData($this->getPrimaryKey());
         $this->unsetData($this->getPrimaryKey());
 
         $columnAndValue = "";
         $data = $this->getData();
-        foreach ($data as $key => $value) {
-            $columnAndValue .= "`$key` = '$value' ,";
-        }
-        $columnAndValue = chop($columnAndValue, ',');
+        $data = array_map('addslashes', $data);
 
-        $query = "UPDATE `" . $this->getTableName() . "` SET $columnAndValue 
-            WHERE `" . $this->getPrimaryKey() . "` = $id ";
+        foreach ($data as $column => $value) {
+            $columnAndValue .= "`{$column}` = '{$value}',";
+        }
+
+        $columnAndValue = chop($columnAndValue, ',');
+        $query = "UPDATE `{$this->getTableName()}`
+            SET $columnAndValue 
+            WHERE `{$this->getPrimaryKey()}` = '$id'";
 
         if ($this->getAdapter()->update($query)) {
             $this->load($id);
@@ -157,72 +168,72 @@ class Row
 
     public function delete()
     {
-        if (!$this->getRowChanged()) {
+        if (!$this->getRowsChanged()) {
             return false;
         }
-        $id = $this->getData($this->getPrimaryKey());
-        $query = "DELETE FROM `" . $this->getTableName() . "`
-             WHERE `" . $this->getPrimaryKey() . "` = $id";
+        $id = (int) $this->getData($this->getPrimaryKey());
 
-        return $this->getAdapter()->delete($query);
+        $query = "DELETE FROM `{$this->getTableName()}` 
+            WHERE `{$this->getPrimaryKey()}` = '$id'";
+
+        if ($this->getAdapter()->delete($query)) {
+            $this->unsetData();
+            return true;
+        }
+        return false;
     }
 
-    public function load($id)
-    {
-        $query = "SELECT * FROM `" . $this->getTableName() . "` WHERE
-             `" . $this->getPrimaryKey() . "` = $id";
-
-        $data = $this->getAdapter()->fetchRow($query);
-        $this->unsetData();
-        $this->setData($data);
-        $this->setRowChanged(false);
-        return $this;
-    }
 
     public function fetchRow($query)
     {
-        $data = $this->getAdapter()->fetchRow($query);
-        $this->setData($data);
-        $this->setRowChanged(false);
+        $row = $this->getAdapter()->fetchRow($query);
+        if ($row == NULL) {
+            return NULL;
+        }
+        $this->unsetData();
+        $this->setData($row);
+        $this->setRowsChanged(false);
         return $this;
     }
 
-    public function fetchAll($query)
+    public function fetchAll()
     {
-        $data = $this->getAdapter()->fetchAll($query);
-        $fetchArray = [];
-        for ($i = 0; $i < sizeof($data); $i++) {
-            $row = new Row();
-            if($row->setData($data[$i])){
-                $row->setRowChanged(false);
-                $fetchArray[] = $row;
-            }
+        $query = "SELECT * FROM `{$this->getTableName()}`";
+        $rows = $this->getAdapter()->fetchAll($query);
+
+        if ($rows == NULL) {
+            return NULL;
         }
-        $this->setRowChanged(false);
-        return $fetchArray;
+        foreach ($rows as $key => &$row) {
+            $row = (new Row())->setData($row);
+        }
+        $this->setData($rows);
+        $this->setRowsChanged(false);
+        return $rows;
     }
 }
+
+
 echo "<pre>";
 
 $row = new Row();
-print_r($row);
-// $row->setRowChanged(false);
-$row->product_name = "Title 5";
-$row->sku = 1;
-$row->url_key = "gjhbkj";
-$row->status = "fhgjhkjl";
-$row->description = "edefrgg";
+
+// print_r($row);
+$row->product_name = "Product' 3";
 $row->id = 41;
-
-$row->setTableName('products');
 $row->setPrimaryKey('id');
+$row->setTableName('products');
 
-// var_dump($row->delete());
-// var_dump($row->insert());
-// $row->load(11);
+$row->insert();
 // $row->update();
-// print_r($row->fetchRow("SELECT * FROM products WHERE id = 13"));
-print_r($row->fetchAll("SELECT * FROM products"));
 
+// print_r($row->getAdapter()->connect());
+// print_r($row->getAdapter()->getConnect()->real_escape_string("Product' 2"));
 
+// $row->load(11);
+// $row->delete();
+// $collection = $row->fetchAll();
+// $collection = $row->fetchRow("SELECT * FROM products WHERE id = 11");
+
+// print_r($collection);
 print_r($row);

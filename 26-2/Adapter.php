@@ -2,12 +2,11 @@
 
 class Adapter
 {
-
     protected $config = [
         'host' => 'localhost',
         'username' => 'root',
         'password' => '',
-        'dbname' => 'ecommerce'
+        'dbname' => 'project'
     ];
     protected $conn;
     protected $query;
@@ -56,7 +55,7 @@ class Adapter
             $config['password'],
             $config['dbname']
         );
-        $this->setConnect($this->conn);
+        return $this->setConnect($this->conn);
     }
 
     public function isConnect()
@@ -108,8 +107,10 @@ class Adapter
     {
         $this->setQuery($query);
         $result = $this->query($this->getQuery());
-
-        return $result->fetch_all(MYSQLI_ASSOC);
+        if ($result) {
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
+        return null;
     }
 
     public function fetchRow($query)
@@ -117,7 +118,10 @@ class Adapter
         $this->setQuery($query);
         $result = $this->query($this->getQuery());
 
-        return $result->fetch_assoc();
+        if ($result) {
+            return $result->fetch_assoc();
+        }
+        return null;
     }
 
     public function fetchOne($query)
@@ -125,7 +129,10 @@ class Adapter
         $this->setQuery($query);
         $result = $this->query($this->getQuery());
 
-        return $result->fetch_row()[0];
+        if ($result) {
+            return $result->fetch_row()[0];
+        }
+        return null;
     }
 
     public function fetchPairs($query)
@@ -147,7 +154,7 @@ class Adapter
 // echo "<pre>";
 
 // $adapter = new Adapter();
-// print_r($adapter);
+// // print_r($adapter);
 
 // $config = [
 //     'host' => 'localhost',
@@ -160,6 +167,6 @@ class Adapter
 // // $adapter->insert("INSERT INTO `posts` (`title`) VALUES ('hello')" );
 // // $adapter->update("UPDATE `posts` SET `title` = 'h' WHERE `id` = 43");
 
-// print_r($adapter->fetchPairs("SELECT title,content FROM  posts"));
+// print_r($adapter->fetchAll("SELECT * FROM  posts"));
 
 // print_r($adapter);
