@@ -113,10 +113,7 @@ class Row
 
         $column = implode("`,`", array_keys($this->getData()));
         $value = implode("','", array_map(
-            function ($colValue) {
-                $this->getAdapter()->connect();
-                return $this->getAdapter()->getConnect()->real_escape_string($colValue);
-            },
+            'addslashes',
             array_values($this->getData())
         ));
 
