@@ -1,6 +1,5 @@
 <?php
 require_once 'Adapter.php';
-
 class Row
 {
     protected $tableName = null;
@@ -45,20 +44,21 @@ class Row
     public function setData($data)
     {
         $this->data = $data;
+        $this->setRowChanged(true);
         return $this;
     }
 
     public function getData($key = null)
     {
-        if (array_key_exists($key, $this->data)) {
-            return $this->data[$key];
+        if ($key != "") {
+            return isset($this->data[$key])?$this->data[$key]:NULL;
         }
         return $this->data;
     }
 
     public function unsetData($key = null)
     {
-        if ($key) {
+        if ($key != null) {
             unset($this->data[$key]);
             return true;
         }
@@ -69,16 +69,24 @@ class Row
     public function __set($key, $value)
     {
         $this->data[$key] = $value;
+        $this->setRowChanged(true);
         return $this;
     }
 
     public function __get($key)
     {
-        return $this->data[$key];
+        if ($this->getData($key)) {
+            return $this->getData($key);
+        }
+        return null;
     }
 
     public function insert()
     {
+        if (!$this->getRowChanged()) {
+            return null;
+        }
+
         $this->unsetData($this->getPrimaryKey());
         $data = $this->getData();
         $tableName = $this->getTableName();
@@ -94,8 +102,12 @@ class Row
         return $id;
     }
 
-    public function update($id)
+    public function update()
     {
+        if (!$this->getRowChanged()) {
+            return false;
+        }
+        $id = $this->getData($this->primaryKey);
         $primaryKey = $this->getPrimaryKey();
         $this->unsetData($primaryKey);
         $tableName = $this->getTableName();
@@ -111,10 +123,12 @@ class Row
         return $adapter->update($query);
     }
 
-    public function delete($id)
+    public function delete()
     {
         $primaryKey = $this->getPrimaryKey();
         $tableName = $this->getTableName();
+        $id = $this->getData($this->primaryKey);
+
 
         $query = "DELETE FROM `$tableName` WHERE $primaryKey = $id";
         $adapter = new Adapter();
@@ -132,24 +146,38 @@ class Row
         $this->setData($data);
         return $this;
     }
+
+    public function fetchRow()
+    {
+        $primaryKey = $this->getPrimaryKey();
+        $tableName = $this->getTableName();
+        $id = $this->getData($this->primaryKey);
+
+        $query = "SELECT * FROM `$tableName` WHERE `$primaryKey` = $id ";
+        $adapter = new Adapter();
+        return $adapter->fetchRow($query);
+    }
 }
 
 echo "<pre>";
 
 $row = new Row();
 print_r($row);
-
-$row->product_name = "Title 2";
+// $row->setRowChanged(false);
+$row->product_name = "Title 3";
 $row->sku = 1;
 $row->url_key = "gjhbkj";
 $row->status = "fhgjhkjl";
 $row->description = "edefrgg";
+$row->id = 18;  
 
 $row->setTableName('products');
 $row->setPrimaryKey('id');
-// var_dump($row->delete(338));
-// $row->insert();
-$row->load(11);
-// $row->update(28);
+
+// var_dump($row->delete() );
+// var_dump($row->insert());
+// $row->load(11);
+// $row->update();
+// print_r($row->fetchRow());
 
 print_r($row);

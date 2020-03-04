@@ -1,10 +1,8 @@
 <?php
 
-require_once "Adapter.php";
-
+require "Adapter.php";
 class Row
 {
-
     protected $tableName = NULL;
     protected $primaryKey = NULL;
     protected $rowsChanged = NULL;
@@ -210,19 +208,19 @@ class Row
     }
 }
 
+// echo "<pre>";
 
-echo "<pre>";
-
-$row = new Row();
+// $row = new Row();
 
 // print_r($row);
-$row->product_name = "Product' 3";
-$row->id = 41;
-$row->setPrimaryKey('id');
-$row->setTableName('products');
+// $row->name = "Product' 3";
+// $row->id = 40;
+// $row->setPrimaryKey('id');
+// $row->setTableName('products');
 
-$row->insert();
+// $row->insert();
 // $row->update();
+// $row->delete();
 
 // print_r($row->getAdapter()->connect());
 // print_r($row->getAdapter()->getConnect()->real_escape_string("Product' 2"));
@@ -233,4 +231,4 @@ $row->insert();
 // $collection = $row->fetchRow("SELECT * FROM products WHERE id = 11");
 
 // print_r($collection);
-print_r($row);
+// print_r($row);
